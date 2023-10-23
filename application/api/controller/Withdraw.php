@@ -112,15 +112,20 @@ class Withdraw extends Controller
         if (!is_numeric($password)) {
             $this->error(__('The password must be the number'));
         }
-        if (!$mobile||!$oldpassword) {
+        if (!$mobile) {
             $this->error(__('parameter error'));
         }
 
         $is_reg = (new ModelUser)->where('mobile', $mobile)->find();
-        $check_pass = md5($oldpassword);
-        //密码检测
-        if ($is_reg['withdraw_password'] != $check_pass) {
-            $this->error(__('wrong password'));
+        if($is_reg['withdraw_password']){
+            if (!$oldpassword) {
+                $this->error(__('parameter error'));
+            }
+            $check_pass = md5($oldpassword);
+            //密码检测
+            if ($is_reg['withdraw_password'] != $check_pass) {
+                $this->error(__('wrong password'));
+            }
         }
 
         //检测验证码
