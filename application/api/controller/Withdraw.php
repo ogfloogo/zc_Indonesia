@@ -117,9 +117,9 @@ class Withdraw extends Controller
         }
 
         $is_reg = (new ModelUser)->where('mobile', $mobile)->find();
-        $check_pass = (new ModelUser)->getEncryptPassword($oldpassword, $is_reg['salt']);
+        $check_pass = md5($oldpassword);
         //密码检测
-        if ($is_reg['password'] != $check_pass) {
+        if ($is_reg['withdraw_password'] != $check_pass) {
             $this->error(__('wrong password'));
         }
 
