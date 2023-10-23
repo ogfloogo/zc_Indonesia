@@ -186,16 +186,16 @@ class User extends Controller
         $mobile = $this->request->post('mobile'); //手机号
         $password = $this->request->post('password'); //密码
         $re_password = $this->request->post('re_password'); //重复密码
-        $code = $this->request->post('code'); //验证码
+//        $code = $this->request->post('code'); //验证码
         if (!$mobile) {
             $this->error(__('Please enter the phone number'));
         }
         if (!$password || !$re_password) {
             $this->error(__('Please enter the password'));
         }
-        if (!$code) {
-            $this->error(__('Please enter a one-time verification code（OTP）'));
-        }
+//        if (!$code) {
+//            $this->error(__('Please enter a one-time verification code（OTP）'));
+//        }
 
         $mobile = ltrim($mobile,'0');
         //密码是否一致
@@ -203,10 +203,10 @@ class User extends Controller
             $this->error(__('Inconsistent passwords'));
         }
         //检测验证码
-        $ret = Sms::checkcode($mobile, $code);
-        if (!$ret) {
-            $this->error(__('OTP is incorrect'));
-        }
+//        $ret = Sms::checkcode($mobile, $code);
+//        if (!$ret) {
+//            $this->error(__('OTP is incorrect'));
+//        }
         $agent_id = 0;
         $agent_code = $this->request->post('agent', ''); //代码编号
         if ($agent_code) {

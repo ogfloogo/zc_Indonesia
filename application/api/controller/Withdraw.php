@@ -106,18 +106,18 @@ class Withdraw extends Controller
         $this->verifyUser();
         $mobile = $this->request->post('mobile');
         $password = $this->request->post('password');
-        $code = $this->request->post('code');
+//        $code = $this->request->post('code');
         if (!is_numeric($password)) {
             $this->error(__('The password must be the number'));
         }
-        if (!$mobile || !$code) {
+        if (!$mobile) {
             $this->error(__('parameter error'));
         }
         //检测验证码
-        $ret = Sms::resetwithdrawcode($mobile, $code);
-        if (!$ret) {
-            $this->error(__('OTP is incorrect'));
-        }
+//        $ret = Sms::resetwithdrawcode($mobile, $code);
+//        if (!$ret) {
+//            $this->error(__('OTP is incorrect'));
+//        }
         //密码修改
         (new User())->where('mobile', $mobile)->update(['withdraw_password' => md5($password)]);
         //更新用户信息
