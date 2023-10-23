@@ -202,6 +202,7 @@ class Finance extends Controller
             $value['buy_level_name'] = $level['name'] ?? '';
             $value['buy_level_image'] = !empty($level['image']) ? format_image($level['image']) : '';
             $value['roi'] = bcmul($value['rate'], $value['day'], 2);
+            $value['capital'] = bcadd($value['capital'], 0, 0);
             if ($value['status'] == 1) {
                 $value['can_buy'] = 1;
                 //推广项目、体验项目都能购买  普通项目判断称号等级
@@ -214,10 +215,10 @@ class Finance extends Controller
                 $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
                 $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 2);
                 if ($value['type'] == 2) {
-                    $value['daily_income'] = $value['interest'];
+                    $value['daily_income'] = bcadd($value['interest'],0,0);
                     $value['interest'] = $value['total_profit'];
                 } else {
-                    $value['daily_income'] = bcadd($value['capital'], $value['interest'], 2);
+                    $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
                 }
                 $online_project_info[] = $value;
             }
