@@ -351,18 +351,25 @@ class User extends Controller
         $mobile = $this->request->post('mobile'); //手机号
         $password = $this->request->post('password'); //密码
         $re_password = $this->request->post('re_password'); //重复密码
-        $code = $this->request->post('code'); //验证码       
-        if (!$mobile || !$password || !$code || !$re_password) {
+//        $code = $this->request->post('code'); //验证码
+        $oldpassword = $this->request->post('oldpassword'); //原始密码
+        if (!$mobile || !$password || !$oldpassword || !$re_password) {
             $this->error(__('parameter error'));
         }
         //密码是否一致
         if ($password != $re_password) {
             $this->error(__('Inconsistent passwords'));
         }
-        //检测验证码
-        $ret = Sms::resetcheckcode($mobile, $code);
-        if (!$ret) {
-            $this->error(__('OTP is incorrect'));
+//        //检测验证码
+//        $ret = Sms::resetcheckcode($mobile, $code);
+//        if (!$ret) {
+//            $this->error(__('OTP is incorrect'));
+//        }
+        $is_reg = (new ModelUser)->where('mobile', $mobile)->find();
+        $check_pass = (new ModelUser)->getEncryptPassword($oldpassword, $is_reg['salt']);
+        //密码检测
+        if ($is_reg['password'] != $check_pass) {
+            $this->error(__('wrong password'));
         }
         $ret = (new ModelUser())->resetpwd($param);
         $this->success(__('Password reset succeeded'));

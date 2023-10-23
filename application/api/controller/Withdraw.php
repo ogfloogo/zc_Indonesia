@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\api\model\User;
+use app\api\model\User as ModelUser;
 use app\api\model\Usercash;
 use app\api\model\Userteam;
 use think\cache\driver\Redis;
@@ -106,13 +107,22 @@ class Withdraw extends Controller
         $this->verifyUser();
         $mobile = $this->request->post('mobile');
         $password = $this->request->post('password');
+        $oldpassword = $this->request->post('oldpassword');
 //        $code = $this->request->post('code');
         if (!is_numeric($password)) {
             $this->error(__('The password must be the number'));
         }
-        if (!$mobile) {
+        if (!$mobile||!$oldpassword) {
             $this->error(__('parameter error'));
         }
+
+        $is_reg = (new ModelUser)->where('mobile', $mobile)->find();
+        $check_pass = (new ModelUser)->getEncryptPassword($oldpassword, $is_reg['salt']);
+        //密码检测
+        if ($is_reg['password'] != $check_pass) {
+            $this->error(__('wrong password'));
+        }
+
         //检测验证码
 //        $ret = Sms::resetwithdrawcode($mobile, $code);
 //        if (!$ret) {
