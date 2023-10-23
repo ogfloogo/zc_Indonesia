@@ -202,7 +202,7 @@ class Finance extends Controller
             $value['buy_level_name'] = $level['name'] ?? '';
             $value['buy_level_image'] = !empty($level['image']) ? format_image($level['image']) : '';
             $value['roi'] = bcmul($value['rate'], $value['day'], 2);
-            $value['capital'] = bcadd($value['capital'], 0, 0);
+            $value['fixed_amount'] = bcadd($value['fixed_amount'], 0, 0);
             if ($value['status'] == 1) {
                 $value['can_buy'] = 1;
                 //推广项目、体验项目都能购买  普通项目判断称号等级
