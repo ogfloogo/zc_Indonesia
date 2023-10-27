@@ -297,7 +297,7 @@ class Financeorder extends Controller
             'invite_money' => bcadd($project_info['fixed_amount'],0,0),
             'popularize' => $project_info['popularize']
         ];
-        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 2);
+        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 0);
         $amount = $info['popularize'] == 2 ? 0 : $info['amount'];
         $return['total_revenue'] = bcadd($return['total_profit'], $amount, 0);
         if ($project_info['type'] == 2) {
