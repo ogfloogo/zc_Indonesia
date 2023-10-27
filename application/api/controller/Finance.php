@@ -193,6 +193,7 @@ class Finance extends Controller
         $info['buy_num'] = $buy_num;
         $info['already_rate'] = round($info['already_buy'] / $info['money'] * 100, 0);
         $info['surplus_day'] = ceil(($info['endtime'] - time()) / (60 * 60 * 24));
+        $info['money'] = bcadd($info['money'], 0, 0);
         $field2 = ['id', 'name', 'rate', 'type', 'day', 'fixed_amount', 'status', 'buy_level', 'capital', 'interest', 'image', 'popularize', 'content', 'is_new_hand'];
         $project_info = (new \app\api\model\Financeproject())->lists($id, $this->uid, $field2);
         $online_project_info = [];
@@ -213,7 +214,7 @@ class Finance extends Controller
                 }
                 $value['total_profit'] = bcmul($value['interest'], $value['day'], 2);
                 $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
-                $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 2);
+                $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
                 if ($value['type'] == 2) {
                     $value['daily_income'] = bcadd($value['interest'],0,0);
                     $value['interest'] = $value['total_profit'];
@@ -230,6 +231,7 @@ class Finance extends Controller
             ->group('user_id,is_robot')
             ->find();
         if ($max_info) {
+            $max_info['amount'] = bcadd($max_info['amount'], 0, 0);
             if ($max_info['is_robot'] == 1) {
                 $user_info = (new Userrobot())->field('name,avatar')->where(['id' => $max_info['user_id']])->find();
                 $max_info['nickname'] = $user_info['name'] ?? "";
