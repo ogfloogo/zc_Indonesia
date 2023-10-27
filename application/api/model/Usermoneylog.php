@@ -115,6 +115,7 @@ class Usermoneylog extends Model
         $statistics_income = 0;
         foreach ($list as $key => $value) {
             $list[$key]['typename'] = self::TYPEENGLIST[$language][$value['type']];
+            $value['money'] = bcadd($value['money'],0,0);
             if ($value['mold'] == "inc") {
                 $value['money'] = "+" . $value['money'];
                 if ($value['type'] != 1 && $value['type'] != 10) {
