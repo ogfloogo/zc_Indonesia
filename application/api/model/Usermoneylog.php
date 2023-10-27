@@ -132,7 +132,7 @@ class Usermoneylog extends Model
         }
         $statistics = [
             'statistics_pay' => bcadd($statistics_pay, 0, 0),
-            'statistics_income' => bcadd($statistics_income, 0, 0
+            'statistics_income' => bcadd($statistics_income, 0, 0)
         ];
         return ['list' => $list, 'statistics' => $statistics];
     }
