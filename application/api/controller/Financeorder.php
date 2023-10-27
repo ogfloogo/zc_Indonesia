@@ -182,6 +182,9 @@ class Financeorder extends Controller
             $already_buy = $redis->handler()->zScore("zclc:financeordermoney", $value['f_id']); //已认购
             $already_buy = !$already_buy ? 0 : $already_buy;
             $value['already_rate'] = round($already_buy / $finance_info['money'] * 100, 2);
+            $value['amount'] = bcadd($value['amount'],0,0);
+            $value['earnings'] = bcadd($value['earnings'],0,0);
+            $value['estimated_income'] = bcadd($value['estimated_income'],0,0);
         }
         //已读未读
         db("user")->where(['id' => $this->uid])->update(['earnings_read' => 1]);
