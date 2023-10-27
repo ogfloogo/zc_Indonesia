@@ -284,7 +284,7 @@ class Financeorder extends Controller
         $return = [
             'name' => $project_info['name'],
             'image' => format_image($image),
-            'amount' => $info['amount'],
+            'amount' => bcadd($info['amount'],0,0),
             'type' => $project_info['type'],
             'starttime' => date('Y-m-d H:i:s', $info['earning_start_time']),
             'endtime' => date('Y-m-d H:i:s', $info['earning_end_time']),
@@ -294,16 +294,16 @@ class Financeorder extends Controller
             'rate' => $project_info['rate'],
             'f_id' => $project_info['f_id'],
             'per_invite' => 2,
-            'invite_money' => $project_info['fixed_amount'],
+            'invite_money' => bcadd($project_info['fixed_amount'],0,0),
             'popularize' => $project_info['popularize']
         ];
         $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 2);
         $amount = $info['popularize'] == 2 ? 0 : $info['amount'];
-        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 2);
+        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 0);
         if ($project_info['type'] == 2) {
-            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 2);
+            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 0);
         } else {
-            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 2);
+            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 0);
         }
         $level = (new Teamlevel())->detail($project_info['buy_level']);
         $return['buy_level_name'] = $level['name'] ?? '';
