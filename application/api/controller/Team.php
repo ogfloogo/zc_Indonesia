@@ -302,7 +302,7 @@ class Team extends Controller
                 'level1' => [
                     'rate' => config('site.first_team'),
                     'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level1_user]])->sum('total_recharge'),0,0),
-                    'commission' => (new Usertotal())->where(['user_id'=>$userInfo['id']])->value('first_commission'),
+                    'commission' => bcadd((new Usertotal())->where(['user_id'=>$userInfo['id']])->value('first_commission'),0,0),
                     'team_num' => count($level1_user),
                     'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$level1_user],'level'=>['<>',0]])->count()
                 ],
@@ -310,7 +310,7 @@ class Team extends Controller
                 'level2' => [
                     'rate' => config('site.second_team'),
                     'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level2_user]])->sum('total_recharge'),0,0),
-                    'commission' => (new Usertotal())->where(['user_id'=>$userInfo['id']])->value('second_commission'),
+                    'commission' => bcadd((new Usertotal())->where(['user_id'=>$userInfo['id']])->value('second_commission'),0,0),
                     'team_num' => count($level2_user),
                     'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$level2_user],'level'=>['<>',0]])->count()
                 ],
