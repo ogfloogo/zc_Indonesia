@@ -222,7 +222,8 @@ class Financeorder extends Controller
             $project_info = (new Financeproject())->detail($value['project_id'], ['name']);
             $value['name'] = $project_info['name'];
             $value['estimated_income'] = bcmul($value['interest'], $value['num'], 0);
-            $value['amount'] = $value['popularize'] == 2 ? 0 : $value['amount'];
+            $value['earnings'] = bcadd($value['earnings'], 0, 0);
+            $value['amount'] = bcadd($value['popularize'] == 2 ? 0 : $value['amount'],0,0);
             $total_amount += $value['amount'];
             $total_income += $value['earnings'];
             $total_estimated_income += $value['estimated_income'];
