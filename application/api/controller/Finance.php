@@ -217,7 +217,7 @@ class Finance extends Controller
                 $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
                 if ($value['type'] == 2) {
                     $value['daily_income'] = bcadd($value['interest'],0,0);
-                    $value['interest'] = $value['total_profit'];
+                    $value['interest'] = bcadd($value['total_profit'],0,0);
                 } else {
                     $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
                 }
