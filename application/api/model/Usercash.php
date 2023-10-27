@@ -149,6 +149,7 @@ class Usercash extends Model
             ->limit($startNum, $pageCount)
             ->select();
         foreach ($list as $key => $value) {
+            $value['price'] = bcadd($value['price'],0,0);
             if($value['status'] == 1){
                 // $week = $this->week($value['createtime']);
                 // if($week){
