@@ -131,8 +131,8 @@ class Usermoneylog extends Model
             $list[$key]['icon'] = format_image("/uploads/moneyrecord/" . $value['type'] . ".png");
         }
         $statistics = [
-            'statistics_pay' => bcadd($statistics_pay, 0, 2),
-            'statistics_income' => bcadd($statistics_income, 0, 2)
+            'statistics_pay' => bcadd($statistics_pay, 0, 0),
+            'statistics_income' => bcadd($statistics_income, 0, 0
         ];
         return ['list' => $list, 'statistics' => $statistics];
     }
