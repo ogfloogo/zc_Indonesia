@@ -127,6 +127,7 @@ class Payment extends Model
             ->limit($startNum, $pageCount)
             ->select();
         foreach ($list as $key => $value) {
+            $value['price'] = bcadd($value['price'],0,0);
             $list[$key]["createtime"] = format_time($value['createtime']);
             $list[$key]["paytime"] = format_time($value['paytime']);
             $list[$key]['type'] = self::RECHARGE_TYPR[$language][$value['status']];
