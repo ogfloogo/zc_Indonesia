@@ -242,7 +242,7 @@ class Financeorder extends Controller
             $amount = $value['popularize'] == 2 ? 0 : $value['amount'];
             $value['total_revenue'] = bcadd($value['total_profit'], $amount, 0);
             if ($value['type'] == 2) {
-                $value['daily_income'] = $value['interest'];
+                $value['daily_income'] = bcadd($value['interest'],0,0);
             } else {
                 $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
             }
