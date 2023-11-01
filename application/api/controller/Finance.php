@@ -109,13 +109,12 @@ class Finance extends Controller
             }
             if ($project_info) {
                 foreach ($project_info as &$v) {
-                    $v['fixed_amount'] = bcadd($v['fixed_amount'],0,0);
                     $level = (new Teamlevel())->detail($v['buy_level']);
                     $v['buy_level_name'] = $level['name'] ?? '';
                     $v['buy_level_image'] = !empty($level['image']) ? format_image($level['image']) : '';
-                    $v['total_profit'] = bcmul($v['interest'], $v['day'], 2);
+                    $v['total_profit'] = bcmul($v['interest'], $v['day'], 0);
                     $fixed_amount = $v['popularize'] == 2 ? 0 : $v['fixed_amount'];
-                    $v['total_revenue'] = bcadd($v['total_profit'], $fixed_amount, 2);
+                    $v['total_revenue'] = bcadd($v['total_profit'], $fixed_amount, 0);
                     if ($v['type'] == 2) {
                         $v['daily_income'] = $v['interest'];
                     } else {
