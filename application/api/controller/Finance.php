@@ -212,7 +212,7 @@ class Finance extends Controller
                         $value['can_buy'] = 0;
                     }
                 }
-                $value['total_profit'] = bcmul($value['interest'], $value['day'], 2);
+                $value['total_profit'] = bcmul($value['interest'], $value['day'], 0);
                 $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
                 $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
                 if ($value['type'] == 2) {
