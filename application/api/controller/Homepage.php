@@ -248,7 +248,7 @@ class Homepage extends Controller
             $hds = array_rand($top_up_array, 1);
             $begins = $top_up_array[$hds];
             $nickname = phonenumber();
-            $data[] = "User " . $nickname . " gets ₹" . $begins . " rewards";
+            $data[] = "User " . $nickname . " gets Rp" . $begins . " rewards";
         }
         shuffle($data);
         $this->success(__('The request is successful'), $data);

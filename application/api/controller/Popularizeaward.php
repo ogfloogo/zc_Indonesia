@@ -221,7 +221,7 @@ class Popularizeaward extends Controller
                 $this->success(__('The request is successful'),$data);
             }else{
                 $amount = (new \app\api\model\Financeproject())->where(['popularize' => 1, 'status' => 1])->order('fixed_amount desc')->value('fixed_amount');
-                $data['amount'] = $amount;
+                $data['amount'] = bcadd($amount,0,0);
                 $data['is_popularize'] = 2;
                 $this->success(__('The request is successful'),$data);
             }
