@@ -72,7 +72,6 @@ class Finance extends Controller
             }
         }
         foreach ($return as &$value) {
-            $value['money'] = bcadd($value['money'],0,0);
             if ($value['tab']) {
                 $tablist = explode('---', $value['tab']);
                 $value['tab'] = !empty((new \app\api\model\Finance())->gettab($tablist)) ? (new \app\api\model\Finance())->gettab($tablist) : [];
@@ -110,6 +109,7 @@ class Finance extends Controller
             }
             if ($project_info) {
                 foreach ($project_info as &$v) {
+                    $v['money'] = bcadd($v['money'],0,0);
                     $level = (new Teamlevel())->detail($v['buy_level']);
                     $v['buy_level_name'] = $level['name'] ?? '';
                     $v['buy_level_image'] = !empty($level['image']) ? format_image($level['image']) : '';
