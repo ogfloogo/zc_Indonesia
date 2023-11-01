@@ -169,6 +169,7 @@ class Usermoneylog extends Model
             ->page($page, $pageSize)
             ->select();
         foreach ($list as $key => $value) {
+            $value['money'] = bcadd($value['money'],0,0);
             $list[$key]['typename'] = self::TYPEENGLIST[$language][$value['type']];
             if ($value['mold'] == "inc") {
                 $value['money'] = "+" . $value['money'];
