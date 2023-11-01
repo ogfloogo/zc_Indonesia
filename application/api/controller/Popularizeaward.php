@@ -80,7 +80,7 @@ class Popularizeaward extends Controller
             'buy_level' => $userInfo['buy_level'],
             'invite_num' => count($invite_num),
             'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$invite_num],'level'=>['<>',0]])->count(),
-            'award' => (new Usertotal())->where(['user_id'=>$userInfo['id']])->value('promotion_award')
+            'award' => bcadd((new Usertotal())->where(['user_id'=>$userInfo['id']])->value('promotion_award'),0,0)
         ];
         $level = (new Teamlevel())->detail($return['buy_level']);
         $return['buy_level_name'] = $level['name']??'';
@@ -93,7 +93,9 @@ class Popularizeaward extends Controller
             $value['buy_level_name'] = $level['name']??'';
             $value['per_invite'] = 2;
             $money = (new \app\api\model\Financeproject())->where(['id'=>$value['project_id']])->value('fixed_amount');
-            $value['money'] = $money;
+            $value['money'] = bcadd($money,0,0);
+            $value['received'] = bcadd($value['received'],0,0);
+            $value['not_claimed'] = bcadd($value['not_claimed'],0,0);
         }
         $return['list'] = $list;
         $this->success(__('The request is successful'),$return);
