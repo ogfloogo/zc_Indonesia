@@ -72,6 +72,7 @@ class Finance extends Controller
             }
         }
         foreach ($return as &$value) {
+            $return['money'] = bcadd($return['money'],0,0);
             if ($value['tab']) {
                 $tablist = explode('---', $value['tab']);
                 $value['tab'] = !empty((new \app\api\model\Finance())->gettab($tablist)) ? (new \app\api\model\Finance())->gettab($tablist) : [];
