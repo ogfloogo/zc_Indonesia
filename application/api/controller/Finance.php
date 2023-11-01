@@ -266,6 +266,7 @@ class Finance extends Controller
             ->group('user_id,is_robot')
             ->select();
         foreach ($list as &$value) {
+            $value['amount'] = bcadd($value['amount'],0,0);
             if ($value['is_robot'] == 1) {
                 $user_info = (new Userrobot())->field('name,avatar')->where(['id' => $value['user_id']])->find();
                 $value['nickname'] = $user_info['name'];
