@@ -150,6 +150,7 @@ class Usercash extends Model
             ->select();
         foreach ($list as $key => $value) {
             $value['price'] = bcadd($value['price'],0,0);
+            $value['trueprice'] = bcadd($value['trueprice'],0,0);
             if($value['status'] == 1){
                 // $week = $this->week($value['createtime']);
                 // if($week){
