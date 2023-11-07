@@ -61,4 +61,9 @@ class Index extends Controller
         }
     }
 
+    public function test(){
+        $this->verifyUser();
+        $userinfo = $this->userInfo;
+        $this->success('',base64_encode($userinfo));
+    }
 }
