@@ -173,11 +173,12 @@ class Gtrpay extends Model
         ksort($params);
         $signStr = '';
         foreach ($params as $key => $val) {
-            if ($val != null||$val != false) {
+            if ($val != null) {
                 $signStr .= $key . '=' . $val . '&';
             }
         }
         $signStr .= 'key=' . $appsecret;
+        Log::mylog('拼接字符串', $signStr, 'Gtrpayhd');
         // echo $signStr;
         return strtolower(md5($signStr));
     }
