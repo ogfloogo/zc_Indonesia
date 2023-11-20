@@ -175,12 +175,7 @@ class Gtrpay extends Model
         foreach ($params as $key => $val) {
             if ($val != null||is_bool($val)) {
                 if(is_bool($val)){
-                    if($val == false){
-                        $val = 'false';
-                    }
-                    if($val == true){
-                        $val = 'true';
-                    }
+                    $val = (string)$val;
                 }
                 $signStr .= $key . '=' . $val . '&';
             }
