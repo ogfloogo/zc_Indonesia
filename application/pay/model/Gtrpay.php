@@ -173,7 +173,7 @@ class Gtrpay extends Model
         ksort($params);
         $signStr = '';
         foreach ($params as $key => $val) {
-            if (!empty($val)) {
+            if ($val != null||$val == false) {
                 $signStr .= $key . '=' . $val . '&';
             }
         }
