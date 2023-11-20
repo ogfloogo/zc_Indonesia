@@ -93,6 +93,16 @@ class Gtrpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $data['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['code'=>100,'msg'=>'找不到银行'];
+        }
         $param = array(
             'mchId' => $channel['merchantid'],
             'orderNo' => $data['order_id'],
@@ -101,7 +111,7 @@ class Gtrpay extends Model
             'userName' => $data['username'], //收款姓名
             'account' => $data['bankcard'], //收款账号
             'notifyUrl' => $this->notify_dai,
-            'remark' => 'GCASH',
+            'remark' => $bankname,
         );
         $sign = $this->sendSign($param, $this->key);
         $param['sign'] = $sign;
