@@ -22,11 +22,11 @@ class Gtrpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://wg.gtrpay001.com/collect/create';
     //代付回调(提现)
-    public $notify_dai = 'https://api.alaoph.org/pay/gtrpay/paydainotify';
+    public $notify_dai = 'https://api.rothai.id/pay/gtrpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.alaoph.org/pay/gtrpay/paynotify';
+    public $notify_pay = 'https://api.rothai.id/pay/gtrpay/paynotify';
     //代收秘钥
-    public $key = "9dda18f86db2449f88db5bc156a8c1e8";
+    public $key = "ab04f09da8fc4ced872a22537ca33bde";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
@@ -36,7 +36,7 @@ class Gtrpay extends Model
             'passageId' => $channel_info['busi_code'],
             'orderAmount' => $price,
             'notifyUrl' => $this->notify_pay,
-            'callBackUrl' => "https://www.alaoph.org"
+            'callBackUrl' => "https://www.rothai.id"
         ];
         $sign = $this->sendSign($param, $this->key);
         $param['sign'] = $sign;
