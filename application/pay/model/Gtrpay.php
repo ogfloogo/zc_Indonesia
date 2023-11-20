@@ -174,7 +174,7 @@ class Gtrpay extends Model
         $signStr = '';
         foreach ($params as $key => $val) {
             if ($val != null||$val == false) {
-                $signStr .= $key . '=' . $val . '&';
+                $signStr .= $key . '=' . (string)$val . '&';
             }
         }
         $signStr .= 'key=' . $appsecret;
