@@ -99,8 +99,8 @@ class Forum extends Controller
                 $value['nickname'] = $user_info['nickname'];
                 $value['avatar'] = format_image($user_info['avatar']);
             } else {
-                $value['nickname'] = "ALPHA";
-                $value['avatar'] = format_image("/uploads/20230917/53d1deac105c1d6362fe42d2ce91a9b7.png");
+                $value['nickname'] = "Roth";
+                $value['avatar'] = format_image("/uploads/20231123/2ccd325968e7551fd92a90fd056b5e2f.png");
             }
             $commentlist = (new Forumcomment())->where(['fid' => $value['id'], 'status' => 1])->field('id')->order('createtime desc')->limit(6)->select();
             foreach ($commentlist as &$v) {
@@ -318,8 +318,8 @@ class Forum extends Controller
                 $v['nickname'] = $user_info['nickname'];
                 $v['avatar'] = format_image($user_info['avatar']);
             } else {
-                $value['nickname'] = "ALPHA";
-                $value['avatar'] = format_image("/uploads/20230917/53d1deac105c1d6362fe42d2ce91a9b7.png");
+                $value['nickname'] = "Roth";
+                $value['avatar'] = format_image("/uploads/20231123/2ccd325968e7551fd92a90fd056b5e2f.png");
             }
         }
         $total = (new Forumcomment())->where($where)->count();
