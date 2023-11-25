@@ -84,6 +84,28 @@ class Usermoneylog extends Model
             31 => "转盘奖励",
             32 => "翻牌奖励"
         ],
+        "ina" => [
+            1 => "Isi ulang",
+            2 => "Penarikan",
+            3 => "Hadiah Referensi",
+            4 => "Komisi",
+            6 => "Penarikan gagal",
+            10 => "GM",
+            14 => "Bonus Isi Ulang",
+            18 => "Berlangganan",
+            19 => "Pengembalian modal",
+            20 => "Hadiah Referensi",
+            23 => "Hasil investasi",
+            24 => "Insentif Referral",
+            25 => "Hadiah Tunai",
+            26 => "Gaji bulanan",
+            27 => "Bonus check-in",
+            28 => "Hadiah referral harian",
+            29 => "hadiah referral bulanan",
+            30 => "Hadiah",
+            31 => "Putar hadiah",
+            32 => "Hadiah gagal"
+        ],
     ];
     /**
      * 资金记录列表
