@@ -88,6 +88,12 @@ class CommissionLog extends Backend
         $row['level_3_rate'] = $level_info['rate3'];
 //        $userIds = (new UserTeam())->where(['user_id' => $user_id])->column('team');
 //        $row['higher_level_number'] = (new User())->where(['id' => ['IN', $userIds], 'level' => ['GT', $row['level']]])->count();
+
+        $level_1_user_ids = (new UserTeam())->where(['user_id' => $user_id, 'level' => 1])->column('team');
+        $level_2_user_ids = (new UserTeam())->where(['user_id' => $user_id, 'level' => 2])->column('team');
+        $row['level_1_recharge_num'] = (new UserTotal())->where(['user_id'=>['in',$level_1_user_ids],'total_recharge'=>['gt',0]])->count();
+        $row['level_2_recharge_num'] = (new UserTotal())->where(['user_id'=>['in',$level_2_user_ids],'total_recharge'=>['gt',0]])->count();
+
         $this->assign('row', $row);
     }
 }
