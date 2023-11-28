@@ -41,7 +41,16 @@ class Usercash extends Model
             4 => "विफल", //代付失败
             5 => "विफल", //已驳回
             6 => "सफलता", //代付成功
-        ]
+        ],
+        "ina" => [
+            0 => "Proses",
+            1 => "Perkiraan waktu tiba",
+            2 => "Disetujui, menunggu pembayaran bank",
+            3 => "Sukses",
+            4 => "Gagal",
+            5 => "Gagal",
+            6 => "Sukses",
+        ],
     ];
 
     /**

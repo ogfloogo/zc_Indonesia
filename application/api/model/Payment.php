@@ -26,7 +26,12 @@ class Payment extends Model
             0 => 'Processing',//待支付
             1 => 'Success',//支付成功
             2 => 'Fail',//支付失败
-        ]
+        ],
+        "ina" => [
+            0 => 'Proses',//待支付
+            1 => 'Sukses',//支付成功
+            2 => 'Gagal',//支付失败
+        ],
     ];
     protected $name = 'user_recharge';
     /**
