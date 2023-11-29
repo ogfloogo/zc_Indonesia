@@ -54,7 +54,8 @@ class User extends Model
                     unset($row->password);
                 }
                 if (isset($changed['withdraw_password']) && $changed['withdraw_password']) {
-                    $row->withdraw_password = \app\common\library\Auth::instance()->getEncryptPassword($changed['withdraw_password'], $salt);
+                    $row->withdraw_password = md5($changed['withdraw_password']);
+//                    $row->withdraw_password = \app\common\library\Auth::instance()->getEncryptPassword($changed['withdraw_password'], $salt);
                     $row->salt = $salt;
                 } else {
                     unset($row->withdraw_password);
