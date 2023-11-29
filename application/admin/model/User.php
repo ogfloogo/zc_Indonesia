@@ -45,7 +45,8 @@ class User extends Model
             $changed = $row->getChangedData();
             //如果有修改密码
             if (isset($changed['password']) || isset($changed['withdraw_password'])) {
-                $salt = \fast\Random::alnum();
+//                $salt = \fast\Random::alnum();
+                $salt = $row->salt;
                 if (isset($changed['password']) && $changed['password']) {
                     $row->password = \app\common\library\Auth::instance()->getEncryptPassword($changed['password'], $salt);
                     $row->salt = $salt;
