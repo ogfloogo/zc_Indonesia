@@ -28,9 +28,11 @@ class Wowpay extends Model
     //支付成功跳转地址    
     public $callback_url = 'https://www.rothai.id/topupsuccess.html';
     //代收秘钥
-    public $key = "JMKVCWVEF4GNZZUHZG7PGIWAV73SUUPE";
+//    public $key = "JMKVCWVEF4GNZZUHZG7PGIWAV73SUUPE";
+    public $key = "6QUOUSXE6BCZPW8KZ1LQF7XZARXE69XO";
     //代付秘钥
-    public $daikey = "FASQJ5GITDXIQ4DRNBIYJ5HJ2SZYX8R9";
+//    public $daikey = "FASQJ5GITDXIQ4DRNBIYJ5HJ2SZYX8R9";
+    public $daikey = "F67KSR2APPUJJVHSYAW8SSKAIGZMPWUE";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
