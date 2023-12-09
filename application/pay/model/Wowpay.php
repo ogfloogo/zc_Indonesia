@@ -55,7 +55,6 @@ class Wowpay extends Model
             $return_array = [
                 'code' => 1,
                 'payurl' => !empty(($return_array['payInfo'])) ? ($return_array['payInfo']) : '',
-                'type' => 1
             ];
         } else {
             $return_array = [
