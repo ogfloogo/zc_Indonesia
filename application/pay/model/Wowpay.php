@@ -22,15 +22,15 @@ class Wowpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://pay6de1c7.wowpayglb.com/pay/web';
     //代付回调(提现)
-    public $notify_dai = 'https://api.alphafund.in/pay/wowpay/paydainotify';
+    public $notify_dai = 'https://api.rothai.id/pay/wowpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.alphafund.in/pay/wowpay/paynotify';
+    public $notify_pay = 'https://api.rothai.id/pay/wowpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.alphafund.in/topupsuccess.html';
+    public $callback_url = 'https://www.rothai.id/topupsuccess.html';
     //代收秘钥
-    public $key = "DCD4BRTMEZCLHFH7FFSQDJHJQU0C6XTB";
+    public $key = "JMKVCWVEF4GNZZUHZG7PGIWAV73SUUPE";
     //代付秘钥
-    public $daikey = "O8YJHAMMQWKSARWAPJP1RAHVVPTVIBUD";
+    public $daikey = "FASQJ5GITDXIQ4DRNBIYJ5HJ2SZYX8R9";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
