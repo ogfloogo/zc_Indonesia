@@ -102,13 +102,65 @@ class Wowpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bankname = '';
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = 'BCA';
+        }
+
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = 'BRI';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = 'MANDIRI';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = 'BNI';
+        }
+
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = 'CIMB';
+        }
+
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = 'PERMATA';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = 'DANAMON';
+        }
+
+        if($data['bankname'] == 'Bank BTN'){
+            $bankname = 'BTN';
+        }
+
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = 'MAYBANK';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = 'PANIN';
+        }
+        if($data['bankname'] == 'Bank DKI'){
+            $bankname = 'DKI';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = 'OCBC';
+        }
+        if($data['bankname'] == 'Dana'){
+            $bankname = 'DANA';
+        }
+        if(empty($bankname)){
+            return ['respCode'=>'fail','errorMsg'=>'不支持的银行'];
+        }
         $params = array(
             'mch_id' => $channel['merchantid'],
             'mch_transferId' => $data['order_id'],
             'transfer_amount' => (int)$data['trueprice'],
             'apply_date' => date('Y-m-d H:i:s', time()),
             // 'bank_code' => $data['bankname'], //银行编码
-            'bank_code' => $channel['busi_code'], //银行编码
+            'bank_code' => $bankname, //银行编码
             'receive_account' => $data['bankcard'], //收款账号
             'receive_name' => $data['username'], //收款姓名
             'remark' => $data['ifsc'] ?? "", //urc_ifsc
