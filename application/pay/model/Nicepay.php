@@ -212,6 +212,10 @@ class Nicepay extends Model
         if($data['bankname'] == 'Dana'){
             $bankname = '10002';
         }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = '10008';
+        }
         if(empty($bankname)){
             return ['err'=>'1','platRespMessage'=>'不支持的银行'];
         }
