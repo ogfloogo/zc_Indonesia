@@ -48,7 +48,7 @@ class Nicepay extends Model
         if ($return_array['err'] == 0) {
             $return_array = [
                 'code' => 1,
-                'payurl' => !empty(urlencode($return_array['url'])) ? urlencode($return_array['url']) : '',
+                'payurl' => !empty(urldecode($return_array['url'])) ? urldecode($return_array['url']) : '',
             ];
         } else {
             $return_array = [
