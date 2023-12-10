@@ -15,7 +15,7 @@ use think\Log;
 use think\Exception;
 
 
-class Nicepay extends Model
+class Nicepays extends Model
 {
     //代付提单url(提现)
     public $dai_url = 'http://merchant.nicepay.pro/api/withdraw';
@@ -37,7 +37,7 @@ class Nicepay extends Model
             'balance' => $price,
             'ord_id' => $order_id,
             'notify_url' => $this->notify_pay,
-            "p_method" => "",
+            "p_method" => $channel_info['busi_code'],
         ];
         $sign = $this->sendSign($param, $this->key);
         $param['sign'] = $sign;
@@ -142,9 +142,8 @@ class Nicepay extends Model
         if($data['bankname'] == 'Dana'){
             $bankname = 'DANA';
         }
-        if(empty($bankname)){
-            return ['respCode'=>'fail','errorMsg'=>'不支持的银行'];
-        }
+
+
         $param = array(
             'app_key' => $channel['merchantid'],
             'ord_id' => $data['order_id'],
