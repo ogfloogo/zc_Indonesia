@@ -130,20 +130,90 @@ class Nicepay extends Model
             $bankname = '22';
         }
 
-        if($data['bankname'] == 'Bank Panin'){
-            $bankname = 'PANIN';
-        }
-        if($data['bankname'] == 'Bank DKI'){
-            $bankname = 'DKI';
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = '23';
         }
         if($data['bankname'] == 'Bank OCBC NISP'){
-            $bankname = 'OCBC';
+            $bankname = '28';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = '31';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = '37';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = '42';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = '46';
+        }
+        if($data['bankname'] == 'Standard Chartered'){
+            $bankname = '50';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = '54';
+        }
+        if($data['bankname'] == 'ANZ Indonesia'){
+            $bankname = '61';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = '69';
+        }
+        if($data['bankname'] == 'Bank Bumi Arta'){
+            $bankname = '76';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = '41';
+        }
+        if($data['bankname'] == 'Bank Rabobank'){
+            $bankname = '89';
+        }
+        if($data['bankname'] == 'Bank JTRUST INDONESIA'){
+            $bankname = '95';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = '97';
+        }
+        if($data['bankname'] == 'Bank Jawa Barat'){
+            $bankname = '110';
+        }
+        if($data['bankname'] == 'Bank DKI'){
+            $bankname = '111';
+        }
+        if($data['bankname'] == 'Bank BPD DIY'){
+            $bankname = '112';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = '113';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = '114';
+        }
+        if($data['bankname'] == 'Bank Jambi'){
+            $bankname = '115';
+        }
+        if($data['bankname'] == 'Bank Aceh Syariah'){
+            $bankname = '116';
+        }
+        if($data['bankname'] == 'Bank SUMUT'){
+            $bankname = '117';
+        }
+        if($data['bankname'] == 'Bank NAGARI'){
+            $bankname = '1181';
+        }
+
+        if($data['bankname'] == 'Bank BTN'){
+            $bankname = '200';
+        }
+        if($data['bankname'] == 'OVO'){
+            $bankname = '10001';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'DANA';
+            $bankname = '10002';
         }
         if(empty($bankname)){
-            return ['respCode'=>'fail','errorMsg'=>'不支持的银行'];
+            return ['err'=>'1','platRespMessage'=>'不支持的银行'];
         }
         $param = array(
             'app_key' => $channel['merchantid'],
@@ -152,7 +222,7 @@ class Nicepay extends Model
 //            'bankCode' => 'GCASH',
             'name' => $data['username'], //收款姓名
             'card' => $data['bankcard'], //收款账号
-            'p_bank_code' => "GLOBE_GCASH",
+            'p_bank_code' => $bankname,
             'notify_url' => $this->notify_dai,
         );
         $sign = $this->sendSign($param, $this->key);
