@@ -19,19 +19,19 @@ use think\Exception;
 class Globalpay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://sdfmq.jypayx.com/withdraw/singleOrder';
+    public $dai_url = 'https://stoky.gtgbk.com/withdraw/singleOrder';
     //代收提交url(充值)
-    public $pay_url = 'https://cdsop.jypayx.com/ty/orderPay';
+    public $pay_url = 'https://cktos.gtgbk.com/ty/orderPay';
     //代付回调(提现)
-    public $notify_dai = 'https://api.alaoph.org/pay/globalpay/paydainotify';
+    public $notify_dai = 'https://api.rothai.id/pay/globalpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.alaoph.org/pay/globalpay/paynotify';
+    public $notify_pay = 'https://api.rothai.id/pay/globalpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.alaoph.org/topupstatus/?orderid=';
+    public $callback_url = 'https://www.rothai.id/topupsuccess.html';
 
-    public $key = 'DA09816BF55F8F93B9E41E95C605DA61';
-    private $privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMFKoTpJMeDftJuzcQea7b7EYKRnycaH1OIsmQRgohQ7cb3cg0uz8jWQeXdqdDBDApxgXdnKkMNLQR9tpcf+h+P/g9AdR9hddAJR4jaDB/511eG0Tv0pjr/yLRqJ34LcJl9yFiSjHIFrTyiScExfQ37j4twfR8CAB7OsKGLTrO8fAgMBAAECgYAAxE8HcCrmfXy18WxNX2v6CcVoYZEHXJqXmx2wSsHZ2rKE0k8jCb+4Pq58rstvNZTZEfjNWGRiofXMLh8uP/BCEYXbnzzJQrb3ZniXXMwEeNG6XZOhyIxwcNAQ9rDo1D/SQdXyZJHyeQmaOP2OFSvWBTKwb72r1SGLgn8pCRd14QJBAPzzCFnjFLqNu8W26w/zIf7C+jb7fLzYrEHsu4gb75zwrGq1lCd+QvksNOZV5rnmqISKi6RKEr2fFCM3Hgd8tLsCQQDDn2gpZEYY1HB0i/NvwOd06GJEOJAALzH2pQWlVcVOUr02cBfZznKlQzAiedUtUdFqdjZ0+ikH8dah4fm4AfrtAkEAidzP1WXdm1u6VqU+cl/6TEbqZuMkdizFndyvzRwkuW23GyXCDNBVIkdEwbFZ4kJj4HE+cJlqo2y7ZgIZXM1MFwJBAJQmiHs4fsHVOal6SA3tmRz31Vv3Pk91brBtf94cHAZaMQQmVlnUuQyh2rVxcVoWKbQn/MwQnLxwke0dt8J8dW0CQHAd+Con4DfGAvLvRrq45ziXLFjuHmepVUGqdLaLcJPLEAsZSC0LNq2yKJZYcX4p8jJkWWWVyUmtalGoAEO4K2s=";
-    private $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBSqE6STHg37Sbs3EHmu2+xGCkZ8nGh9TiLJkEYKIUO3G93INLs/I1kHl3anQwQwKcYF3ZypDDS0EfbaXH/ofj/4PQHUfYXXQCUeI2gwf+ddXhtE79KY6/8i0aid+C3CZfchYkoxyBa08oknBMX0N+4+LcH0fAgAezrChi06zvHwIDAQAB";
+    public $key = '5B8F9493253D97A9EA413F20A46DC1B4';
+    private $privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJELYEiZ3yIYOo2NzbwcD5Fm3w5NWyUG0UaYbX8l+zlqtKrCGyUQhjxpDOGiz7QgudPlfVt4yc+zFbtxJGD9jTzIHCkydNiGVzhlLFju6yXnNTD7FU5v1eq+fFsv/oZbKviTVapgkkMbjLm5zfWqxQMOzTMf6T7RSPhS66oZ92wTAgMBAAECgYEAjJbeSQD8y2t4teSRWphIbsOryY0pn4YwK6Fr4SbLkCfh3vIupYqS0tNwbPUHJq3h8YYsMBGwa+ZGVl2gyXJ7Bs0t5/dEnHD5ArMTxhSc+CqKt54Y0b1/Z4U9XiU+qG1gkkZS5Gcxjwyc0kUW2M6uga46N2WrjkHnDWs+4spCXuECQQDMTrpXEHAwgmmvLssOlSgm56aI3FBKiI0UOlBEbI0P0KaDZc4OPg5BE/AmKlTDt84Mcg1PDw0JJJbq/0kv6PJHAkEAtb4ZMPArDqPWKG6EipT37xI6HhM1WNU4YI3jpECoiJaYH65vZB4M+uvz0bp+uOMRdj4LddPX8JTmawRjlefx1QJBALaSn/hPq0HeOJ0g3rpgVio2Fl71KhcA4bmyxqnuqzv3w+Vl43ZcxBYpwBALAgaISWxbu0Lr+0UxWmAT044px98CQFCgPui5A0EBafaR4Pbh04QZ3/KLrvTz0ojzKXQqwxmlRWN4rS4LLtL6bjYyuBkpkwuTxt3E112BkR8U2WEdfukCQDujWa09aQEGBCgw1w2uWiOJsuaOSefpF1DfVmHTwSsM7tj3hqoDiDivQWe//ftW2Ua+n1V6tIRK8udLWaVFcOE=";
+    private $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCRC2BImd8iGDqNjc28HA+RZt8OTVslBtFGmG1/Jfs5arSqwhslEIY8aQzhos+0ILnT5X1beMnPsxW7cSRg/Y08yBwpMnTYhlc4ZSxY7usl5zUw+xVOb9XqvnxbL/6GWyr4k1WqYJJDG4y5uc31qsUDDs0zH+k+0Uj4UuuqGfdsEwIDAQAB";
 
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
@@ -42,7 +42,7 @@ class Globalpay extends Model
             'pemail' => 'zhangsan@gmail.com',
             'phone' => '13122336688',
             'order_amount' => number_format($price,2,'.',''),
-            'ccy_no' => 'PHP',
+            'ccy_no' => 'IDR',
             'busi_code' => $channel_info['busi_code'],
             'notifyUrl' => $this->notify_pay,
             'pageUrl' => $this->callback_url,
@@ -104,14 +104,78 @@ class Globalpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bankname = '';
+        if($data['bankname'] == 'OVO'){
+            $bankname = 'OVO';
+        }
+
+        if($data['bankname'] == 'Dana'){
+            $bankname = 'DANA';
+        }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = 'SHOPEEPAY';
+        }
+
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = 'BRI';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = 'MANDIRI';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = 'BNI';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = 'DANAMON';
+        }
+
+        if($data['bankname'] == 'Bank BTN'){
+            $bankname = 'BTN';
+        }
+
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = 'BCA';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = 'PANIN';
+        }
+        if($data['bankname'] == 'Bank DKI'){
+            $bankname = 'DKI';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = 'OCBC';
+        }
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = 'BANK_BUANA';
+        }
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = 'PERMATA';
+        }
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = 'CIMB';
+        }
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = 'MAYBANK';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = 'BANK_JATIM';
+        }
+        if(empty($bankname)){
+            return ['status'=>'FAIL','err_msg'=>'不支持的银行'];
+        }
         $params = array(
             'mer_no' => $channel['merchantid'],
             'mer_order_no' => $data['order_id'],
             'acc_no' => $data['bankcard'], //收款账号
             'acc_name' => $data['username'], //收款姓名
-            'ccy_no' => 'PHP',
+            'ccy_no' => 'IDR',
             'order_amount' => number_format($data['trueprice'],2,'.',''),
-            'bank_code' => $channel['busi_code'],
+            'bank_code' => $bankname,
             "mobile_no"=>"423524127",
             'notifyUrl' => $this->notify_dai,
             'summary' => 'summary',
