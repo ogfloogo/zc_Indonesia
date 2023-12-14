@@ -95,94 +95,79 @@ class Nicepay extends Model
     {
         $bankname = '';
         if($data['bankname'] == 'Bank BRI'){
-            $bankname = '2';
+            $bankname = '002';
         }
 
         if($data['bankname'] == 'Bank Mandiri'){
-            $bankname = '8';
+            $bankname = '008';
         }
 
         if($data['bankname'] == 'Bank BNI'){
-            $bankname = '9';
+            $bankname = '009';
         }
 
         if($data['bankname'] == 'Bank Danamon'){
-            $bankname = '11';
+            $bankname = '011';
         }
 
         if($data['bankname'] == 'Bank Permata'){
-            $bankname = '13';
+            $bankname = '013';
         }
 
         if($data['bankname'] == 'Bank BCA'){
-            $bankname = '14';
+            $bankname = '014';
         }
 
         if($data['bankname'] == 'BII Maybank'){
-            $bankname = '16';
+            $bankname = '016';
         }
 
         if($data['bankname'] == 'Bank Panin'){
-            $bankname = '19';
+            $bankname = '019';
         }
 
         if($data['bankname'] == 'CIMB Niaga'){
-            $bankname = '22';
+            $bankname = '022';
         }
 
         if($data['bankname'] == 'Bank UOB INDONESIA'){
-            $bankname = '23';
+            $bankname = '023';
         }
         if($data['bankname'] == 'Bank OCBC NISP'){
-            $bankname = '28';
+            $bankname = '028';
         }
         if($data['bankname'] == 'CITIBANK'){
-            $bankname = '31';
+            $bankname = '031';
         }
         if($data['bankname'] == 'Bank ARTHA GRAHA'){
-            $bankname = '37';
+            $bankname = '037';
         }
         if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
-            $bankname = '42';
+            $bankname = '042';
         }
         if($data['bankname'] == 'Bank DBS'){
-            $bankname = '46';
+            $bankname = '046';
         }
         if($data['bankname'] == 'Standard Chartered'){
-            $bankname = '50';
+            $bankname = '050';
         }
         if($data['bankname'] == 'Bank CAPITAL'){
-            $bankname = '54';
+            $bankname = '054';
         }
         if($data['bankname'] == 'ANZ Indonesia'){
-            $bankname = '61';
+            $bankname = '061';
         }
         if($data['bankname'] == 'Bank OF CHINA'){
-            $bankname = '69';
-        }
-        if($data['bankname'] == 'Bank Bumi Arta'){
-            $bankname = '76';
+            $bankname = '069';
         }
         if($data['bankname'] == 'Bank HSBC'){
-            $bankname = '41';
-        }
-        if($data['bankname'] == 'Bank Rabobank'){
-            $bankname = '89';
-        }
-        if($data['bankname'] == 'Bank JTRUST INDONESIA'){
-            $bankname = '95';
+            $bankname = '041';
         }
         if($data['bankname'] == 'Bank MAYAPADA'){
-            $bankname = '97';
+            $bankname = '097';
         }
         if($data['bankname'] == 'Bank Jawa Barat'){
             $bankname = '110';
-        }
-        if($data['bankname'] == 'Bank DKI'){
-            $bankname = '111';
-        }
-        if($data['bankname'] == 'Bank BPD DIY'){
-            $bankname = '112';
         }
         if($data['bankname'] == 'Bank JATENG'){
             $bankname = '113';
@@ -190,31 +175,18 @@ class Nicepay extends Model
         if($data['bankname'] == 'Bank Jatim'){
             $bankname = '114';
         }
-        if($data['bankname'] == 'Bank Jambi'){
-            $bankname = '115';
-        }
         if($data['bankname'] == 'Bank Aceh Syariah'){
             $bankname = '116';
         }
-        if($data['bankname'] == 'Bank SUMUT'){
-            $bankname = '117';
-        }
-        if($data['bankname'] == 'Bank NAGARI'){
-            $bankname = '1181';
-        }
-
-        if($data['bankname'] == 'Bank BTN'){
-            $bankname = '200';
-        }
         if($data['bankname'] == 'OVO'){
-            $bankname = '10001';
+            $bankname = 'OVO';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = '10002';
+            $bankname = 'DANA';
         }
 
         if($data['bankname'] == 'ShopeePay'){
-            $bankname = '10008';
+            $bankname = 'SHOPEEPAY';
         }
         if(empty($bankname)){
             return ['err'=>'1','platRespMessage'=>'不支持的银行'];
