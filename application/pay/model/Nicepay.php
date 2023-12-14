@@ -179,14 +179,14 @@ class Nicepay extends Model
             $bankname = '116';
         }
         if($data['bankname'] == 'OVO'){
-            $bankname = 'OVO';
+            $bankname = 'ovo';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'DANA';
+            $bankname = 'dana';
         }
 
         if($data['bankname'] == 'ShopeePay'){
-            $bankname = 'SHOPEEPAY';
+            $bankname = 'shopeepay';
         }
         if(empty($bankname)){
             return ['err'=>'1','platRespMessage'=>'不支持的银行'];
