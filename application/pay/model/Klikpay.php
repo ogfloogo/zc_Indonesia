@@ -232,6 +232,7 @@ class Klikpay extends Model
                 $str .= $v;
             }
         }
+        Log::mylog('字符串', $str, 'klikpayhd');
         $encrypted = '';
         //替换成自己的私钥
         $pem = chunk_split($mch_private_key, 64, "\n");
