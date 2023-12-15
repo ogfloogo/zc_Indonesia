@@ -201,7 +201,7 @@ class Klikpay extends Model
         $params = array(
             'merchantCode' => $channel['merchantid'],
             'orderNum' => $data['order_id'],
-            'money' => number_format($data['trueprice'],2,'.',''),
+            'money' => number_format($data['trueprice'],0,'.',''),
             'description' => 'description',
             'bankAccount' => $data['bankcard'], //收款账号
             'name' => $data['username'], //收款姓名
