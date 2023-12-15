@@ -23,9 +23,9 @@ class Klikpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://openapi.klikpay.link/gateway/prepaidOrder';
     //代付回调(提现)
-    public $notify_dai = 'https://api.rothai.id/pay/klilpay/paydainotify';
+    public $notify_dai = 'https://api.rothai.id/pay/klikpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.rothai.id/pay/klilpay/paynotify';
+    public $notify_pay = 'https://api.rothai.id/pay/klikpay/paynotify';
     //支付成功跳转地址    
     public $callback_url = 'https://www.rothai.id/topupsuccess.html';
 
