@@ -45,7 +45,8 @@ class Klikpay extends Model
             'phone' => '13122336688',
             'notifyUrl' => $this->notify_pay,
             'redirectUrl' => $this->callback_url,
-            'expiryPeriod' => '1440'
+            'expiryPeriod' => '1440',
+            'dateTime' => date('Ymdhis')
         ];
         $sign = $this->encrypt($param);
         $param['sign'] = $sign;
