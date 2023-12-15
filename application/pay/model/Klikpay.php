@@ -255,7 +255,7 @@ class Klikpay extends Model
         ksort($data);
         $toSign ='';
         foreach($data as $key=>$value){
-            if(strcmp($key, 'sign')!= 0  && $value!=''){
+            if(strcmp($key, 'platSign')!= 0  && $value!=''){
                 $toSign .= $value;
             }
         }
