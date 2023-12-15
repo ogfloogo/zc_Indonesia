@@ -225,7 +225,7 @@ class Klikpay extends Model
     public function paydainotify($params)
     {
         $check = $this->decrypt($params);
-        if ($check) {
+        if (!$check) {
             Log::mylog('验签失败', $params, 'klikpaydfhd');
             return false;
         }
