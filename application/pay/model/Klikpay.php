@@ -77,9 +77,9 @@ class Klikpay extends Model
     {
         if ($params['code'] == '00') {
             $sign = $params['platSign'];
-            unset($params['platSign']);
-            $check = $this->encrypt($params);
-            if ($check == $sign) {
+//            unset($params['platSign']);
+            $check = $this->decrypt($params);
+            if ($check) {
                 $order_id = $params['orderNum']; //商户订单号
                 $order_num = $params['platOrderNum']; //平台订单号
                 $amount = $params['payMoney']; //支付金额
@@ -268,13 +268,14 @@ class Klikpay extends Model
         $pem = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
         $publickey = openssl_pkey_get_public($pem);
 
-        $base64=str_replace(array('-', '_'), array('+', '/'), $data['sign']);
+        $base64=str_replace(array('-', '_'), array('+', '/'), $data['platSign']);
 
         $crypto = '';
         foreach(str_split(base64_decode($base64), 128) as $chunk) {
             openssl_public_decrypt($chunk,$decrypted,$publickey);
             $crypto .= $decrypted;
         }
+        Log::mylog('decrypt', $crypto.'---'.$decrypted, 'klikpayhd');
         if($str != $crypto){
             return false;
         }else{
