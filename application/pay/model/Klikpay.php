@@ -207,7 +207,8 @@ class Klikpay extends Model
             'name' => $data['username'], //收款姓名
             'bankCode' => $bankname,
             'notifyUrl' => $this->notify_dai,
-            'feeType' => 1
+            'feeType' => 1,
+            'dateTime' => date('Ymdhis'),
         );
         $sign = $this->encrypt($params);
         $params['sign'] = $sign;
