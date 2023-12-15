@@ -26,7 +26,7 @@ class Safepay extends Model
     //代收回调(充值)
     public $notify_pay = 'https://api.rothai.id/pay/safepay/paynotify';
     //代收秘钥
-    public $key = "97a8df4fadfb613f0b4f0611c7dfc826";
+    public $key = "d383ae2abb664902f78f8cc77f53af15";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
