@@ -256,7 +256,7 @@ class Klikpay extends Model
         $toSign ='';
         foreach($data as $key=>$value){
             if(strcmp($key, 'sign')!= 0  && $value!=''){
-                $toSign .= $key.'='.$value.'&';
+                $toSign .= $value;
             }
         }
 
@@ -275,7 +275,7 @@ class Klikpay extends Model
             openssl_public_decrypt($chunk,$decrypted,$publickey);
             $crypto .= $decrypted;
         }
-        Log::mylog('decrypt', $crypto.'---'.$decrypted, 'klikpayhd');
+        Log::mylog('decrypt', $crypto.'---'.$str, 'klikpayhd');
         if($str != $crypto){
             return false;
         }else{
