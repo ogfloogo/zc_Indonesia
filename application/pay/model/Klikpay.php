@@ -19,7 +19,7 @@ use think\Exception;
 class Klikpay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://openapi.solpay.link/gateway/v1/PHP/cash';
+    public $dai_url = 'https://openapi.klikpay.link/gateway/cash';
     //代收提交url(充值)
     public $pay_url = 'https://openapi.klikpay.link/gateway/prepaidOrder';
     //代付回调(提现)
@@ -106,6 +106,98 @@ class Klikpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bankname = '';
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = 'BRI';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = 'MANDIRI';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = 'BNI';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = 'DANAMON';
+        }
+
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = 'PERMATA';
+        }
+
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = 'BCA';
+        }
+
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = 'BANK_MAYBANK';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = 'PANIN';
+        }
+
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = 'CIMB';
+        }
+
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = 'BANK_BUANA';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = 'NISP';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = 'CITIBANK';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = 'ARTHA';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = 'BANK_TOKYO';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = 'DBS';
+        }
+        if($data['bankname'] == 'Standard Chartered'){
+            $bankname = 'STANDARD_CHARTERED';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = 'CAPITAL';
+        }
+        if($data['bankname'] == 'ANZ Indonesia'){
+            $bankname = 'BANK_ANZ';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = 'BOC';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = 'HSBC';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = 'MAYAPADA';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = 'BANK_JATENG';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = 'BANK_JATIM';
+        }
+        if($data['bankname'] == 'OVO'){
+            $bankname = 'OVO';
+        }
+        if($data['bankname'] == 'Dana'){
+            $bankname = 'DANA';
+        }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = 'SHOPEEPAY';
+        }
+        if(empty($bankname)){
+            return ['platRespCode'=>'fail','platRespMessage'=>'不支持的银行'];
+        }
         $params = array(
             'merchantCode' => $channel['merchantid'],
             'orderNum' => $data['order_id'],
@@ -113,7 +205,7 @@ class Klikpay extends Model
             'description' => 'description',
             'bankAccount' => $data['bankcard'], //收款账号
             'name' => $data['username'], //收款姓名
-            'bankCode' => 'GCASH',
+            'bankCode' => $bankname,
             'notifyUrl' => $this->notify_dai,
             'feeType' => 1
         );
@@ -122,7 +214,7 @@ class Klikpay extends Model
         Log::mylog('提现提交参数', $params, 'Solpaydf');
         $header[] = "Content-Type: application/json;charset=utf-8";
         $return_json = $this->http_Post($this->dai_url, $header,json_encode($params,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
-        Log::mylog($return_json, 'Solpaydf', 'Solpaydf');
+        Log::mylog($return_json, 'klikdf', 'klikdf');
         return $return_json;
     }
 
@@ -131,11 +223,9 @@ class Klikpay extends Model
      */
     public function paydainotify($params)
     {
-        $sign = $params['platSign'];
-        unset($params['platSign']);
-        $check = $this->encrypt($params);
-        if ($sign != $check) {
-            Log::mylog('验签失败', $params, 'Solpaydfhd');
+        $check = $this->decrypt($params);
+        if ($check) {
+            Log::mylog('验签失败', $params, 'klikpaydfhd');
             return false;
         }
         $usercash = new Usercash();
@@ -153,9 +243,9 @@ class Klikpay extends Model
                 if (!$res) {
                     return false;
                 }
-                Log::mylog('代付失败,订单号:' . $params, 'Solpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params, 'klikpaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderNum'], $e, 'Solpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['orderNum'], $e, 'klikpaydfhd');
             }
         } else {
             try {
@@ -175,9 +265,9 @@ class Klikpay extends Model
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
-                Log::mylog('提现成功', $params, 'Solpaydfhd');
+                Log::mylog('提现成功', $params, 'klikpaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderNum'], $e, 'Solpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['orderNum'], $e, 'klikpaydfhd');
             }
         }
     }

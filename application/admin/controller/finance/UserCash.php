@@ -14,6 +14,7 @@ use app\pay\model\Cloudsafepays;
 use app\pay\model\Globalpay;
 use app\pay\model\Gtrpay;
 use app\pay\model\Gtrpays;
+use app\pay\model\Klikpay;
 use app\pay\model\Metapay;
 use app\pay\model\Mpay;
 use app\pay\model\Nicepay;
@@ -393,6 +394,17 @@ class UserCash extends Backend
             }
             // $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'klikpay'){
+            $order = (new Klikpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['platRespCode'] != "SUCCESS") {
+                $this->error($order['platRespMessage']);
+            }
+            $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -683,6 +695,17 @@ class UserCash extends Backend
                 $this->error($order['errMsg']);
             }
             // $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'klikpay'){
+            $order = (new Klikpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['platRespCode'] != "SUCCESS") {
+                $this->error($order['platRespMessage']);
+            }
+            $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
