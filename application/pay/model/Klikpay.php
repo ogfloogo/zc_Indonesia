@@ -211,7 +211,7 @@ class Klikpay extends Model
         );
         $sign = $this->encrypt($params);
         $params['sign'] = $sign;
-        Log::mylog('提现提交参数', $params, 'Solpaydf');
+        Log::mylog('提现提交参数', $params, 'klikdf');
         $header[] = "Content-Type: application/json;charset=utf-8";
         $return_json = $this->http_Post($this->dai_url, $header,json_encode($params,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog($return_json, 'klikdf', 'klikdf');
