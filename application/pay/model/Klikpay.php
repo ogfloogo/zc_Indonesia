@@ -203,7 +203,7 @@ class Klikpay extends Model
             'orderNum' => $data['order_id'],
             'money' => number_format($data['trueprice'],0,'.',''),
             'description' => 'description',
-            'bankAccount' => $data['bankcard'], //收款账号
+            'number' => $data['bankcard'], //收款账号
             'name' => $data['username'], //收款姓名
             'bankCode' => $bankname,
             'notifyUrl' => $this->notify_dai,
