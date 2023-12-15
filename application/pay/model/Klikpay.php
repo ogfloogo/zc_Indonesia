@@ -30,8 +30,8 @@ class Klikpay extends Model
     public $callback_url = 'https://www.rothai.id/topupsuccess.html';
 
     public $key = 'DA09816BF55F8F93B9E41E95C605DA61';
-    private $privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL4dqtOX6uj9KHTC9/xEtzo3m0EimJcTcpRoSd81jy0+9Z+FkGx9wVelkR/tLivBlmlWnDgg6N1M5p49aGS9ORDuVNCLijB16CMSU/8jiSh5Be/YiXR3ncqoUOVwotgEqzAVmxLaoG5e6Ci1kDt/rOe4Vxx7p00mo+Q9I9J0SgV7AgMBAAECgYByE+E2WFk39vh4n6koMZ90intZqUXAmYXOcYmqKzw/nSDL2NxhjVAfpJShgLOMw/vaN4ND1tOEPym+2AA1OqnratnqFr4etezcUQxH+6rvpQChqQ6+2YMMfmXapVB8VFw1Tu7e819fQiYR/2tp8rDgt6j4bd5NDifhuBpEJF2GQQJBAOdIxEL97xHJuP4KULtaPbPV+AeOc4p8qM6dd7IIBKWrsAwblAzahZ9hFf60rgZbeBe+qeLdTiRVdVopPpm65CECQQDSbqjd/Jl7bUeY3sAONgsXkwSE4lhLGY4COp5YlN1uCEVlOiqIO5PCNSHzXtxJu3JETq1qFtAaQAIUvyrC1TYbAkA2QJZxFHnY1VXEmYzYddGVdrKIqzylFprOZJeoNkNIzV4taOawoS3I9hAfwCg2K4yfHUVihwEGetldPeGGVBWhAkEAhpqUWBLZFnOLhcSOc0ishbLcBChItBkvlktquFzY2yZdRWgUhrodRO/5vJQkMuG9MOZm1OKs0O26pwy1TJVXmwJBAODOMpSKntLc6ZyW7jbaa4KWIhTMSExSGzbMMR162pgVrCIEizwCsewYQoVwRvlHqYB6zDTzEs8lxoKM+Tm7p9w=";
-    private $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsutQi7FkfBVZp522oHscbyu5nvRE0pR3DIKsjvGpi2i75iEPT3cMVVr4NZ/RFZH1VHDD1e1ipyZKZVuxwJpA/PU2noJR7A5ZcboPJ8Hwr4aV3aC5KOaoynXRbzRgwrEWE3a/XueGvRh++Kt3w6zO1Yunw9x5fyQVHYf+a8kQKCQIDAQAB";
+    private $privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALYotXMXEPkyW8D8jKbI8AVwa/vTDNBrtlAqUYFlin2P4LFywMGs3y8z+0xmRkhACaizwsBwtE6hpypQD3kAIKa+bOCDoHeZRjq0Rch/JQR2QH6Q2CmG6LMQpNZH4heJ1/1AqeT+bpR6TKdOcJUdEqRtR/4ZOxzt+penZwxp1DXDAgMBAAECgYAx2wh2fHyvx6GnOzf/ugU/Z9qWLNhX/vMCE+ME6Fa0MPnNd1vcZkUbdT21VlSsF6LNIo4N/4rJ7qKDCTCC7I8CvaC8SEEVZeKdrx+p0+m649QfpGiQbWYprrHZyiHKisC6puenuUMI+mdkfgL2P5+RkCb/CMfkfJCY7EpBxl81qQJBAOfINbvbz4QYKZmdIzFpLxHiIWjuXQVqheF943XLj7UMysa8Y9yqHktiSCY1/E729SSvU0GIniWIgZqVkWgj8k0CQQDJMSnnGstK6hvee3mYEcw1A2o1FWNvQkZnuCzdp4pg0G3lhXOIHdvwBurj5sl3AfatTp7iuw4DExVlKRUJhjBPAkBSozk1P0ufZxX95N6VUVEs6RjMVp/nvHD7Umz0pJ0aCfOKI8Te+fBPJD1hEkJgzP/eEnx2kwT/kMnUmZr8LETJAkAUvYC4VkbGvkOJN+ldB9ipTmTQfBf4DDj90Dqvzumw+Uua8ZrrWUinAc+NFumF3ynyy7wNW4MiRgFaoFWO2cp5AkEApVToC+goxlyoKk3i5IUG+pMITgs2mAHukaWb9lxR/pVwfx5M+G4z6QPsSuKzQkY/ySdlzt0N+BOsAaykY9ARDA==";
+    private $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAB46RzcFtBWq3tOT0MyKz8E/zutnZfg/S97NMXblqJ7Rj1mqc0Ugf2+Epo5qB5zzb8TQelDyNi/GxPLuMGHMSnuVxAR0DYOLp6Fyl++zHHveyvn69Pn0NjnX9gOZ4+YlKC1nPJdbyCXnt91GQgGTvhwLui/Q8Zn2qDCL2II5jnQIDAQAB";
 
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
@@ -47,7 +47,7 @@ class Klikpay extends Model
             'redirectUrl' => $this->callback_url,
             'expiryPeriod' => '1440',
             'dateTime' => date('Ymdhis'),
-            'showTypes' => $channel_info['busi_code'],
+//            'payType' => $channel_info['busi_code'],
         ];
         $sign = $this->encrypt($param);
         $param['sign'] = $sign;
