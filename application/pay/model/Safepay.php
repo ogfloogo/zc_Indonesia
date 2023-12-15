@@ -15,18 +15,18 @@ use think\Log;
 use think\Exception;
 
 
-class Savepay extends Model
+class Safepay extends Model
 {
     //代付提单url(提现)
     public $dai_url = 'http://api.pnsafepay.com/gateway.aspx';
     //代收提交url(充值)
     public $pay_url = 'http://api.pnsafepay.com/gateway.aspx';
     //代付回调(提现)
-    public $notify_dai = 'https://api.taya777.cloud/pay/savepay/paydainotify';
+    public $notify_dai = 'https://api.rothai.id/pay/safepay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.taya777.cloud/pay/savepay/paynotify';
+    public $notify_pay = 'https://api.rothai.id/pay/safepay/paynotify';
     //代收秘钥
-    public $key = "8f19552c63bb03daa2e16d1e695b439a";
+    public $key = "97a8df4fadfb613f0b4f0611c7dfc826";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
@@ -37,7 +37,7 @@ class Savepay extends Model
             'payname' => 'xiaoming',
             'payemail' => 'xiaoming@email.com',
             'payphone' => '959942552',
-            "currency" => "PHP",
+            "currency" => "IDR",
             'paytypecode' => $channel_info['busi_code'],
             'method' => 'trade.create',
             'returnurl' => $this->notify_pay,
@@ -97,13 +97,105 @@ class Savepay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bankname = '';
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = '13000f031';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = '13000f079';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = '13000f022';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = '13000f039';
+        }
+
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = '13000f107';
+        }
+
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = '13000f015';
+        }
+
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = '13000f018';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = '13000f104';
+        }
+
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = '13000f036';
+        }
+
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = '13000f136';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = '13000f100';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = '13000f144';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = '13000f012';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = '13000f158';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = '13000f040';
+        }
+        if($data['bankname'] == 'Standard Chartered'){
+            $bankname = '13000f156';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = '13000f035';
+        }
+        if($data['bankname'] == 'ANZ Indonesia'){
+            $bankname = '13000f010';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = '13000f102';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = '13000f054';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = '13000f083';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = '13000f064';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = '13000f065';
+        }
+        if($data['bankname'] == 'OVO'){
+            $bankname = '13000f904';
+        }
+        if($data['bankname'] == 'Dana'){
+            $bankname = '13000f901';
+        }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = '13000f905';
+        }
+        if(empty($bankname)){
+            return ['status'=>'fail','status_mes'=>'不支持的银行'];
+        }
         $param = array(
             'mer_no' => $channel['merchantid'],
             'order_no' => $data['order_id'],
             'method' => 'fund.apply',
             'order_amount' => $data['trueprice'],
-            "currency" => "PHP",
-            'acc_code' => 'PH_GCASH',
+            "currency" => "IDR",
+            'acc_code' => $bankname,
             'acc_name' => $data['username'], //收款姓名
             'acc_no' => $data['bankcard'], //收款账号
             'returnurl' => $this->notify_dai,

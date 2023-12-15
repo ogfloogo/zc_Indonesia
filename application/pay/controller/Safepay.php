@@ -3,7 +3,7 @@
 namespace app\pay\controller;
 
 use app\api\controller\Controller;
-use app\pay\model\Savepay as ModelSavepay;
+use app\pay\model\Safepay as ModelSavepay;
 use app\api\model\User as ModelUser;
 use app\api\model\Usermoneylog;
 use app\common\model\User;
@@ -16,7 +16,7 @@ use think\Log;
 /**
  * Ppay
  */
-class Savepay extends Controller
+class Safepay extends Controller
 {
 
     /**
