@@ -481,6 +481,14 @@ class Finance extends Controller
                 $newhand[] = $value;
             }
             $value['daily_income'] = floatval($value['daily_income']);
+
+            if($value['daily_income'] < 1000000 && $value['daily_income'] >= 100000){
+                $value['daily_income'] = ($value['daily_income']/1000).'K';
+            }
+            if($value['daily_income'] >= 1000000){
+                $value['daily_income'] = ($value['daily_income']/1000000).'M';
+            }
+
             $value['rate'] = bcadd($value['rate'],0,1);
             $value['fixed_amount'] = bcadd($value['fixed_amount'],0,0);
 
