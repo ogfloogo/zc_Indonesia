@@ -215,12 +215,36 @@ class Finance extends Controller
                 $value['total_profit'] = bcmul($value['interest'], $value['day'], 0);
                 $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
                 $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
+
+                //20231230 修改
+                if($value['total_revenue'] < 1000000 && $value['total_revenue'] >= 100000){
+                    $value['total_revenue'] = ($value['total_revenue']/1000).'K';
+                }
+                if($value['total_revenue'] >= 1000000){
+                    $value['total_revenue'] = ($value['total_revenue']/1000000).'M';
+                }
+
                 if ($value['type'] == 2) {
                     $value['daily_income'] = bcadd($value['interest'],0,0);
                     $value['interest'] = bcadd($value['total_profit'],0,0);
                 } else {
                     $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
                 }
+
+                //20231230 修改
+                if($value['daily_income'] < 1000000 && $value['daily_income'] >= 100000){
+                    $value['daily_income'] = ($value['daily_income']/1000).'K';
+                }
+                if($value['daily_income'] >= 1000000){
+                    $value['daily_income'] = ($value['daily_income']/1000000).'M';
+                }
+                if($value['fixed_amount'] < 1000000 && $value['fixed_amount'] >= 100000){
+                    $value['fixed_amount'] = ($value['fixed_amount']/1000).'K';
+                }
+                if($value['fixed_amount'] >= 1000000){
+                    $value['fixed_amount'] = ($value['fixed_amount']/1000000).'M';
+                }
+
                 $online_project_info[] = $value;
             }
         }
