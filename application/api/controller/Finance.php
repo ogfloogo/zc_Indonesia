@@ -465,8 +465,11 @@ class Finance extends Controller
             $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
             $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
 
+            if($value['total_revenue'] < 1000000 && $value['total_revenue'] >= 100000){
+                $value['total_revenue'] = ($value['total_revenue']/1000).'K';
+            }
             if($value['total_revenue'] >= 1000000){
-                $value['total_revenue'] = ($value['total_revenue']/1000000).'m';
+                $value['total_revenue'] = ($value['total_revenue']/1000000).'M';
             }
 
             if ($value['type'] == 2) {
@@ -481,8 +484,11 @@ class Finance extends Controller
             $value['rate'] = bcadd($value['rate'],0,1);
             $value['fixed_amount'] = bcadd($value['fixed_amount'],0,0);
 
+            if($value['fixed_amount'] < 1000000 && $value['fixed_amount'] >= 100000){
+                $value['fixed_amount'] = ($value['fixed_amount']/1000).'K';
+            }
             if($value['fixed_amount'] >= 1000000){
-                $value['fixed_amount'] = ($value['fixed_amount']/1000000).'m';
+                $value['fixed_amount'] = ($value['fixed_amount']/1000000).'M';
             }
 
         }
