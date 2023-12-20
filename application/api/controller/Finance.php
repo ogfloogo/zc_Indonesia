@@ -464,6 +464,11 @@ class Finance extends Controller
             $value['total_profit'] = bcmul($value['interest'], $value['day'], 0);
             $fixed_amount = $value['popularize'] == 2 ? 0 : $value['fixed_amount'];
             $value['total_revenue'] = bcadd($value['total_profit'], $fixed_amount, 0);
+
+            if($value['total_revenue'] >= 1000000){
+                $value['total_revenue'] = ($value['total_revenue']/1000000).'m';
+            }
+
             if ($value['type'] == 2) {
                 $value['daily_income'] = bcadd($value['interest'],0,1);
             } else {
@@ -475,6 +480,11 @@ class Finance extends Controller
             $value['daily_income'] = floatval($value['daily_income']);
             $value['rate'] = bcadd($value['rate'],0,1);
             $value['fixed_amount'] = bcadd($value['fixed_amount'],0,0);
+
+            if($value['fixed_amount'] >= 1000000){
+                $value['fixed_amount'] = ($value['fixed_amount']/1000000).'m';
+            }
+
         }
         //        $buy_list = (new \app\api\model\Financeorder())->field('user_id,amount')->where(['is_robot'=>0])->order('id desc')->limit(20)->select();
         //        $user_ids = array_column($buy_list,'user_id');
