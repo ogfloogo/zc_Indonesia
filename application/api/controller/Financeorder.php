@@ -60,6 +60,9 @@ class Financeorder extends Controller
         if (!$project_info) {
             $this->error(__("Activities that don't exist"));
         }
+        if($amount == 'NaN'){
+            $this->error(__('Your balance is not enough'), '', 10);
+        }
         if ($amount % $project_info['fixed_amount'] != 0) {
             $this->error(__("Amount error"));
         }
