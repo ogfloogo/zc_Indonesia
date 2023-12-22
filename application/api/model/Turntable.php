@@ -14,10 +14,10 @@ class Turntable extends Model
 
     public function addtimes($user_id, $money = 0, $type)
     {
-//        $turntable = self::where(['starttime' => ['<=', time()], 'endtime' => ['>=', time()]])->find();
-//        if (!$turntable) {
-//            return true;
-//        }
+        $turntable = self::where(['starttime' => ['<=', time()], 'endtime' => ['>=', time()]])->find();
+        if (!$turntable) {
+            return true;
+        }
 //        $user = (new User())->where(['id'=>$user_id])->find();
 //        if($user['sid'] == 0){
 //            return true;
