@@ -46,8 +46,8 @@ class Turntable extends Model
                 ];
                 (new Turntabletimes())->create($create);
             } else {
-                $exist = (new Turntabletimes())->where(['a_id' => $turntable['id'], 'user_id' => $sid])->where('find_in_set(:oid,oid)',['oid'=>$user_id])->find();
-                if(!$exist){
+                $exist_user = (new Turntabletimes())->where(['a_id' => $turntable['id'], 'user_id' => $sid])->where('find_in_set(:oid,oid)',['oid'=>$user_id])->find();
+                if(!$exist_user){
                     $exist->times = $exist->times + 1;
                     $exist->oid = $exist->oid.','.$user_id;
                     $exist->save();
