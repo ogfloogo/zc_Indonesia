@@ -14,9 +14,9 @@ class Turntable extends Model
 
     public function addtimes($user_id, $money = 0, $type)
     {
-        if($user_id != 29598){
-            return true;
-        }
+//        if($user_id != 29598){
+//            return true;
+//        }
         $turntable = self::where(['starttime' => ['<=', time()], 'endtime' => ['>=', time()]])->find();
         if (!$turntable) {
             return true;
