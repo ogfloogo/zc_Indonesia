@@ -28,6 +28,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: __('Id')},
                         {field: 'a_id', title: __('A_id')},
                         {field: 'user_id', title: __('User_id')},
+                        {field: 'oid', title: __('下级ID')},
                         {field: 'times', title: __('Times')},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
