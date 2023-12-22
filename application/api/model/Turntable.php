@@ -40,7 +40,7 @@ class Turntable extends Model
             if (!$exist) {
                 $create = [
                     'a_id' => $turntable['id'],
-                    'user_id' => $user_id,
+                    'user_id' => $sid,
                     'times' => 1,
                     'oid' => $user_id
                 ];
