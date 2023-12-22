@@ -95,7 +95,7 @@ class User extends Model
             $userinfo = $this->where('mobile', $mobile)->find();
             $userinfo['avatar'] = format_image($userinfo['avatar']);
             $redis->handler()->select(1);
-            $redis->handler()->set("token:" . $token, json_encode($userinfo), 60 * 60 * 24 * 7);
+            $redis->handler()->set("token:" . $token, json_encode($userinfo), 60 * 60 * 24 * 90);
             $userinfo['token'] = $token;
             // unset($userinfo['id']);
             unset($userinfo['password']);
