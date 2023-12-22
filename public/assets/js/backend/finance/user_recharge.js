@@ -7,8 +7,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 extend: {
                     index_url: 'finance/user_recharge/index' + location.search,
                     add_url: 'finance/user_recharge/add',
-                    edit_url: 'finance/user_recharge/edit',
-                    del_url: 'finance/user_recharge/del',
+                    // edit_url: 'finance/user_recharge/edit',
+                    // del_url: 'finance/user_recharge/del',
                     multi_url: 'finance/user_recharge/multi',
                     import_url: 'finance/user_recharge/import',
                     table: 'user_recharge',
@@ -52,6 +52,37 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         { field: 'createtime', title: __('Createtime'), operate: 'RANGE', addclass: 'datetimerange', autocomplete: false, formatter: Table.api.formatter.datetime },
                         // {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {
+                            field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate, buttons: [
+                                {
+                                    name: 'doPay',
+                                    text: __('手动通过'),
+                                    title: __('手动通过'),
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa ',
+                                    url: 'finance/user_recharge/doPay?id={row.id}',
+                                    confirm: '确认手动通过？',
+                                    success: function (data, ret) {
+                                        $(".btn-refresh").trigger("click");
+                                        // Layer.alert(ret.msg + ",返回数据：" + JSON.stringify(data));
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        //return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+                                    visible: function (row) {
+                                        //返回true时按钮显示,返回false隐藏
+                                        if (row.status == 0) {
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+                                }
+                            ]
+                        }
                     ]
                 ]
             });
@@ -123,6 +154,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         edit: function () {
+            Controller.api.bindevent();
+        },
+        doPay: function () {
             Controller.api.bindevent();
         },
         api: {
