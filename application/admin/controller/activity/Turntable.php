@@ -90,9 +90,9 @@ class Turntable extends Backend
                 $this->error('有在进行中的活动，不能新增活动');
             }
             $arr = json_decode($params['prize_json'],true);
-            if(array_sum($arr) != 100){
+            if(array_sum($arr) != 10000){
                 Db::rollback();
-                $this->error('概率相加必须等于100');
+                $this->error('概率相加必须等于10000');
             }
             $params['code'] = Random::alnum(6);
             $result = $this->model->allowField(true)->save($params);
@@ -136,9 +136,9 @@ class Turntable extends Backend
                 $row->validateFailException()->validate($validate);
             }
             $arr = json_decode($params['prize_json'],true);
-            if(array_sum($arr) != 100){
+            if(array_sum($arr) != 10000){
                 Db::rollback();
-                $this->error('概率相加必须等于100');
+                $this->error('概率相加必须等于10000');
             }
             $result = $row->allowField(true)->save($params);
             Db::commit();
