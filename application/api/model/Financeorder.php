@@ -106,6 +106,8 @@ class Financeorder extends Model
                         (new Usertask())->taskRewardType($userinfo['id'],4);
                     }
                 }
+                //转盘活动增加次数
+                (new Turntable())->addtimes($userinfo['id'],$price,2);
             }else{
                 //标记用户购买过体验项目
                 (new User())->where(['id' => $userinfo['id']])->update(['is_experience' => 1]);

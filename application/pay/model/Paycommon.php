@@ -89,8 +89,8 @@ class Paycommon extends Model
             }
             //用户充值金额统计
             (new Usertotal())->where('user_id', $user_id)->setInc('total_recharge', $amount);
-            //转盘活动增加次数
-            (new Turntable())->addtimes($user_id,$amount,2);
+//            //转盘活动增加次数
+//            (new Turntable())->addtimes($user_id,$amount,2);
             //判断升级条件
 //            (new Teamlevel())->teamUpgradeRechargeNum($user_id);
             //更新邀请奖励首充状态
