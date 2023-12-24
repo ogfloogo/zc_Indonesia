@@ -73,7 +73,7 @@ class Turntable extends Controller
         }
         $times = (new Turntabletimes())->where(['a_id'=>$turntable['id'],'user_id'=>$userinfo['id']])->value('times');
         if(!$times||$times <= 0){
-            $this->error('Insufficient number of draws available');
+            $this->error('Tidak memiliki poin untuk memutar');
         }
         $prize = json_decode($turntable['prize_json'],true);
         $money = $this->random($prize);
