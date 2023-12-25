@@ -249,10 +249,18 @@ class Nicepay extends Model
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
                 ];
-                $res = $usercash->where('status', 'lt', 3)->where('id', $r['id'])->update($upd);
-                if (!$res) {
-                    return false;
+                if($r['status'] == 4){
+                    $res = $usercash->where(['status'=>4])->where('id', $r['id'])->update($upd);
+                    if (!$res) {
+                        return false;
+                    }
+                }else{
+                    $res = $usercash->where('status', 'lt', 3)->where('id', $r['id'])->update($upd);
+                    if (!$res) {
+                        return false;
+                    }
                 }
+
                 //统计当日提现金额
                 $report = new Report();
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
