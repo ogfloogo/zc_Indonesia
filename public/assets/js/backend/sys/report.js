@@ -31,7 +31,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'date', title: __('Date'), operate: 'LIKE'},
                         {field: 'user', title: __('User')},
                         {field: 'rechargeuser', title: __('Rechargeuser')},
-                        {field: 'first_rechargeuser', title: __('First_rechargeuser')},
+                        {field: 'first_rechargeuser', title: __('首充用户')},
                         // {field: 'order', title: __('Order')},
                         // {field: 'ordermoney', title: __('Ordermoney'), operate:'BETWEEN'},
                         // {field: 'rewardmoney', title: __('Rewardmoney'), operate:'BETWEEN'},
