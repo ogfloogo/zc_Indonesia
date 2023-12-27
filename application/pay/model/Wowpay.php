@@ -225,6 +225,7 @@ class Wowpay extends Model
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
+                (new Paycommon())->withdrawa($r['user_id']);
                 Log::mylog('提现成功', $params, 'wowpaydfhd');
             } catch (Exception $e) {
                 Log::mylog('代付失败,订单号:' . $params['merTransferId'], $e, 'wowpaydfhd');

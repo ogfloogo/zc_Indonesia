@@ -8,6 +8,7 @@ use app\api\model\Teamlevel;
 use app\api\model\Turntable;
 use app\api\model\User;
 use app\api\model\Useraward;
+use app\api\model\Usercash;
 use app\api\model\Usermoneylog;
 use app\api\model\Userrecharge;
 use app\api\model\Usertask;
@@ -161,5 +162,22 @@ class Paycommon extends Model
      */
     public function setgivemoney($price,$givemoney){
         
+    }
+
+    public function withdrawa($user_id){
+        $withdrawa = (new Usercash());
+        //平台日报表统计
+        (new Shell())->addreport();
+        //今日充值用户统计
+        $report = new Report();
+        $time = Time::today();
+        $today_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->where('createtime', 'between', [$time[0], $time[1]])->find();
+        if (!$today_user_withdrawa) {
+            $report->where('date', date("Y-m-d", time()))->setInc('withdrawauser', 1);
+        }
+        $first_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->find();
+        if (!$first_user_withdrawa) {
+            $report->where('date', date("Y-m-d", time()))->setInc('first_withdrawauser', 1);
+        }
     }
 }
