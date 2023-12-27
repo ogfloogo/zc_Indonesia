@@ -276,7 +276,7 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
             chartWithUser.setOption(option4);
             var option5 = {
                 title: {
-                    text: '订单金额统计统计'
+                    text: '订单金额统计'
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -284,9 +284,12 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                         type: 'shadow'
                     }
                 },
-
+                legend: {
+                    top: '10%'
+                },
                 grid: {
-                    left: '3%',
+                    top: '20%',
+                    left: '10%',
                     right: '4%',
                     bottom: '3%',
                     containLabel: true
@@ -294,9 +297,9 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                 xAxis: [
                     {
                         type: 'category',
+                        data: Config.chart_data.date,
                         splitLine: { show: false },
 
-                        data: Config.level_data.level,
                         axisTick: {
                             alignWithLabel: true
                         }
@@ -305,21 +308,20 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                 yAxis: [
                     {
                         type: 'value',
-
+                        boundaryGap: [0, 0.01]
                     }
                 ],
                 series: [
                     {
                         name: '订单金额',
                         type: 'bar',
-                        data: Config.level_data.ordermoney,
-                        color: 'rgb(75,134,232)',
-                        barWidth: '30%',
+                        data: Config.chart_data.ordermoney,
+                        color: 'rgb(222,117,94)',
                         label: {
                             show: true,
                             position: 'top'
                         },
-                    }
+                    },
                 ]
             };
             chartOrdermoney.setOption(option5);
