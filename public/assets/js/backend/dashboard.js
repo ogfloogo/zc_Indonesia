@@ -8,6 +8,9 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
             var chartCash = Echarts.init(document.getElementById('echart-cash'), 'walden');
             var chartReg = Echarts.init(document.getElementById('echart-reg'), 'walden');
             var chartUser = Echarts.init(document.getElementById('echart-user'), 'walden');
+
+            var chartWithUser = Echarts.init(document.getElementById('echart-withdraw'), 'walden');
+            var chartOrdermoney = Echarts.init(document.getElementById('echart-ordermoney'), 'walden');
             console.log(Config.chart_data.date);
 
             var option1 = {
@@ -208,6 +211,120 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                 ]
             };
             chartUser.setOption(option3);
+
+            var option4 = {
+                title: {
+                    text: '提现记录'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    top: '10%'
+                },
+                grid: {
+                    top: '20%',
+                    left: '10%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: Config.chart_data.date,
+                        splitLine: { show: false },
+
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    }
+                ],
+                series: [
+                    {
+                        name: '提现人数',
+                        type: 'bar',
+                        data: Config.chart_data.withdraw_user,
+                        color: 'rgb(222,117,94)',
+                        label: {
+                            show: true,
+                            position: 'top'
+                        },
+                    },
+                    {
+                        name: '首次提现人数',
+                        type: 'bar',
+                        data: Config.chart_data.first_withdraw,
+                        color: 'rgb(230,197,125)',
+
+                        label: {
+                            show: true,
+                            position: 'top'
+                        },
+                    }
+                ]
+            };
+            chartReg.setOption(option4);
+            var option5 = {
+                title: {
+                    text: '订单金额统计统计'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        splitLine: { show: false },
+
+                        data: Config.level_data.level,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+
+                    }
+                ],
+                series: [
+                    {
+                        name: '订单金额',
+                        type: 'bar',
+                        data: Config.level_data.ordermoney,
+                        color: 'rgb(75,134,232)',
+                        barWidth: '30%',
+                        label: {
+                            show: true,
+                            position: 'top'
+                        },
+                    }
+                ]
+            };
+            chartUser.setOption(option5);
+
+
 
             $(window).resize(function () {
                 chartCash.resize();

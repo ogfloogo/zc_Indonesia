@@ -52,6 +52,12 @@ class Dashboard extends Backend
 
             $rechargeUserList[] = !empty($reportInfo) ? $reportInfo['rechargeuser'] : 0;
             $firstRechargeUserList[] = !empty($reportInfo) ? $reportInfo['first_rechargeuser'] : 0;
+
+            $withdrawUserList[] = !empty($reportInfo) ? $reportInfo['withdrawauser'] : 0;
+            $firstWithdrawUserList[] = !empty($reportInfo) ? $reportInfo['first_withdrawauser'] : 0;
+
+            $orderMoneyList[] = !empty($reportInfo) ? $reportInfo['ordermoney'] : 0;
+
             $rechargeList[] = (new UserRecharge())->where(['status' => 1, 'createtime' => $time_range])->sum('price');
             $withdrawList[] = (new UserCash())->where(['status' => 2, 'createtime' => $time_range])->sum('price');
             $userList[] = (new User())->where(['createtime' => $time_range, 'is_robot' => 0])->count();
@@ -107,7 +113,7 @@ class Dashboard extends Backend
             'totaluserwithdraw'         => count($total_withdraw),
         ]);
 
-        $this->assignconfig('chart_data', ['date' => $column, 'recharge' => $rechargeList, 'withdraw' => $withdrawList, 'user' => $loginList, 'reg' => $userList, 're_user' => $rechargeUserList, 'first' => $firstRechargeUserList]);
+        $this->assignconfig('chart_data', ['date' => $column, 'recharge' => $rechargeList, 'withdraw' => $withdrawList, 'user' => $loginList, 'reg' => $userList, 're_user' => $rechargeUserList, 'first' => $firstRechargeUserList, 'withdraw_user' => $withdrawUserList, 'first_withdraw' => $firstWithdrawUserList,'ordermoney'=>$orderMoneyList]);
         $this->assignconfig('level_data', ['level' => $levelList, 'user' => $userLevelList]);
         $this->getAgentData();
         $this->getAgentDataList();
