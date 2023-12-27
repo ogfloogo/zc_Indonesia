@@ -273,7 +273,7 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                     }
                 ]
             };
-            chartReg.setOption(option4);
+            chartWithUser.setOption(option4);
             var option5 = {
                 title: {
                     text: '订单金额统计统计'
@@ -322,7 +322,7 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                     }
                 ]
             };
-            chartUser.setOption(option5);
+            chartOrdermoney.setOption(option5);
 
 
 
@@ -330,6 +330,8 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                 chartCash.resize();
                 chartReg.resize();
                 chartUser.resize();
+                chartWithUser.resize();
+                chartOrdermoney.resize();
             });
 
             $(document).on("click", ".btn-refresh", function () {
@@ -337,6 +339,8 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                     chartCash.resize();
                     chartReg.resize();
                     chartUser.resize();
+                    chartWithUser.resize();
+                    chartOrdermoney.resize();
                 }, 0);
             });
 
