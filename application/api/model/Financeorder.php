@@ -72,6 +72,15 @@ class Financeorder extends Model
             if($popularize != 2){
                 //支付(体验项目不用支付)
                 $paynow = (new Usermoneylog())->moneyrecords($userinfo['id'], $price, 'dec', 18, "众筹下单");
+
+
+                //平台日报表统计
+                (new Shell())->addreport();
+                //今日充值用户统计
+                $report = new Report();
+                $report->where('date', date("Y-m-d", time()))->setInc('ordermoney', $price);
+
+
                 if (!$paynow) {
                     Db::rollback();
                     Log::mylog('众筹支付失败', $order_id, 'financeorder');
