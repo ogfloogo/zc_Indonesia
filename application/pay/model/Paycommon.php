@@ -164,18 +164,18 @@ class Paycommon extends Model
         
     }
 
-    public function withdrawa($user_id){
+    public function withdrawa($user_id,$id){
         $withdrawa = (new Usercash());
         //平台日报表统计
         (new Shell())->addreport();
         //今日充值用户统计
         $report = new Report();
         $time = Time::today();
-        $today_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->where('createtime', 'between', [$time[0], $time[1]])->find();
+        $today_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->where('createtime', 'between', [$time[0], $time[1]])->where(['id'=>['<>',$id]])->find();
         if (!$today_user_withdrawa) {
             $report->where('date', date("Y-m-d", time()))->setInc('withdrawauser', 1);
         }
-        $first_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->find();
+        $first_user_withdrawa = $withdrawa->where('user_id', $user_id)->where('status', 3)->where(['id'=>['<>',$id]])->find();
         if (!$first_user_withdrawa) {
             $report->where('date', date("Y-m-d", time()))->setInc('first_withdrawauser', 1);
         }

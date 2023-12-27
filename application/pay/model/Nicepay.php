@@ -266,7 +266,7 @@ class Nicepay extends Model
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
-                (new Paycommon())->withdrawa($r['user_id']);
+                (new Paycommon())->withdrawa($r['user_id'],$r['id']);
                 Log::mylog('提现成功', $params, 'Nicepaydfhd');
             } catch (Exception $e) {
                 Log::mylog('代付失败,订单号:' . $params['order'], $e, 'Nicepaydfhd');
