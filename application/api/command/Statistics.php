@@ -31,13 +31,13 @@ class Statistics extends Command
         (new Shell())->addreport();
         $report = new Report();
         //进行中的订单金额
-        $total_order_money = (new Financeorder())->where(['status'=>1,'popularize'=>['<>',2]])->sum('amount');
+        $total_order_money = (new Financeorder())->where(['status'=>1,'popularize'=>['<>',2],'is_robot'=>0])->sum('amount');
         //预计当天利息总额
-        $release_interest = (new Financeorder())->whereTime('collection_time','today')->sum('interest');
+        $release_interest = (new Financeorder())->whereTime('collection_time','today')->where(['is_robot'=>0])->sum('interest');
         //等额本息每日返还本金
-        $release_capital1 = (new Financeorder())->whereTime('collection_time','today')->where(['type'=>1])->sum('capital');
+        $release_capital1 = (new Financeorder())->whereTime('collection_time','today')->where(['type'=>1,'is_robot'=>0])->sum('capital');
         //先息后本返还本金
-        $release_capital2 = (new Financeorder())->whereTime('earning_end_time','today')->where(['type'=>2])->sum('capital');
+        $release_capital2 = (new Financeorder())->whereTime('earning_end_time','today')->where(['type'=>2,'is_robot'=>0])->sum('capital');
         //预计当天发放总额
         $release_money = $release_interest + $release_capital1 + $release_capital2;
         $user_balance = (new User())->sum('money');
