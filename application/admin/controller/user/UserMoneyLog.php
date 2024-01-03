@@ -4,6 +4,7 @@ namespace app\admin\controller\user;
 
 use app\admin\model\finance\UserCash;
 use app\admin\model\finance\UserRecharge;
+use app\admin\model\financebuy\FinanceOrder;
 use app\admin\model\User;
 use app\admin\model\user\UserAward;
 use app\admin\model\user\UserMoneyLog as UserUserMoneyLog;
@@ -94,6 +95,16 @@ class UserMoneyLog extends Backend
         $row['waiting_withdraw'] = (new UserCash())->where(['user_id' => $user_id, 'status' => ['IN', [0, 1, 2]]])->sum('price');
         $row['total_withdrawals'] = (new UserCash())->where(['user_id' => $user_id, 'status' => 3])->sum('price');
         $row['total_recharge'] = (new UserRecharge())->where(['user_id' => $user_id, 'status' => 1])->sum('price');
+
+        $row['order_money'] = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0])->sum('amount');
+        $capital1 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0,'type'=>1])->sum('capital');
+        $capital2 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 2,'is_robot'=>0,'type'=>1])->whereTime('earning_end_time','today')->sum('capital');
+        $capital3 = (new FinanceOrder())->where(['user_id' => $user_id, 'is_robot'=>0,'type'=>2])->whereTime('earning_end_time','today')->sum('amount');
+        $row['capital'] = $capital1 + $capital2 + $capital3;
+        $interest1 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0])->sum('interest');
+        $interest2 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 0,'is_robot'=>0])->whereTime('earning_end_time','today')->sum('interest');
+        $row['interest'] = $interest1 + $interest2;
+
 
         $this->assign('row', $row);
     }
