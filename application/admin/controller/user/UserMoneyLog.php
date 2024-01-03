@@ -96,7 +96,7 @@ class UserMoneyLog extends Backend
         $row['total_withdrawals'] = (new UserCash())->where(['user_id' => $user_id, 'status' => 3])->sum('price');
         $row['total_recharge'] = (new UserRecharge())->where(['user_id' => $user_id, 'status' => 1])->sum('price');
 
-        $row['order_money'] = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0])->sum('amount');
+        $row['order_money'] = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0,'popularize'=>['<>',2]])->sum('amount');
         $capital1 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 1,'is_robot'=>0,'type'=>1])->sum('capital');
         $capital2 = (new FinanceOrder())->where(['user_id' => $user_id, 'status' => 2,'is_robot'=>0,'type'=>1])->whereTime('earning_end_time','today')->sum('capital');
         $capital3 = (new FinanceOrder())->where(['user_id' => $user_id, 'is_robot'=>0,'type'=>2])->whereTime('earning_end_time','today')->sum('amount');
