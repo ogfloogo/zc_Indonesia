@@ -301,6 +301,16 @@ class Setting extends Controller
             if($version == "1.0.9"){
                 $app_version['number'] = "1.0.9";
             }
+
+            $app_version['channel_text'] = "";
+            $app_version['download_type_and_text'] = "";
+            $app_version['download_type_ios_text'] = "";
+            $app_version['download_type_wgt_text'] = "";
+            $app_version['status_text'] = "";
+            $app_version['system_text'] = "";
+            $app_version['update_type_text'] = "";
+            $app_version['update_url_ios_file'] = "";
+
         }
 
         // $list['app_version_1'] = $app_version;
