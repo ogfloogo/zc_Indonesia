@@ -132,6 +132,12 @@ class User extends Backend
                     (new ModelUser())->logout($token);
                 }
             }
+            if ($params['mobile']) {
+                $token = $row['token'];
+                if ($token) {
+                    (new ModelUser())->logout($token);
+                }
+            }
         }
         // $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
         return parent::edit($ids);
