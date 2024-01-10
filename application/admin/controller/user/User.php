@@ -110,6 +110,10 @@ class User extends Backend
             //         $this->error('上级不能设置为自己团队的用户');
             //     }
             // }
+            $exist = (new ModelUser())->where(['id'=>['<>',$ids],'mobile'=>$params['mobile']])->find();
+            if($exist){
+                $this->error('手机号已存在');
+            }
             if (!$params['status']) {
                 $token = $row['token'];
                 if ($token) {
