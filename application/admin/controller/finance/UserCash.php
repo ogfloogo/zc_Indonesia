@@ -18,6 +18,7 @@ use app\pay\model\Klikpay;
 use app\pay\model\Metapay;
 use app\pay\model\Mpay;
 use app\pay\model\Nicepay;
+use app\pay\model\Nicepays;
 use app\pay\model\Ppay;
 use app\pay\model\Rpay;
 use app\pay\model\Safepay;
@@ -383,6 +384,17 @@ class UserCash extends Backend
             }
             // $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'nicepays'){
+            $order = (new Nicepays())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['err'] != 0) {
+                $this->error($order['platRespMessage']);
+            }
+            // $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }elseif($withdrawChannel['model'] == 'cecopay'){
             $order = (new Cecopay())->withdraw($row,$withdrawChannel);
             $order = json_decode($order, true);
@@ -676,6 +688,17 @@ class UserCash extends Backend
             $params['channel'] = $withdrawChannel['name'];
         }elseif($withdrawChannel['model'] == 'nicepay'){
             $order = (new Nicepay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['err'] != 0) {
+                $this->error($order['platRespMessage']);
+            }
+            // $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'nicepays'){
+            $order = (new Nicepays())->withdraw($row,$withdrawChannel);
             $order = json_decode($order, true);
             if (empty($order)) {
                 $this->error("提现失败");

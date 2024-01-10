@@ -22,7 +22,7 @@ class Nicepays extends Model
     //代收提交url(充值)
     public $pay_url = 'http://merchant.nicepay.pro/api/recharge';
     //代付回调(提现)
-    public $notify_dai = 'https://api.rothpro.id/pay/nicepay/paydainotify';
+    public $notify_dai = 'https://api.rothpro.id/pay/nicepays/paydainotify';
     //代收回调(充值)
     public $notify_pay = 'https://api.rothpro.id/pay/nicepay/paynotify';
     //支付成功跳转地址    
@@ -95,55 +95,101 @@ class Nicepays extends Model
     {
         $bankname = '';
         if($data['bankname'] == 'Bank BRI'){
-            $bankname = '2';
+            $bankname = '002';
         }
 
         if($data['bankname'] == 'Bank Mandiri'){
-            $bankname = '8';
+            $bankname = '008';
         }
 
         if($data['bankname'] == 'Bank BNI'){
-            $bankname = '9';
+            $bankname = '009';
         }
 
         if($data['bankname'] == 'Bank Danamon'){
-            $bankname = '11';
+            $bankname = '011';
         }
 
         if($data['bankname'] == 'Bank Permata'){
-            $bankname = '13';
+            $bankname = '013';
         }
 
         if($data['bankname'] == 'Bank BCA'){
-            $bankname = '14';
+            $bankname = '014';
         }
 
         if($data['bankname'] == 'BII Maybank'){
-            $bankname = '16';
+            $bankname = '016';
         }
 
         if($data['bankname'] == 'Bank Panin'){
-            $bankname = '19';
+            $bankname = '019';
         }
 
         if($data['bankname'] == 'CIMB Niaga'){
-            $bankname = '22';
+            $bankname = '022';
         }
 
-        if($data['bankname'] == 'Bank Panin'){
-            $bankname = 'PANIN';
-        }
-        if($data['bankname'] == 'Bank DKI'){
-            $bankname = 'DKI';
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = '023';
         }
         if($data['bankname'] == 'Bank OCBC NISP'){
-            $bankname = 'OCBC';
+            $bankname = '028';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = '031';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = '037';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = '042';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = '046';
+        }
+        if($data['bankname'] == 'Standard Chartered'){
+            $bankname = '050';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = '054';
+        }
+        if($data['bankname'] == 'ANZ Indonesia'){
+            $bankname = '061';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = '069';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = '041';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = '097';
+        }
+        if($data['bankname'] == 'Bank Jawa Barat'){
+            $bankname = '110';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = '113';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = '114';
+        }
+        if($data['bankname'] == 'Bank Aceh Syariah'){
+            $bankname = '116';
+        }
+        if($data['bankname'] == 'OVO'){
+            $bankname = '10001';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'DANA';
+            $bankname = '10002';
         }
-
-
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = '10008';
+        }
+        if(empty($bankname)){
+            return ['err'=>'1','platRespMessage'=>'不支持的银行'];
+        }
         $param = array(
             'app_key' => $channel['merchantid'],
             'ord_id' => $data['order_id'],
@@ -151,14 +197,14 @@ class Nicepays extends Model
 //            'bankCode' => 'GCASH',
             'name' => $data['username'], //收款姓名
             'card' => $data['bankcard'], //收款账号
-            'p_bank_code' => "GLOBE_GCASH",
+            'p_bank_code' => $bankname,
             'notify_url' => $this->notify_dai,
         );
         $sign = $this->sendSign($param, $this->key);
         $param['sign'] = $sign;
-        Log::mylog('提现提交参数', $param, 'Nicepaydf');
+        Log::mylog('提现提交参数', $param, 'Nicepaysdf');
         $return_json = $this->fetch_page_json($this->dai_url, $param);
-        Log::mylog($return_json, 'Nicepaydf', 'Nicepaydf');
+        Log::mylog($return_json, 'Nicepaydf', 'Nicepaysdf');
         return $return_json;
     }
 
@@ -171,7 +217,7 @@ class Nicepays extends Model
         unset($params['sign']);
         $check = $this->sendSign($params, $this->key);
         if ($sign != $check) {
-            Log::mylog('验签失败', $params, 'Nicepaydfhd');
+            Log::mylog('验签失败', $params, 'Nicepaysdfhd');
             return false;
         }
         $usercash = new Usercash();
@@ -189,9 +235,9 @@ class Nicepays extends Model
                 if (!$res) {
                     return false;
                 }
-                Log::mylog('代付失败,订单号:' . $params['order'], 'Nicepaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['order'], 'Nicepaysdfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['order'], $e, 'Nicepaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['order'], $e, 'Nicepaysdfhd');
             }
         } else {
             try {
@@ -202,18 +248,27 @@ class Nicepays extends Model
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
                 ];
-                $res = $usercash->where('status', 'lt', 3)->where('id', $r['id'])->update($upd);
-                if (!$res) {
-                    return false;
+                if($r['status'] == 4){
+                    $res = $usercash->where(['status'=>4])->where('id', $r['id'])->update($upd);
+                    if (!$res) {
+                        return false;
+                    }
+                }else{
+                    $res = $usercash->where('status', 'lt', 3)->where('id', $r['id'])->update($upd);
+                    if (!$res) {
+                        return false;
+                    }
                 }
+
                 //统计当日提现金额
                 $report = new Report();
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
-                Log::mylog('提现成功', $params, 'Nicepaydfhd');
+                (new Paycommon())->withdrawa($r['user_id'],$r['id']);
+                Log::mylog('提现成功', $params, 'Nicepaysdfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['order'], $e, 'Nicepaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['order'], $e, 'Nicepaysdfhd');
             }
         }
     }
