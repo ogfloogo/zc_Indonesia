@@ -22,11 +22,11 @@ class Wowpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://pay6de1c7.wowpayglb.com/pay/web';
     //代付回调(提现)
-    public $notify_dai = 'https://api.rothai.id/pay/wowpay/paydainotify';
+    public $notify_dai = 'https://api.rothpro.id/pay/wowpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.rothai.id/pay/wowpay/paynotify';
+    public $notify_pay = 'https://api.rothpro.id/pay/wowpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.rothai.id/topupsuccess.html';
+    public $callback_url = 'https://www.rothpro.id/topupsuccess.html';
     //代收秘钥
     public $key = "JMKVCWVEF4GNZZUHZG7PGIWAV73SUUPE";
 //    public $key = "6QUOUSXE6BCZPW8KZ1LQF7XZARXE69XO";

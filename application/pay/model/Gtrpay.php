@@ -22,9 +22,9 @@ class Gtrpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://wg.gtrpay001.com/collect/create';
     //代付回调(提现)
-    public $notify_dai = 'https://api.rothai.id/pay/gtrpay/paydainotify';
+    public $notify_dai = 'https://api.rothpro.id/pay/gtrpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.rothai.id/pay/gtrpay/paynotify';
+    public $notify_pay = 'https://api.rothpro.id/pay/gtrpay/paynotify';
     //代收秘钥
     public $key = "ab04f09da8fc4ced872a22537ca33bde";
     //代付秘钥

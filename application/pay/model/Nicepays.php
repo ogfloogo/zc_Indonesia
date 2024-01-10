@@ -22,11 +22,11 @@ class Nicepays extends Model
     //代收提交url(充值)
     public $pay_url = 'http://merchant.nicepay.pro/api/recharge';
     //代付回调(提现)
-    public $notify_dai = 'https://api.rothai.id/pay/nicepay/paydainotify';
+    public $notify_dai = 'https://api.rothpro.id/pay/nicepay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.rothai.id/pay/nicepay/paynotify';
+    public $notify_pay = 'https://api.rothpro.id/pay/nicepay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.rothai.id/topupsuccess.html';
+    public $callback_url = 'https://www.rothpro.id/topupsuccess.html';
     //代收秘钥
     public $key = "82b037ada98d4379e511adbca5352a88";
     //代付秘钥
