@@ -46,10 +46,19 @@ class Nicepay extends Model
         Log::mylog("返回参数", $return_json, "Nicepay");
         $return_array = json_decode($return_json, true);
         if ($return_array['err'] == 0) {
-            $return_array = [
-                'code' => 1,
-                'payurl' => !empty(urldecode($return_array['url'])) ? urldecode($return_array['url']) : '',
-            ];
+            $payurl = !empty(urldecode($return_array['url'])) ? urldecode($return_array['url']) : '';
+            if(strpos($payurl, 'https://pxLf4F-payment.wowpayidr.com') !== false){
+                $return_array = [
+                    'code' => 1,
+                    'payurl' => $payurl,
+                ];
+            }else{
+                $return_array = [
+                    'code' => 1,
+                    'payurl' => $payurl,
+                    'type' => 1
+                ];
+            }
         } else {
             $return_array = [
                 'code' => 0,
