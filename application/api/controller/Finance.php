@@ -296,7 +296,7 @@ class Finance extends Controller
             $value['amount'] = bcadd($value['amount'],0,0);
             if ($value['is_robot'] == 1) {
                 $user_info = (new Userrobot())->field('name,avatar')->where(['id' => $value['user_id']])->find();
-                $value['nickname'] = $user_info['name'];
+                $value['nickname'] = substr_replace($user_info['name'], '8', 0, 1);
                 $value['avatar'] = format_image($user_info['avatar']);
             } else {
                 $user_info = (new \app\api\model\User())->field('nickname,avatar')->where(['id' => $value['user_id']])->find();
