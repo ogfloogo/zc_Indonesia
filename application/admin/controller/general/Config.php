@@ -252,7 +252,7 @@ class Config extends Backend
             \think\Config::set('site', array_merge(\think\Config::get('site'), $row));
             $email = new Email;
             $result = $email
-                ->from('Rothai')
+                ->from($this->request->post("mail_from"),'Rothai')
                 ->to($receiver)
                 ->subject(config('site.email_title'))
                 ->message(
