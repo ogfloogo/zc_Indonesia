@@ -68,7 +68,8 @@ class Email
         $this->mail->setAuth($this->options['mail_from'], $this->options['mail_smtp_pass']);
 
         //设置发件人
-        $this->from($this->options['mail_from'], $this->options['mail_smtp_user']);
+        $this->from($this->options['mail_from'], 'Rothai');
+//        $this->from($this->options['mail_from'], $this->options['mail_smtp_user']);
     }
 
     /**
