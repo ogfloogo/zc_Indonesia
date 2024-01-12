@@ -297,7 +297,7 @@ class Finance extends Controller
             if ($value['is_robot'] == 1) {
                 $user_info = (new Userrobot())->field('name,avatar')->where(['id' => $value['user_id']])->find();
                 $substring = mb_substr($user_info['name'], 0, 1,'UTF-8');
-                if(is_int($substring)){
+                if(is_numeric($substring)){
                     $value['nickname'] = substr_replace($user_info['name'], '8', 0, 1);
                 }else{
                     $value['nickname'] = $user_info['name'];
