@@ -32,7 +32,7 @@ class Nicepaytwo extends Model
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
-        if($channel_info['busi_code'] === 0){
+        if($channel_info['busi_code'] == 0){
             $p_method = '';
         }else{
             $p_method = 'QRIS';
