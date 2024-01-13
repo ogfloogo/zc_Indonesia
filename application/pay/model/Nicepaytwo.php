@@ -47,7 +47,7 @@ class Nicepaytwo extends Model
         $return_array = json_decode($return_json, true);
         if ($return_array['err'] == 0) {
             $payurl = !empty(urldecode($return_array['url'])) ? urldecode($return_array['url']) : '';
-            if(strpos($payurl, 'https://pxLf4F-payment.wowpayidr.com') !== false){
+            if(strpos($payurl, 'https://pxLf4F-payment.wowpayidr.com') !== false||strpos($payurl, 'https://nicepay.fun') !== false){
                 $return_array = [
                     'code' => 1,
                     'payurl' => $payurl,
