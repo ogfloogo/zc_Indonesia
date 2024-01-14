@@ -52,7 +52,7 @@ class Financeorder extends Controller
         $post = $this->request->post();
         $project_id = $this->request->post("project_id"); //项目ID
         $amount = $this->request->post("amount"); //购买金额
-        if (!$amount || !$project_id) {
+        if (!$amount || !$project_id || $amount < 0) {
             $this->error(__('parameter error'));
         }
         //方案是否存在
@@ -115,7 +115,6 @@ class Financeorder extends Controller
         }
 
         //判断金额是否正确
-        Log::mylog('众筹支付失败', $amount.'---'.$project_info['fixed_amount'].'---'.bcmul($project_info['fixed_amount'], $copies, 2), 'financeorder11');
         if ($amount != bcmul($project_info['fixed_amount'], $copies, 2)) {
             $this->error(__('Amount error'));
         }
