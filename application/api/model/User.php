@@ -36,7 +36,7 @@ class User extends Model
             if ($is_reg['status'] == 0) {
                 return [
                     'code' => 0,
-                    'msg' => "wrong password"
+                    'msg' => "The account is invalid. Please contact the administrator"
                 ];
             }
             //已注销
