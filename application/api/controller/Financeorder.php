@@ -115,6 +115,7 @@ class Financeorder extends Controller
         }
 
         //判断金额是否正确
+        Log::mylog('众筹支付失败', $amount.'---'.$project_info['fixed_amount'].'---'.bcmul($project_info['fixed_amount'], $copies, 2), 'financeorder11');
         if ($amount != bcmul($project_info['fixed_amount'], $copies, 2)) {
             $this->error(__('Amount error'));
         }
