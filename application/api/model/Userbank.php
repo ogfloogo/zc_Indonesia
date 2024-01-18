@@ -91,10 +91,23 @@ class Userbank extends Model
         if ($iscash) {
             return ["code" => 3];
         }
+
+        $bankname = '';
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $post['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['code'=>3];
+        }
+
         $upd = [
             'username' => $post['username'],
             'bankcard' => $post['bankcard'],
-            'bankname' => $post['bankname'],
+            'bankname' => $bankname,
             'bankphone' => $post['bankphone'],
 //            'ifsc' => $post['ifsc'],
             'updatetime' => time()
