@@ -96,7 +96,7 @@ class Userbank extends Model
         $bank_code =  json_decode(config('site.bank_code'),true);
         foreach ($bank_code as $value){
             if($value['value'] == $post['bankname']){
-                $bankname = $value['value'];
+                $bankname = $value['label'];
                 break;
             }
         }
