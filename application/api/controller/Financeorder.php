@@ -70,7 +70,7 @@ class Financeorder extends Controller
         //是否购买过新手方案
         if ($project_info['is_new_hand'] == 1) {
             if ($copies != 1) {
-                $this->error(__("Each user is limited to purchase ".$project_info['fixed_amount']." pesos"));
+                $this->error(__("Each user is limited to purchase ".$project_info['fixed_amount']));
             }
             $is_buy = db('finance_order')->where(['user_id' => $this->uid, 'is_robot' => 0, 'is_new_hand' => 1])->field('id')->find();
             if (!empty($is_buy)) {
@@ -103,6 +103,25 @@ class Financeorder extends Controller
                 $this->error(__("You need to upgrade to ") . $level['name']);
             }
         }
+
+        if($project_info['limit'] != 0){
+            //限购判断
+            if($copies > $project_info['limit']){
+                $this->error("Oops, Hanya dapat dibeli {$project_info['limit']}x yaaa bestie ~");
+            }
+            $total = (new ModelFinanceorder())->where(['user_id'=>$userinfo['id'],'project_id'=>$project_id,'is_robot'=>0])->sum('copies');
+            if($total + $copies > $project_info['limit']){
+                $this->error("Oops, Hanya dapat dibeli {$project_info['limit']}x yaaa bestie ~");
+            }
+        }
+        if($project_info['total'] != 0){
+            //总份数判断
+            $total = (new ModelFinanceorder())->where(['project_id'=>$project_id,'is_robot'=>0])->sum('copies');
+            if($total  >= $project_info['total']){
+                $this->error('Oops, Plan sudah habis terjual!');
+            }
+        }
+
 
         //方案是否在进行中
         if ($project_info['status'] == 0) {
