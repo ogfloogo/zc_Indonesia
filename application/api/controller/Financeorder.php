@@ -116,7 +116,7 @@ class Financeorder extends Controller
         }
         if($project_info['total'] != 0){
             //总份数判断
-            $total = (new ModelFinanceorder())->where(['project_id'=>$project_id])->sum('copies');
+            $total = (new ModelFinanceorder())->where(['project_id'=>$project_id])->count();
             if($total  >= $project_info['total']){
                 $this->error('Oops, Plan sudah habis terjual!');
             }
