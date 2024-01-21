@@ -204,7 +204,7 @@ class Finance extends Controller
 
 
             if($value['total'] != 0){
-                $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->sum('copies');
+                $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->count();
                 $remaining_copies = $value['total'] - $total;
                 if($remaining_copies <= 0){
                     $value['name'] = $value['name']." [Habis terjual]";
@@ -492,7 +492,7 @@ class Finance extends Controller
 
 
             if($value['total'] != 0){
-                $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->sum('copies');
+                $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->count();
                 $remaining_copies = $value['total'] - $total;
                 if($remaining_copies <= 0){
                     $value['name'] = $value['name']." [Habis terjual]";
