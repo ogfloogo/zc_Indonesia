@@ -91,18 +91,26 @@ class Userbank extends Model
         if ($iscash) {
             return ["code" => 3];
         }
-
-        $bankname = '';
-        $bank_code =  json_decode(config('site.bank_code'),true);
-        foreach ($bank_code as $value){
-            if($value['value'] == $post['bankname']){
-                $bankname = $value['label'];
-                break;
-            }
-        }
-        if(empty($bankname)){
+        $userbank = $this->where(['id'=>$post['id'],'user_id'=>$userid])->find();
+        if(empty($userbank)){
             return ['code'=>3];
         }
+        if($userbank['bankname'] != $post['bankname']){
+            $bankname = '';
+            $bank_code =  json_decode(config('site.bank_code'),true);
+            foreach ($bank_code as $value){
+                if($value['value'] == $post['bankname']){
+                    $bankname = $value['label'];
+                    break;
+                }
+            }
+            if(empty($bankname)){
+                return ['code'=>3];
+            }
+        }else{
+            $bankname = $userbank['bankname'];
+        }
+
 
         $upd = [
             'username' => $post['username'],
