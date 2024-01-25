@@ -186,7 +186,8 @@ class Finance extends Controller
         $info['userimage'] = format_image($info['userimage']);
         $already_buy = $redis->handler()->zScore("zclc:financeordermoney", $id);
         if (!$already_buy) {
-            $already_buy = (new \app\api\model\Financeorder())->where(['f_id' => $id])->sum('amount');
+            $already_buy = 0;
+//            $already_buy = (new \app\api\model\Financeorder())->where(['f_id' => $id])->sum('amount');
         }
         $info['already_buy'] = $already_buy;
         $buy_num = $redis->handler()->zScore("zclc:financeordernum", $id);
@@ -489,7 +490,6 @@ class Finance extends Controller
         $list = (new \app\api\model\Financeproject())->getPlanList($field, $where, $userInfo['id'],$userInfo['is_experience']);
         $newhand = [];
         foreach ($list as &$value) {
-
 
             if($value['total'] != 0){
                 $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->count();
