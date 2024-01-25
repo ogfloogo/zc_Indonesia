@@ -77,8 +77,7 @@ class Buildcache extends Model
             //购买次数
             $buy_number = Db::table("fa_finance_order")->where('f_id',$value['id'])->group('user_id')->count('id');
             //购买金额
-            $buy_amount = 0;
-//            $buy_amount = Db::table("fa_finance_order")->where('f_id',$value['id'])->sum('amount');
+            $buy_amount = Db::table("fa_finance_order")->where('f_id',$value['id'])->sum('amount');
             $redis->handler()->zAdd("zclc:financeordernum", $buy_number, $value['id']);
             $redis->handler()->zAdd("zclc:financeordermoney", $buy_amount, $value['id']);
         }
