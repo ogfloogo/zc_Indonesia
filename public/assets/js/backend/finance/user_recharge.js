@@ -40,7 +40,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             },
                         },
                         // {field: 'user.nickname', title: __('Nickname')},
-                        { field: 'price', title: __('Price'), operate: false },
+                        { field: 'price', title: __('Price'), operate: 'BETWEEN'},
                         { field: 'givemoney', title: __('Givemoney'), operate: false },
                         { field: 'total_withdrawals', title: __('提现总额'), operate: false },
                         { field: 'paytime', title: __('Paytime'), operate: 'RANGE', addclass: 'datetimerange', autocomplete: false, formatter: Table.api.formatter.datetime },
