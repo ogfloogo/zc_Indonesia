@@ -11,6 +11,7 @@ use app\pay\model\Cecopay;
 use app\pay\model\Cloudpay;
 use app\pay\model\Cloudsafepay;
 use app\pay\model\Cloudsafepays;
+use app\pay\model\Coverpay;
 use app\pay\model\Globalpay;
 use app\pay\model\Gtrpay;
 use app\pay\model\Gtrpays;
@@ -429,6 +430,17 @@ class UserCash extends Backend
             }
             $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'coverpay'){
+            $order = (new Coverpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['status'] != "success") {
+                $this->error($order['msg']);
+            }
+            $params['order_no'] = $order['platOrderId'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -752,6 +764,17 @@ class UserCash extends Backend
                 $this->error($order['platRespMessage']);
             }
             $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'coverpay'){
+            $order = (new Coverpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['status'] != "success") {
+                $this->error($order['msg']);
+            }
+            $params['order_no'] = $order['platOrderId'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
