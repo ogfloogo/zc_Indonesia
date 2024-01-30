@@ -114,7 +114,7 @@ class Coverpay extends Model
         }
 
         if($data['bankname'] == 'Bank Mandiri'){
-            $bankname = 'Mandiri';
+            $bankname = 'MANDIRI';
         }
 
         if($data['bankname'] == 'Bank BNI'){
@@ -177,7 +177,9 @@ class Coverpay extends Model
         if($data['bankname'] == 'Bank Jawa Barat'){
             $bankname = 'JABAR';
         }
-
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = 'BPD_JAWA_TENGAH';
+        }
         if($data['bankname'] == 'Bank Jatim'){
             $bankname = 'JATIM';
         }
