@@ -22,7 +22,7 @@ class Coverpay extends Controller
         $data = $_POST;
         Log::mylog('支付回调_data', $data, 'coverpayhd');
         (new ModelPaymentCoverpay())->paynotify($data);
-        exit('success');
+        exit('OK');
     }
 
     /**
@@ -33,7 +33,7 @@ class Coverpay extends Controller
         $data = $_POST;
         Log::mylog('提现回调_data', $data, 'coverpaydfhd');
         (new ModelPaymentCoverpay())->paydainotify($data);
-        exit('success');
+        exit('OK');
     }
 
     /**
