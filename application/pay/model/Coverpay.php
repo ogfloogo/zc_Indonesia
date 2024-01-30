@@ -97,10 +97,10 @@ class Coverpay extends Model
     public function withdraw($data, $channel)
     {
         $bankname = '';
+        $type = 'bankcard';
         if($data['bankname'] == 'Bank Permata'){
             $bankname = 'PERMATA';
         }
-
 
         if($data['bankname'] == 'Bank BRI'){
             $bankname = 'BRI';
@@ -177,15 +177,19 @@ class Coverpay extends Model
         if($data['bankname'] == 'Bank Aceh Syariah'){
             $bankname = 'ACEH_SYARIAH';
         }
+
         if($data['bankname'] == 'OVO'){
             $bankname = 'OVO';
+            $type = 'ewallet';
         }
         if($data['bankname'] == 'Dana'){
             $bankname = 'DANA';
+            $type = 'ewallet';
         }
 
         if($data['bankname'] == 'ShopeePay'){
             $bankname = 'SHOPEEPAY';
+            $type = 'ewallet';
         }
         if(empty($bankname)){
             return ['status'=>'FAIL','msg'=>'不支持的银行'];
@@ -193,7 +197,7 @@ class Coverpay extends Model
         $param = array(
             'memberId' => $channel['merchantid'],
             'orderId' => $data['order_id'],
-            "type" => $channel['merchantid'],
+            "type" => $type,
             'amount' => $data['trueprice'],
             'dstCode' => $bankname,
             'name' => $data['username'], //收款姓名
