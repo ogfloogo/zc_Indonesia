@@ -30,11 +30,16 @@ class Coverpay extends Model
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
+        if($channel_info['busi_code'] != 0){
+            $code = 'qris';
+        }else{
+            $code = '';
+        }
         $param = [
             'memberId' => $channel_info['merchantid'],
             'type' => '',
             'orderId' => $order_id,
-            "dstCode" => "",
+            "dstCode" => $code,
             'amount' => $price,
             "dateTime"    => date("Y-m-d H:i:s"),
             "name"        => 'xinmiti',
