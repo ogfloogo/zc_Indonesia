@@ -30,7 +30,7 @@ class Coverpay extends Model
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
-        if($channel_info['busi_code'] != 0){
+        if($channel_info['busi_code'] == 'qris'){
             $code = 'qris';
         }else{
             $code = '';
