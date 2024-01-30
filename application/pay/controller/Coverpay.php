@@ -19,9 +19,9 @@ class Coverpay extends Controller
      */
     public function paynotify()
     {
-        $data = file_get_contents("php://input");
+        $data = $_POST;
         Log::mylog('支付回调_data', $data, 'coverpayhd');
-        (new ModelPaymentCoverpay())->paynotify(json_decode($data,true));
+        (new ModelPaymentCoverpay())->paynotify($data);
         exit('success');
     }
 
@@ -30,9 +30,9 @@ class Coverpay extends Controller
      */
     public function paydainotify()
     {
-        $data = file_get_contents("php://input");
+        $data = $_POST;
         Log::mylog('提现回调_data', $data, 'coverpaydfhd');
-        (new ModelPaymentCoverpay())->paydainotify(json_decode($data,true));
+        (new ModelPaymentCoverpay())->paydainotify($data);
         exit('success');
     }
 
