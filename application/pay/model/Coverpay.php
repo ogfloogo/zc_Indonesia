@@ -31,15 +31,15 @@ class Coverpay extends Model
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         if($channel_info['busi_code'] == 'qris'){
-            $code = 'qris';
+            $type = 'qris';
         }else{
-            $code = '';
+            $type = '';
         }
         $param = [
             'memberId' => $channel_info['merchantid'],
-            'type' => '',
+            'type' => $type,
             'orderId' => $order_id,
-            "dstCode" => $code,
+            "dstCode" => '',
             'amount' => $price,
             "dateTime"    => date("Y-m-d H:i:s"),
             "name"        => 'xinmiti',
