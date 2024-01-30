@@ -18,15 +18,15 @@ use think\Exception;
 class Coverpay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://pay-test.uangku.top/payment_dfpay_add.html';
+    public $dai_url = 'https://apis2-id.coverpay.cc/payment_dfpay_add.html';
     //代收提交url(充值)
-    public $pay_url = 'https://pay-test.uangku.top/pay_counter.html';
+    public $pay_url = 'https://apis2-id.coverpay.cc/pay_counter.html';
     //代付回调(提现)
     public $notify_dai = 'https://api.rothpro.id/pay/coverpay/paydainotify';
     //代收回调(充值)
     public $notify_pay = 'https://api.rothpro.id/pay/coverpay/paynotify';
     //代收秘钥
-    public $key = "150kz9esh1s2f793abb8l0e4mjot3r2c";
+    public $key = "XJttFdA5S7e0DYqSN4W54Q3jLT8=";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
