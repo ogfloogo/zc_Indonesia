@@ -32,14 +32,16 @@ class Coverpay extends Model
     {
         if($channel_info['busi_code'] == 'qris'){
             $type = 'qris';
+            $code = 'QRIS';
         }else{
             $type = '';
+            $code = '';
         }
         $param = [
             'memberId' => $channel_info['merchantid'],
             'type' => $type,
             'orderId' => $order_id,
-            "dstCode" => '',
+            "dstCode" => $code,
             'amount' => $price,
             "dateTime"    => date("Y-m-d H:i:s"),
             "name"        => 'xinmiti',
