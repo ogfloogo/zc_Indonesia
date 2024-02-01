@@ -61,7 +61,7 @@ class Nicepaytwo extends Model
                 $return_array = [
                     'code' => 1,
                     'payurl' => $payurl,
-                    'type' => 1
+//                    'type' => 1
                 ];
             }
         } else {
