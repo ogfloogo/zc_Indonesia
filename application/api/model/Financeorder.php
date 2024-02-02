@@ -117,6 +117,8 @@ class Financeorder extends Model
                 }
                 //转盘活动增加次数
                 (new Turntable())->addtimes($userinfo['id'],$price,2);
+                //裂变活动
+                (new Turntable())->addtimes2($userinfo['id'],$userinfo['sid'], $price);
             }else{
                 //标记用户购买过体验项目
                 (new User())->where(['id' => $userinfo['id']])->update(['is_experience' => 1]);
