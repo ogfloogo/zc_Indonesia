@@ -19,7 +19,7 @@ use think\Exception;
 class Jayapay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://security.cloudnetsafe.com/snc-gate/gateway/api';
+    public $dai_url = 'https://openapi.jayapayment.com/gateway/cash';
     //代收提交url(充值)
     public $pay_url = 'https://openapi.jayapayment.com/gateway/prepaidOrder';
     //代付回调(提现)
@@ -215,9 +215,10 @@ class Jayapay extends Model
             'description' => 'description'
         );
         $sign = $this->encrypt($param);
-        $param['signature'] = $sign;
+        $param['platSign'] = $sign;
         Log::mylog("提交参数", $param, "jayapaydf");
-        $return_json = Http::post($this->dai_url, $param);
+        $header[] = "Content-Type: application/json;charset=utf-8";
+        $return_json = $this->http_Post($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog($return_json, 'jayapaydf', 'jayapaydf');
         return $return_json;
     }
