@@ -442,7 +442,7 @@ class Jayapay extends Model
         ksort($data);
         $toSign ='';
         foreach($data as $key=>$value){
-            if(strcmp($key, 'platSign')!= 0  && $value!=''){
+            if(strcmp($key, 'platSign')!= 0  && $value== 0){
                 $toSign .= $value;
             }
         }
