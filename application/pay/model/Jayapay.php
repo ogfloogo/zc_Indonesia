@@ -415,7 +415,7 @@ class Jayapay extends Model
         ksort($data);
         $str = '';
         foreach ($data as $k => $v){
-            if(!empty($v)){
+            if(!empty($v)||$v == 0){
                 $str .= $v;
             }
         }
