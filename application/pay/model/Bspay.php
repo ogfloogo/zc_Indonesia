@@ -203,7 +203,7 @@ class Bspay extends Model
 
         $param['sign'] = md5($sign.'&key='.$this->key2);
         Log::mylog('提现提交参数', $param, 'bspaydf');
-        $return_json = $this->httpPost($this->dai_url, $param);
+        $return_json = $this->httpPost($this->dai_url, json_encode($param));
         Log::mylog($return_json, 'bspaydf', 'bspaydf');
         return $return_json;
     }
