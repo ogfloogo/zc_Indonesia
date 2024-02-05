@@ -44,10 +44,11 @@ class Jayapay extends Model
             'email' => 'alao@gmail.com',
             'phone' => "9639639639",
         ];
-        $sign = $this->getSign($param, $this->privateKey);
-        $param['signature'] = $sign;
+        $sign = $this->encrypt($param);
+        $param['sign'] = $sign;
         Log::mylog("提交参数", $param, "jayapay");
-        $return_json = Http::post($this->pay_url, $param);
+        $header[] = "Content-Type: application/json;charset=utf-8";
+        $return_json = $this->http_Post($this->pay_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog("返回参数", $return_json, "jayapay");
         $return_array = json_decode($return_json, true);
         if ($return_array['platRespCode'] == "SUCCESS") {
@@ -70,9 +71,7 @@ class Jayapay extends Model
     public function paynotify($params)
     {
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
-            $sign = $params['platSign'];
-            unset($params['platSign']);
-            $check = $this->verify($params, $sign, $this->publicKey);
+            $check = $this->decrypt($params);
             if (!$check) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
@@ -411,57 +410,86 @@ class Jayapay extends Model
     }
 
     # 加签
-    private static function getSign($params, $privateKey)
-    {
-        // $params['charset'] = "utf-8";
-        ksort($params);
-        $privateKeyHeader = "-----BEGIN RSA PRIVATE KEY-----\n";
-        # TODO 私钥
-        $privateKeyContent = $privateKey;
-        $privateKeyContent = wordwrap($privateKeyContent, 64, "\n", true);
-        $privateKeyEnd = "\n-----END RSA PRIVATE KEY-----";
-
-        $privateKey = $privateKeyHeader . $privateKeyContent . $privateKeyEnd;
-
-
-        $keyStr = '';
-        foreach ($params as $key => $value) {
-            if (empty($keyStr))
-                $keyStr = $key . '=' . $value;
-            else
-                $keyStr .= '&' . $key . '=' . $value;
+    function encrypt($data){
+        $mch_private_key = $this->privateKey;
+        ksort($data);
+        $str = '';
+        foreach ($data as $k => $v){
+            if(!empty($v)){
+                $str .= $v;
+            }
         }
-        Log::mylog('签名串', $keyStr, 'jayapay');
-        $key = openssl_get_privatekey($privateKey);
-        openssl_sign($keyStr, $signature, $key);
-        openssl_free_key($key);
-        $sign = base64_encode($signature);
-        return $sign ? $sign : false;
+        Log::mylog('字符串', $str, 'klikpayhd');
+        $encrypted = '';
+        //替换成自己的私钥
+        $pem = chunk_split($mch_private_key, 64, "\n");
+        $pem = "-----BEGIN PRIVATE KEY-----\n" . $pem . "-----END PRIVATE KEY-----\n";
+        $private_key = openssl_pkey_get_private($pem);
+        $crypto = '';
+        foreach (str_split($str, 117) as $chunk) {
+            openssl_private_encrypt($chunk, $encryptData, $private_key);
+            $crypto .= $encryptData;
+        }
+        $encrypted = base64_encode($crypto);
+        $encrypted = str_replace(array('+','/','='),array('-','_',''),$encrypted);
+
+        return $encrypted;
     }
 
-    //验签
-    private static function verify($params, $returnSign, $publicKey)
-    {
-        ksort($params);
-        $publicKeyHeader = "-----BEGIN PUBLIC KEY-----\n";
-        # TODO 公钥
-        $publicKeyContent = $publicKey;
-        $publicKeyContent = wordwrap($publicKeyContent, 64, "\n", true);
-        $publicKeyEnd = "\n-----END PUBLIC KEY-----";
-
-        $publicKey = $publicKeyHeader . $publicKeyContent . $publicKeyEnd;
-
-        $keyStr = '';
-        foreach ($params as $key => $value) {
-            if (empty($keyStr))
-                $keyStr = $key . '=' . $value;
-            else
-                $keyStr .= '&' . $key . '=' . $value;
+    //解密
+    function decrypt($data){
+        $mch_public_key = $this->pt;
+        ksort($data);
+        $toSign ='';
+        foreach($data as $key=>$value){
+            if(strcmp($key, 'platSign')!= 0  && $value!=''){
+                $toSign .= $value;
+            }
         }
-        $key = openssl_get_publickey($publicKey);
-        $ok = openssl_verify($keyStr, base64_decode($returnSign), $key);
-        openssl_free_key($key);
-        return $ok;
+
+        $str = rtrim($toSign,'&');
+
+        $encrypted = '';
+        //替换自己的公钥
+        $pem = chunk_split( $mch_public_key,64, "\n");
+        $pem = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
+        $publickey = openssl_pkey_get_public($pem);
+
+        $base64=str_replace(array('-', '_'), array('+', '/'), $data['platSign']);
+
+        $crypto = '';
+        foreach(str_split(base64_decode($base64), 128) as $chunk) {
+            openssl_public_decrypt($chunk,$decrypted,$publickey);
+            $crypto .= $decrypted;
+        }
+        Log::mylog('decrypt', $crypto.'---'.$str, 'klikpayhd');
+        if($str != $crypto){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    function http_post($sUrl, $aHeader, $aData){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $sUrl);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POST, 1); // 发送一个常规的Post请求
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $aData); // Post提交的数据包
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循环
+        curl_setopt($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 获取的信息以文件流的形式返回
+
+        //curl_setopt($ch, CURLOPT_HEADER, 1); //取得返回头信息
+
+        $sResult = curl_exec($ch);
+        if($sError=curl_error($ch)){
+            die($sError);
+        }
+        curl_close($ch);
+        return $sResult;
     }
 
     function getUrlStr($data)
