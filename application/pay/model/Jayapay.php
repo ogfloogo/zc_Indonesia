@@ -418,9 +418,7 @@ class Jayapay extends Model
         ksort($data);
         $str = '';
         foreach ($data as $k => $v){
-            if(!empty($v)||$v == 0){
-                $str .= $v;
-            }
+            $str .= $v;
         }
         Log::mylog('字符串', $str, 'javapayhd');
         $encrypted = '';
