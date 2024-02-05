@@ -419,7 +419,7 @@ class Jayapay extends Model
                 $str .= $v;
             }
         }
-        Log::mylog('字符串', $str, 'klikpayhd');
+        Log::mylog('字符串', $str, 'javapayhd');
         $encrypted = '';
         //替换成自己的私钥
         $pem = chunk_split($mch_private_key, 64, "\n");
