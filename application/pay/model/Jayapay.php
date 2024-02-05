@@ -73,7 +73,7 @@ class Jayapay extends Model
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
             $platSign = $params['platSign'];
             unset($params['platSign']);
-            $check = $this->decrypt($platSign);
+            $check = $this->decrypt($params);
             if ($check!=$platSign) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
