@@ -73,7 +73,7 @@ class Jayapay extends Model
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
             $platSign = $params['platSign'];
             unset($params['platSign']);
-            $check = $this->decrypt($params);
+            $check = $this->decrypt($platSign);
             if ($check!=$platSign) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
@@ -449,7 +449,7 @@ class Jayapay extends Model
             openssl_public_decrypt($chunk, $decryptData, $pu_key);
             $crypto .= $decryptData;
         }
-
+        Log::mylog('支付回调失败！', $crypto, 'jayapayhd');
         return $crypto;
     }
 
