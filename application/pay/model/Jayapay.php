@@ -70,12 +70,9 @@ class Jayapay extends Model
      */
     public function paynotify($params)
     {
-
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
-            $sign = $params['platSign'];
-            unset($params['platSign']);
-            $check = $this->encrypt($params);
-            if ($check!=$sign) {
+            $check = $this->decrypt($params);
+            if (!$check) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
             }
@@ -418,7 +415,9 @@ class Jayapay extends Model
         ksort($data);
         $str = '';
         foreach ($data as $k => $v){
-            $str .= $v;
+            if(!empty($v)||$v == 0){
+                $str .= $v;
+            }
         }
         Log::mylog('字符串', $str, 'javapayhd');
         $encrypted = '';
@@ -443,13 +442,11 @@ class Jayapay extends Model
         ksort($data);
         $toSign ='';
         foreach($data as $key=>$value){
-            if(strcmp($key, 'platSign')!= 0  || $value== 0){
+            if(strcmp($key, 'platSign')!= 0){
                 $toSign .= $value;
             }
         }
-
         $str = rtrim($toSign,'&');
-
         $encrypted = '';
         //替换自己的公钥
         $pem = chunk_split( $mch_public_key,64, "\n");
