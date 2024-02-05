@@ -71,8 +71,10 @@ class Jayapay extends Model
     public function paynotify($params)
     {
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
-            $check = $this->decrypt($params);
-            if ($check!=$params['platSign']) {
+            $platSign = $params['platSign'];
+            unset($params['platSign']);
+            $check = $this->decrypt($platSign);
+            if ($check!=$platSign) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
             }
@@ -438,24 +440,16 @@ class Jayapay extends Model
 
     //解密
     function decrypt($data){
-        $public_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqnWXZz32OFhPi4y12vJe2S7g94RJeA3ceOc+t2XeH5R2dgP7tvuv8T027l3uLijB8/9V8OSJ9TDeMbdV8y1wlOiwNUpI3wK7iFDEagqtLqLRgmxqDmypgV4/YOqx1328vPACFGCosbwevY/i19hrZY8u9zZsQTKhqi7rqFOtD+wIDAQAB';
-        ksort($data);
-        $toSign ='';
-        foreach($data as $key=>$value){
-            if(strcmp($key, 'platSign')!= 0){
-                $toSign .= $value;
-            }
-        }
-        $str = rtrim($toSign,'&');
-        $encrypted = '';
-        //替换自己的公钥
+        $public_key = $this->pt;
         $public_key = '-----BEGIN PUBLIC KEY-----'."\n".$public_key."\n".'-----END PUBLIC KEY-----';
+        $data = base64_decode($data);
         $pu_key =  openssl_pkey_get_public($public_key);
         $crypto = '';
-        foreach (str_split($str, 128) as $chunk) {
+        foreach (str_split($data, 128) as $chunk) {
             openssl_public_decrypt($chunk, $decryptData, $pu_key);
             $crypto .= $decryptData;
         }
+
         return $crypto;
     }
 
