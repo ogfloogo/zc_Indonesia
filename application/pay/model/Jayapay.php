@@ -462,7 +462,7 @@ class Jayapay extends Model
             openssl_public_decrypt($chunk,$decrypted,$publickey);
             $crypto .= $decrypted;
         }
-        Log::mylog('decrypt', $crypto.'---'.$str, 'klikpayhd');
+        Log::mylog('decrypt', $crypto.'---'.$str, 'jayapayhd');
         if($str != $crypto){
             return false;
         }else{
