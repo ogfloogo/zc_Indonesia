@@ -74,7 +74,12 @@ class Jayapay extends Model
             $platSign = $params['platSign'];
             unset($params['platSign']);
             $check = $this->decrypt($platSign);
-            if ($check!=$platSign) {
+            ksort($params);
+            $params_str = '';
+            foreach ($params as $key => $val) {
+                $params_str = $params_str . $val;
+            }
+            if ($check!=$params_str) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
             }
