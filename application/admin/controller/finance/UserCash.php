@@ -16,6 +16,7 @@ use app\pay\model\Coverpay;
 use app\pay\model\Globalpay;
 use app\pay\model\Gtrpay;
 use app\pay\model\Gtrpays;
+use app\pay\model\Jayapay;
 use app\pay\model\Klikpay;
 use app\pay\model\Metapay;
 use app\pay\model\Mpay;
@@ -453,6 +454,17 @@ class UserCash extends Backend
             }
             $params['order_no'] = $order['plantform_order_no'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'jayapay'){
+            $order = (new Jayapay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['platRespCode'] != "SUCCESS") {
+                $this->error($order['statusMsg']);
+            }
+            $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -798,6 +810,17 @@ class UserCash extends Backend
                 $this->error($order['msg']);
             }
             $params['order_no'] = $order['plantform_order_no'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'jayapay'){
+            $order = (new Jayapay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['platRespCode'] != "SUCCESS") {
+                $this->error($order['statusMsg']);
+            }
+            $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
