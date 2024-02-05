@@ -225,7 +225,7 @@ class Bspay extends Model
             return false;
         }
         $usercash = new Usercash();
-        if ($params['order_status'] == 'SUCCESS') {
+        if ($params['order_status'] != 'SUCCESS') {
             try {
                 $r = $usercash->where('order_id', $params['shanghu_order_no'])->find()->toArray();
                 if ($r['status'] == 5) {

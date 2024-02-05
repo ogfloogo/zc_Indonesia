@@ -22,7 +22,7 @@ class Bspay extends Controller
         $data = file_get_contents("php://input");
         Log::mylog('支付回调_data', $data, 'bspayhd');
         (new ModelPaymentBspay())->paynotify(json_decode($data,true));
-        exit('OK');
+        exit('success');
     }
 
     /**
@@ -33,7 +33,7 @@ class Bspay extends Controller
         $data = file_get_contents("php://input");
         Log::mylog('提现回调_data', $data, 'bspaydfhd');
         (new ModelPaymentBspay())->paydainotify(json_decode($data,true));
-        exit('OK');
+        exit('success');
     }
 
     /**
