@@ -48,7 +48,7 @@ class Bspay extends Model
         if ($return_array['code'] == "0") {
             $return_array = [
                 'code' => 1,
-                'payurl' => !empty(urlencode($return_array['pay_url'])) ? urlencode($return_array['pay_url']) : '',
+                'payurl' => !empty(($return_array['pay_url'])) ? ($return_array['pay_url']) : '',
             ];
         } else {
             $return_array = [
