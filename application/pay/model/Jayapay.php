@@ -215,7 +215,7 @@ class Jayapay extends Model
             'description' => 'description'
         );
         $sign = $this->encrypt($param);
-        $param['platSign'] = $sign;
+        $param['sign'] = $sign;
         Log::mylog("提交参数", $param, "jayapaydf");
         $header[] = "Content-Type: application/json;charset=utf-8";
         $return_json = $this->http_Post($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
