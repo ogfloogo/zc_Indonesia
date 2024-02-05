@@ -32,15 +32,14 @@ class Bspay extends Model
     {
 
         $param = [
-            'channel_id' => '',
             'appid' => $channel_info['merchantid'],
             'amount' => $price,
             'order_no' => $order_id,
-            'notify_url' => $this->notify_pay,
             'timestamp' => time(),
             'version' => '2.0',
         ];
         $sign = $this->sign($param, $this->key);
+        $param['notify_url'] = $this->notify_pay;
         $param['sign'] = $sign;
         Log::mylog("提交参数", $param, "bspay");
         $return_json = $this->httpPost($this->pay_url, $param);
