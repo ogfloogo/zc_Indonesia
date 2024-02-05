@@ -7,6 +7,7 @@ use app\api\model\Usercash as ModelUsercash;
 use app\api\model\Usermoneylog;
 use app\common\controller\Backend;
 use app\pay\model\Boypay;
+use app\pay\model\Bspay;
 use app\pay\model\Cecopay;
 use app\pay\model\Cloudpay;
 use app\pay\model\Cloudsafepay;
@@ -441,6 +442,17 @@ class UserCash extends Backend
             }
             $params['order_no'] = $order['platOrderId'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'bspay'){
+            $order = (new Bspay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['code'] != "0") {
+                $this->error($order['msg']);
+            }
+            $params['order_no'] = $order['plantform_order_no'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -775,6 +787,17 @@ class UserCash extends Backend
                 $this->error($order['msg']);
             }
             $params['order_no'] = $order['platOrderId'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'bspay'){
+            $order = (new Bspay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['code'] != "0") {
+                $this->error($order['msg']);
+            }
+            $params['order_no'] = $order['plantform_order_no'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 

@@ -97,121 +97,114 @@ class Bspay extends Model
         $bankname = '';
         $type = 'bankcard';
         if($data['bankname'] == 'Bank Permata'){
-            $bankname = 'PERMATA';
+            $bankname = 'B0048';
         }
 
         if($data['bankname'] == 'Bank BRI'){
-            $bankname = 'BRI';
+            $bankname = 'B0044';
         }
 
         if($data['bankname'] == 'Bank Mandiri'){
-            $bankname = 'MANDIRI';
+            $bankname = 'B0045';
         }
 
         if($data['bankname'] == 'Bank BNI'){
-            $bankname = 'BNI';
+            $bankname = 'B0046';
         }
 
-        if($data['bankname'] == 'Bank Danamon'){
-            $bankname = 'DANAMON';
+            if($data['bankname'] == 'Bank Danamon'){
+            $bankname = 'B0047';
         }
 
         if($data['bankname'] == 'Bank BCA'){
-            $bankname = 'BCA';
+            $bankname = 'B0049';
         }
 
         if($data['bankname'] == 'BII Maybank'){
-            $bankname = 'MAYBANK';
+            $bankname = 'B0050';
         }
 
         if($data['bankname'] == 'Bank Panin'){
-            $bankname = 'PANIN';
+            $bankname = 'B0051';
         }
 
         if($data['bankname'] == 'CIMB Niaga'){
-            $bankname = 'CIMB';
+            $bankname = 'B0052';
         }
 
         if($data['bankname'] == 'Bank UOB INDONESIA'){
-            $bankname = 'UOB';
+            $bankname = 'B0053';
         }
         if($data['bankname'] == 'Bank OCBC NISP'){
-            $bankname = 'OCBC_NISP';
+            $bankname = 'B0054';
         }
         if($data['bankname'] == 'CITIBANK'){
-            $bankname = 'CITIBANK';
+            $bankname = 'B0055';
         }
         if($data['bankname'] == 'Bank ARTHA GRAHA'){
-            $bankname = 'ARTHA_GRAHA';
+            $bankname = 'B0057';
         }
         if($data['bankname'] == 'Bank DBS'){
-            $bankname = 'DBS_INDONESIA';
+            $bankname = 'B0059';
         }
         if($data['bankname'] == 'Standard Chartered'){
-            $bankname = 'STANDARD_CHARTERED';
+            $bankname = 'B0060';
         }
         if($data['bankname'] == 'Bank CAPITAL'){
-            $bankname = 'CAPITAL_INDONESIA';
+            $bankname = 'B0061';
         }
         if($data['bankname'] == 'ANZ Indonesia'){
-            $bankname = 'ANZ_INDONESIA';
-        }
-        if($data['bankname'] == 'Bank OF CHINA'){
-            $bankname = 'OF_CHINA';
+            $bankname = 'B0062';
         }
         if($data['bankname'] == 'Bank HSBC'){
-            $bankname = 'HSBC_INDONESIA';
+            $bankname = 'B0065';
         }
-        if($data['bankname'] == 'Bank MAYAPADA'){
-            $bankname = 'MAYAPADA';
+            if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = 'B0069';
         }
         if($data['bankname'] == 'Bank Jawa Barat'){
-            $bankname = 'JABAR';
+            $bankname = 'B0070';
         }
         if($data['bankname'] == 'Bank JATENG'){
-            $bankname = 'BPD_JAWA_TENGAH';
+            $bankname = 'B0073';
         }
         if($data['bankname'] == 'Bank Jatim'){
-            $bankname = 'JATIM';
+            $bankname = 'B0074';
         }
         if($data['bankname'] == 'Bank Aceh Syariah'){
-            $bankname = 'ACEH_SYARIAH';
+            $bankname = 'B0076';
         }
 
         if($data['bankname'] == 'OVO'){
-            $bankname = 'OVO';
-            $type = 'ewallet';
+            $bankname = 'B0147';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'DANA';
-            $type = 'ewallet';
+            $bankname = 'B0144';
         }
 
         if($data['bankname'] == 'ShopeePay'){
-            $bankname = 'SHOPEEPAY';
-            $type = 'ewallet';
+            $bankname = 'B0148';
         }
         if(empty($bankname)){
-            return ['status'=>'FAIL','msg'=>'不支持的银行'];
+            return ['code'=>'-1','msg'=>'不支持的银行'];
         }
         $param = array(
-            'memberId' => $channel['merchantid'],
-            'orderId' => $data['order_id'],
-            "type" => $type,
+            'appid' => $channel['merchantid'],
             'amount' => $data['trueprice'],
-            'dstCode' => $bankname,
-            'name' => $data['username'], //收款姓名
-            'phone' => trim($data['phone'],0),
-            'email' => 'test@gmail.com',
-            'account' => $data['bankcard'], //收款账号
-            'notifyUrl' => $this->notify_dai,
-            "address"  => 'gotocode@gmail.com',
+            'order_no' => $data['order_id'],
+            'timestamp' => time(),
+            'version' => '2.0',
         );
-        $sign = $this->sendSign($param, $this->key);
-        $param['sign'] = $sign;
-        Log::mylog('提现提交参数', $param, 'coverpaydf');
+        $sign = $this->ascii_params($param);
+        $param['bank_code'] = $bankname;
+        $param['account_name'] = $data['username'];
+        $param['account_no'] = $data['bankcard'];
+        $param['account_no'] = $this->notify_dai;
+
+        $param['sign'] = md5($sign.'&key='.$this->key2);
+        Log::mylog('提现提交参数', $param, 'bspaydf');
         $return_json = $this->httpPost($this->dai_url, $param);
-        Log::mylog($return_json, 'coverpaydf', 'coverpaydf');
+        Log::mylog($return_json, 'bspaydf', 'bspaydf');
         return $return_json;
     }
 
@@ -222,15 +215,16 @@ class Bspay extends Model
     {
         $sign = $params['sign'];
         unset($params['sign']);
-        $check = $this->sendSign($params, $this->key);
-        if ($sign != $check) {
-            Log::mylog('验签失败', $params, 'coverpaydfhd');
+        $check = $this->ascii_params($params);
+        $checksign = md5($check.'&key='.$this->key2);
+        if ($sign != $checksign) {
+            Log::mylog('验签失败', $params, 'bspaydfhd');
             return false;
         }
         $usercash = new Usercash();
-        if ($params['status'] != 'success'||$params['refCode'] != '1') {
+        if ($params['order_status'] == 'SUCCESS') {
             try {
-                $r = $usercash->where('order_id', $params['orderId'])->find()->toArray();
+                $r = $usercash->where('order_id', $params['shanghu_order_no'])->find()->toArray();
                 if ($r['status'] == 5) {
                     return false;
                 }
@@ -242,15 +236,15 @@ class Bspay extends Model
                 if (!$res) {
                     return false;
                 }
-                Log::mylog('代付失败,订单号:' . $params['orderId'], 'coverpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['shanghu_order_no'], 'bspaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderId'], $e, 'coverpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['shanghu_order_no'], $e, 'bspaydfhd');
             }
         } else {
             try {
-                $r = $usercash->where('order_id', $params['orderId'])->find()->toArray();
+                $r = $usercash->where('order_id', $params['shanghu_order_no'])->find()->toArray();
                 $upd = [
-                    'order_no'  => $params['platOrderId'],
+                    'order_no'  => $params['plantform_order_no'],
                     'updatetime'  => time(),
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
@@ -265,9 +259,9 @@ class Bspay extends Model
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
                 (new Paycommon())->withdrawa($r['user_id'],$r['id']);
-                Log::mylog('提现成功', $params, 'coverpaydfhd');
+                Log::mylog('提现成功', $params, 'bspaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderId'], $e, 'coverpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['shanghu_order_no'], $e, 'bspaydfhd');
             }
         }
     }
