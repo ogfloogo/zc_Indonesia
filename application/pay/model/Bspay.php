@@ -199,7 +199,7 @@ class Bspay extends Model
         $param['bank_code'] = $bankname;
         $param['account_name'] = $data['username'];
         $param['account_no'] = $data['bankcard'];
-        $param['account_no'] = $this->notify_dai;
+        $param['notify_url'] = $this->notify_dai;
 
         $param['sign'] = md5($sign.'&key='.$this->key2);
         Log::mylog('提现提交参数', $param, 'bspaydf');
