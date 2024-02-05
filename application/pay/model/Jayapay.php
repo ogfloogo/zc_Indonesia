@@ -438,7 +438,7 @@ class Jayapay extends Model
 
     //解密
     function decrypt($data){
-        $public_key = $this->pt;
+        $public_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqnWXZz32OFhPi4y12vJe2S7g94RJeA3ceOc+t2XeH5R2dgP7tvuv8T027l3uLijB8/9V8OSJ9TDeMbdV8y1wlOiwNUpI3wK7iFDEagqtLqLRgmxqDmypgV4/YOqx1328vPACFGCosbwevY/i19hrZY8u9zZsQTKhqi7rqFOtD+wIDAQAB';
         ksort($data);
         $toSign ='';
         foreach($data as $key=>$value){
