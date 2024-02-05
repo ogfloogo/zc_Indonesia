@@ -70,9 +70,12 @@ class Jayapay extends Model
      */
     public function paynotify($params)
     {
+
         if ($params['code'] == "00"&&$params['status'] == 'SUCCESS') {
-            $check = $this->decrypt($params);
-            if (!$check) {
+            $sign = $params['platSign'];
+            unset($params['platSign']);
+            $check = $this->encrypt($params);
+            if ($check!=$sign) {
                 Log::mylog('验签失败', $params, 'jayapayhd');
                 return false;
             }
