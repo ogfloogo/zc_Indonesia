@@ -68,7 +68,7 @@ class Bspay extends Model
             $sign = $params['sign'];
             unset($params['sign']);
             $check = $this->ascii_params($params);
-            $checksign = md5($check.'$key='.$this->key);
+            $checksign = md5($check.'&key='.$this->key);
             if ($sign != $checksign) {
                 Log::mylog('验签失败', $params, 'bspayhd');
                 return false;
