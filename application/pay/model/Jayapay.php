@@ -107,96 +107,96 @@ class Jayapay extends Model
         $bankname = '';
         $type = 'bankcard';
         if($data['bankname'] == 'Bank Permata'){
-            $bankname = 'B0048';
+            $bankname = '013';
         }
 
         if($data['bankname'] == 'Bank BRI'){
-            $bankname = 'B0044';
+            $bankname = '002';
         }
 
         if($data['bankname'] == 'Bank Mandiri'){
-            $bankname = 'B0045';
+            $bankname = '008';
         }
 
         if($data['bankname'] == 'Bank BNI'){
-            $bankname = 'B0046';
+            $bankname = '009';
         }
 
         if($data['bankname'] == 'Bank Danamon'){
-            $bankname = 'B0047';
+            $bankname = '011';
         }
 
         if($data['bankname'] == 'Bank BCA'){
-            $bankname = 'B0049';
+            $bankname = '014';
         }
 
         if($data['bankname'] == 'BII Maybank'){
-            $bankname = 'B0050';
+            $bankname = '016';
         }
 
         if($data['bankname'] == 'Bank Panin'){
-            $bankname = 'B0051';
+            $bankname = '019';
         }
 
         if($data['bankname'] == 'CIMB Niaga'){
-            $bankname = 'B0052';
+            $bankname = '022';
         }
 
         if($data['bankname'] == 'Bank UOB INDONESIA'){
-            $bankname = 'B0053';
+            $bankname = '023';
         }
         if($data['bankname'] == 'Bank OCBC NISP'){
-            $bankname = 'B0054';
+            $bankname = '028';
         }
         if($data['bankname'] == 'CITIBANK'){
-            $bankname = 'B0055';
+            $bankname = '031';
         }
         if($data['bankname'] == 'Bank ARTHA GRAHA'){
-            $bankname = 'B0057';
+            $bankname = '037';
         }
         if($data['bankname'] == 'Bank DBS'){
-            $bankname = 'B0059';
+            $bankname = '046';
         }
         if($data['bankname'] == 'Standard Chartered'){
-            $bankname = 'B0060';
+            $bankname = '050';
         }
         if($data['bankname'] == 'Bank CAPITAL'){
-            $bankname = 'B0061';
+            $bankname = '054';
         }
         if($data['bankname'] == 'ANZ Indonesia'){
-            $bankname = 'B0062';
+            $bankname = '061';
         }
         if($data['bankname'] == 'Bank HSBC'){
-            $bankname = 'B0065';
+            $bankname = '041';
         }
         if($data['bankname'] == 'Bank MAYAPADA'){
-            $bankname = 'B0069';
+            $bankname = '097';
         }
         if($data['bankname'] == 'Bank Jawa Barat'){
-            $bankname = 'B0070';
+            $bankname = '110';
         }
         if($data['bankname'] == 'Bank JATENG'){
-            $bankname = 'B0073';
+            $bankname = '113';
         }
         if($data['bankname'] == 'Bank Jatim'){
-            $bankname = 'B0074';
+            $bankname = '114';
         }
         if($data['bankname'] == 'Bank Aceh Syariah'){
-            $bankname = 'B0076';
+            $bankname = '116';
         }
 
         if($data['bankname'] == 'OVO'){
-            $bankname = 'B0147';
+            $bankname = '10001';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'B0144';
+            $bankname = '10002';
         }
 
         if($data['bankname'] == 'ShopeePay'){
-            $bankname = 'B0148';
+            $bankname = '10008';
         }
         if(empty($bankname)){
-            return ['code'=>'-1','msg'=>'不支持的银行'];
+            return ['platRespCode'=>'fail','msg'=>'不支持的银行'];
         }
         $param = array(
             'merchantCode' => $channel['merchantid'],
@@ -214,7 +214,7 @@ class Jayapay extends Model
             'dateTime' => date("YmdHis", time()),
             'description' => 'description'
         );
-        $sign = $this->getSign($param, $this->privateKey);
+        $sign = $this->encrypt($param);
         $param['signature'] = $sign;
         Log::mylog("提交参数", $param, "jayapaydf");
         $return_json = Http::post($this->dai_url, $param);
@@ -227,10 +227,15 @@ class Jayapay extends Model
      */
     public function paydainotify($params)
     {
-        $sign = $params['platSign'];
+        $platSign = $params['platSign'];
         unset($params['platSign']);
-        $check = $this->verify($params, $sign, $this->publicKey);
-        if (!$check) {
+        $check = $this->decrypt($platSign);
+        ksort($params);
+        $params_str = '';
+        foreach ($params as $key => $val) {
+            $params_str = $params_str . $val;
+        }
+        if ($params_str!=$check) {
             Log::mylog('验签失败', $params, 'jayapaydfhd');
             return false;
         }

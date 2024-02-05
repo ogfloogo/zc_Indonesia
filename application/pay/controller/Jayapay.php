@@ -22,7 +22,7 @@ class Jayapay extends Controller
         $data = file_get_contents("php://input");
         Log::mylog('支付回调_data', $data, 'jayapayhd');
         (new ModelPaymentJayapay())->paynotify(json_decode($data,true));
-        exit('success');
+        exit('SUCCESS');
     }
 
     /**
@@ -33,7 +33,7 @@ class Jayapay extends Controller
         $data = file_get_contents("php://input");
         Log::mylog('提现回调_data', $data, 'jayapaydfhd');
         (new ModelPaymentJayapay())->paydainotify(json_decode($data,true));
-        exit('success');
+        exit('SUCCESS');
     }
 
     /**
