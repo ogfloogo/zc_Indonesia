@@ -11,7 +11,7 @@ use think\Log;
 /**
  * Rpay
  */
-class Coverpay extends Controller
+class Bspay extends Controller
 {
 
     /**
