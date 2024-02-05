@@ -204,8 +204,8 @@ class Bspay extends Model
         $param['sign'] = md5($sign.'&key='.$this->key2);
         Log::mylog('提现提交参数', $param, 'bspaydf');
 
-        $header[] = "Content-Type: application/x-www-form-urlencoded";
-        $return_json = $this->httpPost($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+        $header[] = "Content-Type: application/json;charset=utf-8";
+        $return_json = $this->http_Post($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
 
         Log::mylog($return_json, 'bspaydf', 'bspaydf');
         return $return_json;
@@ -311,6 +311,28 @@ class Bspay extends Model
             }
         }
         return '';
+    }
+
+    function http_post($sUrl, $aHeader, $aData){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $sUrl);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POST, 1); // 发送一个常规的Post请求
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $aData); // Post提交的数据包
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循环
+        curl_setopt($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 获取的信息以文件流的形式返回
+
+        //curl_setopt($ch, CURLOPT_HEADER, 1); //取得返回头信息
+
+        $sResult = curl_exec($ch);
+        if($sError=curl_error($ch)){
+            die($sError);
+        }
+        curl_close($ch);
+        return $sResult;
     }
 
     function httpPost($url, $data)
