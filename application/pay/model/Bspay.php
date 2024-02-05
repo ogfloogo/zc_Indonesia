@@ -37,7 +37,7 @@ class Bspay extends Model
             'amount' => $price,
             'order_no' => $order_id,
             'notify_url' => $this->notify_pay,
-            'timestamp' => time().'000',
+            'timestamp' => time(),
             'version' => '2.0',
         ];
         $sign = $this->sign($param, $this->key);
