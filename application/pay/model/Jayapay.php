@@ -28,7 +28,7 @@ class Jayapay extends Model
     public $notify_pay = 'https://api.rothpro.id/pay/jayapay/paynotify';
     //私钥
     public $privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKqdZdnPfY4WE+LjLXa8l7ZLuD3hEl4Ddx45z63Zd4flHZ2A/u2+6/xPTbuXe4uKMHz/1Xw5In1MN4xt1XzLXCU6LA1SkjfAruIUMRqCq0uotGCbGoObKmBXj9g6rHXfby88AIUYKixvB69j+LX2Gtljy73NmxBMqGqLuuoU60P7AgMBAAECgYEApnO85Ez8D10Wtaoxtr+zu5QQAb7Nro7u7bw1E0UwypIK3Jj3HXfAv32XNsdJLw/40lq+Kt2K+ncbUpPtTj0QfWFWXrbGuEFD0K441qOygRXRU38ZeHttvMCoJ1L4KmRYD6emD83DZuyuNTqZn/uWIjUjOACdANM/rB+Ag8RwGeECQQDXMuReea6NjdO1UxC/zsvCcPPNvgkJHyb9qELdDDx0xZw8vFGdoW0/yhf0lN6K4/BsoG/uIJ6uwW7T6nDlAOC5AkEAyvaIgWcrASkSdl89Zqvjrs7Zz2IiShPGjOcD1hSit3R5iqiYtqK0iKy5O41oTF4+tR2O7bxwIFi+dkSvVPGoUwJAcqrahwDdou3EtmTJkvr1Femr76BoHiUsWJMU9cY0XKCDbNWHw6+lkAz2kMvWfTmR/b/LhJ57D3FgxaixeUTreQJAYpWXPou3JswlbJvcPje10x4kTAhVsXejlKNNiLnjQ4ru0nwMGYI0gMKtApEwHRAWE3E1EKLcL8oLUXURWQg8gwJAUFdLSmgtBNPcdCy+rWOT+DkVRCbVzOXSWocm9bMAEJx6LlodyuKe/mjMV13TVkfgPPoxVRsHGOdAH2u55BNlpQ==";
-    public $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqnWXZz32OFhPi4y12vJe2S7g94RJeA3ceOc+t2XeH5R2dgP7tvuv8T027l3uLijB8/9V8OSJ9TDeMbdV8y1wlOiwNUpI3wK7iFDEagqtLqLRgmxqDmypgV4/YOqx1328vPACFGCosbwevY/i19hrZY8u9zZsQTKhqi7rqFOtD+wIDAQAB";
+    public $pt = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCO1N4DR/0NaKcqpFK9fRwt3nZh+CE1o9hwOtha5lz9BZxh+LzamKapbKFSM5c3Pe1hgMl4gsLgcvrPVtzzoIWqL4odY1xqAE/bj0ByG7h9wJGObvc1QCmnocn8Jn02JhzS8Q0vE0CW4ilxERg2U8L8n3MBcTZqdb/kUrF7eQx1ZwIDAQAB";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
