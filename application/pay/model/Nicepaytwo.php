@@ -193,14 +193,14 @@ class Nicepaytwo extends Model
             $bankname = '116';
         }
         if($data['bankname'] == 'OVO'){
-            $bankname = 'ovo';
+            $bankname = '10001';
         }
         if($data['bankname'] == 'Dana'){
-            $bankname = 'dana';
+            $bankname = '10002';
         }
 
         if($data['bankname'] == 'ShopeePay'){
-            $bankname = 'shopeepay';
+            $bankname = '10008';
         }
         if(empty($bankname)){
             return ['err'=>'1','platRespMessage'=>'不支持的银行'];
