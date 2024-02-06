@@ -126,6 +126,7 @@ class Turntable extends Model
                             $teamstring = $pidinfo->oid;
                             $pidinfo->save();
                             $teamnum = count(explode(',',$teamstring));
+                            (new Usermoneylog())->moneyrecords($pid, config('site.fission_reward'), 'inc', 3, "裂变用户{$userid}");
                         }else{
                             $teamnum = 0;
                         }
@@ -137,8 +138,8 @@ class Turntable extends Model
                         ];
                         (new Fission())->create($create);
                         $teamnum = 1;
+                        (new Usermoneylog())->moneyrecords($pid, config('site.fission_reward'), 'inc', 3, "裂变用户{$userid}");
                     }
-                    (new Usermoneylog())->moneyrecords($pid, config('site.fission_reward'), 'inc', 3, "裂变用户{$userid}");
                     if($teamnum == 10){
                         (new Usermoneylog())->moneyrecords($pid, config('site.fission10'), 'inc', 3, "团队有效人数达到10");
                     }
