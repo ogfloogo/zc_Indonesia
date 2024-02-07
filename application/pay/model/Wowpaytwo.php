@@ -196,9 +196,10 @@ class Wowpaytwo extends Model
             'amount' => $data['trueprice'],
             'notifyUrl' => $this->notify_dai,
         );
-        $header[] = "X-SECRET: {$this->key}";
-        $header[] = "X-SN: {$channel['merchantid']}";
+        $header[] = "X-SECRET: {$channel['merchantid']}";
+        $header[] = "X-SN: {$this->key}";
         $header[] = "Content-Type: application/json";
+        Log::mylog('提现提交参数', $param, 'wowpaytwodf');
         $return_json = $this->http_Post($this->pay_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog($return_json, 'wowpaytwodf', 'wowpaytwodf');
         return $return_json;
