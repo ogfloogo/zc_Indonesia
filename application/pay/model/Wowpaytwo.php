@@ -61,7 +61,7 @@ class Wowpaytwo extends Model
      */
     public function paynotify($params,$sign)
     {
-        if ($params['orders']['status'] == 'SUCCEED') {
+        if ($params['orders'][0]['status'] == 'SUCCEED') {
             Log::mylog('验签', $sign, 'wowpaytwohd');
             $check = base64_encode(hash_hmac('sha256', json_encode($params), $this->key ,true));
             if ($sign != $check) {
@@ -69,8 +69,8 @@ class Wowpaytwo extends Model
                 return false;
             }
             $order_id = $params['referenceId']; //商户订单号
-            $order_num = $params['orders']['msn']; //平台订单号
-            $amount = $params['orders']['receivedAmount']; //支付金额
+            $order_num = $params['orders'][0]['msn']; //平台订单号
+            $amount = $params['orders'][0]['receivedAmount']; //支付金额
             (new Paycommon())->paynotify($order_id, $order_num, $amount, 'wowpaytwohd');
         } else {
             //更新订单信息
