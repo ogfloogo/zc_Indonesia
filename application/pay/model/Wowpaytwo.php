@@ -42,11 +42,10 @@ class Wowpaytwo extends Model
         $return_json = $this->http_Post($this->pay_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog("返回参数", $return_json, "wowpaytwo");
         $return_array = json_decode($return_json, true);
-        if ($return_array['code '] == 'SUCCESS') {
-            $arr = json_decode($return_array['data'],true);
+        if ($return_array['code'] == 'SUCCESS') {
             $return_array = [
                 'code' => 1,
-                'payurl' => !empty(($arr['url'])) ? ($arr['url']) : '',
+                'payurl' => !empty(($return_array['data']['url'])) ? ($return_array['data']['url']) : '',
             ];
         } else {
             $return_array = [
