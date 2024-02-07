@@ -64,6 +64,7 @@ class Wowpaytwo extends Model
         if ($params['orders'][0]['status'] == 'SUCCEED') {
             Log::mylog('验签', $sign, 'wowpaytwohd');
             $check = base64_encode(hash_hmac('sha256', json_encode($params), $this->key ,true));
+            Log::mylog('验签失败', json_encode($params).'---'.$sign.'---'.$check, 'wowpaytwohd');
             if ($sign != $check) {
                 Log::mylog('验签失败', $params, 'wowpaytwohd');
                 return false;
