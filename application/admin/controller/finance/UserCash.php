@@ -475,7 +475,7 @@ class UserCash extends Backend
             if ($order['code'] != "SUCCESS") {
                 $this->error($order['message']);
             }
-            $params['order_no'] = $order['id'] ?? '';
+            $params['order_no'] = $order['data']['id'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
@@ -843,7 +843,7 @@ class UserCash extends Backend
             if ($order['code'] != "SUCCESS") {
                 $this->error($order['message']);
             }
-            $params['order_no'] = $order['id'] ?? '';
+            $params['order_no'] = $order['data']['id'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
