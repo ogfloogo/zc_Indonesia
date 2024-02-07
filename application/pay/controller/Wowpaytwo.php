@@ -25,6 +25,7 @@ class Wowpaytwo extends Controller
         Log::mylog('支付回调_头部', $header, 'wowpaytwohd');
         $header = json_decode($header,true);
         $sign = $header['x-sign'];
+        Log::mylog('支付回调_头部2', $sign, 'wowpaytwohd');
         (new ModelPaymentWowpaytwo())->paynotify(json_decode($data,true),$sign);
         echo '{"success": true}';exit;
     }
