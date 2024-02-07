@@ -62,6 +62,7 @@ class Wowpaytwo extends Model
     public function paynotify($params,$sign)
     {
         if ($params['orders']['status'] == 'SUCCEED') {
+            Log::mylog('验签', $sign.'----'.json_encode($params), 'wowpaytwohd');
             $check = base64_encode(hash_hmac('sha256', json_encode($params), $this->key ,true));
             if ($sign != $check) {
                 Log::mylog('验签失败', $params, 'wowpaytwohd');
