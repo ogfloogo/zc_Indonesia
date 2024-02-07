@@ -34,7 +34,7 @@ class Wowpaytwo extends Controller
     public function paydainotify()
     {
         $data = file_get_contents("php://input");
-        Log::mylog('提现回调_data', $data, 'wowpaytwopaydfhd');
+        Log::mylog('提现回调_data', $data, 'wowpaytwodfhd');
         $header = $this->request->header();
         $sign = $header['x-sign'];
         (new ModelPaymentWowpaytwo())->paydainotify(json_decode($data,true),$data,$sign);
