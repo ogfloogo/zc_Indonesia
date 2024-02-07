@@ -59,29 +59,27 @@ class Wowpaytwo extends Model
     /**
      * 代收回调
      */
-    public function paynotify($params)
+    public function paynotify($params,$sign)
     {
-        if ($params['payStatus'] == 1) {
-            $sign = $params['sign'];
-            unset($params['sign']);
-            $check = $this->sendSign($params, $this->key);
+        if ($params['orders'] == 'SUCCEED') {
+            $check = base64_encode(hash_hmac('sha256', json_encode($params), $this->key ,true));
             if ($sign != $check) {
-                Log::mylog('验签失败', $params, 'Gtrpayhd');
+                Log::mylog('验签失败', $params, 'wowpaytwohd');
                 return false;
             }
-            $order_id = $params['orderNo']; //商户订单号
-            $order_num = $params['tradeNo']; //平台订单号
-            $amount = $params['realAmount']; //支付金额
-            (new Paycommon())->paynotify($order_id, $order_num, $amount, 'Gtrpayhd');
+            $order_id = $params['referenceId']; //商户订单号
+            $order_num = $params['orders']['msn']; //平台订单号
+            $amount = $params['orders']['receivedAmount']; //支付金额
+            (new Paycommon())->paynotify($order_id, $order_num, $amount, 'wowpaytwohd');
         } else {
             //更新订单信息
             $upd = [
                 'status' => 2,
-                'order_id' => $params['orderNo'],
+                'order_id' => $params['referenceId'],
                 'updatetime' => time(),
             ];
-            (new Userrecharge())->where('order_id', $params['orderNo'])->where('status', 0)->update($upd);
-            Log::mylog('支付回调失败！', $params, 'gtrpayhd');
+            (new Userrecharge())->where('order_id', $params['referenceId'])->where('status', 0)->update($upd);
+            Log::mylog('支付回调失败！', $params, 'wowpaytwohd');
         }
     }
 
