@@ -21,6 +21,7 @@ class Wowpaytwo extends Controller
     {
         $data = file_get_contents("php://input");
         Log::mylog('支付回调_data', $data, 'wowpaytwohd');
+        Log::mylog('支付回调_头部', $_SERVER, 'wowpaytwohd');
         (new ModelPaymentWowpaytwo())->paynotify(json_decode($data,true),$_SERVER['HTTP_X_SIGN']);
         echo '{"success": true}';exit;
     }
