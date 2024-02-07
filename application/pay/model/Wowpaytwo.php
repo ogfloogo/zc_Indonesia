@@ -216,7 +216,7 @@ class Wowpaytwo extends Model
             return false;
         }
         $usercash = new Usercash();
-        if ($params['status'] != 'SUCCEED') {
+        if ($params['orders'][0]['status'] != 'SUCCEED') {
             try {
                 $r = $usercash->where('order_id', $params['referenceId'])->find()->toArray();
                 if ($r['status'] == 5) {
@@ -238,7 +238,7 @@ class Wowpaytwo extends Model
             try {
                 $r = $usercash->where('order_id', $params['referenceId'])->find()->toArray();
                 $upd = [
-                    'order_no'  => $params['id'],
+                    'order_no'  => $params['orders'][0]['id'],
                     'updatetime'  => time(),
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
