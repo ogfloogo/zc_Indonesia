@@ -472,7 +472,7 @@ class UserCash extends Backend
             if (empty($order)) {
                 $this->error("提现失败");
             }
-            if ($order['status'] != "SUCCESS") {
+            if ($order['code'] != "SUCCESS") {
                 $this->error($order['message']);
             }
             $params['order_no'] = $order['id'] ?? '';
@@ -840,7 +840,7 @@ class UserCash extends Backend
             if (empty($order)) {
                 $this->error("提现失败");
             }
-            if ($order['status'] != "SUCCESS") {
+            if ($order['code'] != "SUCCESS") {
                 $this->error($order['message']);
             }
             $params['order_no'] = $order['id'] ?? '';
