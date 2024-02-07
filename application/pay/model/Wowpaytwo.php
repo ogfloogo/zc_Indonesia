@@ -200,7 +200,7 @@ class Wowpaytwo extends Model
         $header[] = "X-SN: {$channel['merchantid']}";
         $header[] = "Content-Type: application/json";
         Log::mylog('提现提交参数', $param, 'wowpaytwodf');
-        $return_json = $this->http_Post($this->pay_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+        $return_json = $this->http_Post($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
         Log::mylog($return_json, 'wowpaytwodf', 'wowpaytwodf');
         return $return_json;
     }
