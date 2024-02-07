@@ -43,7 +43,7 @@ class Wowpaytwo extends Model
         Log::mylog("返回参数", $return_json, "wowpaytwo");
         $return_array = json_decode($return_json, true);
         if ($return_array['code '] == 'SUCCESS') {
-            $arr = json_decode($return_array['data']);
+            $arr = json_decode($return_array['data'],true);
             $return_array = [
                 'code' => 1,
                 'payurl' => !empty(($arr['url'])) ? ($arr['url']) : '',
