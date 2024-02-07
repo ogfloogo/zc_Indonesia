@@ -18,7 +18,7 @@ use think\Exception;
 class Wowpaytwo extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://wg.gtrpay001.com/pay/create';
+    public $dai_url = 'https://dev.wowpayidr.com/rest/cash-out/disbursement';
     //代收提交url(充值)
     public $pay_url = 'https://dev.wowpayidr.com/rest/cash-in/payment-checkout';
     //代付回调(提现)
@@ -64,7 +64,6 @@ class Wowpaytwo extends Model
         if ($params['orders'][0]['status'] == 'SUCCEED') {
             Log::mylog('验签', $sign, 'wowpaytwohd');
             $check = base64_encode(hash_hmac('sha256', $params2, $this->key ,true));
-            Log::mylog('验签失败', $sign.'---'.$check, 'wowpaytwohd');
             if ($sign != $check) {
                 Log::mylog('验签失败', $params, 'wowpaytwohd');
                 return false;
@@ -90,51 +89,135 @@ class Wowpaytwo extends Model
      */
     public function withdraw($data, $channel)
     {
-        $bank_code =  json_decode(config('site.bank_code'),true);
-        foreach ($bank_code as $value){
-            if($value['label'] == $data['bankname']){
-                $bankname = $value['value'];
-                break;
-            }
+        $bankname = '';
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = '002';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = '008';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = '009';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = '011';
+        }
+
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = '013';
+        }
+
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = '014';
+        }
+
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = '016';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = '019';
+        }
+
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = '022';
+        }
+
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = '023';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = '028';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = '031';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = '037';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = '042';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = '046';
+        }
+            if($data['bankname'] == 'Standard Chartered'){
+            $bankname = '050';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = '054';
+        }
+        if($data['bankname'] == 'ANZ Indonesia'){
+            $bankname = '061';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = '069';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = '041';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = '097';
+        }
+        if($data['bankname'] == 'Bank Jawa Barat'){
+            $bankname = '110';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = '113';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = '114';
+        }
+        if($data['bankname'] == 'Bank Aceh Syariah'){
+            $bankname = '116';
+        }
+
+        if($data['bankname'] == 'OVO'){
+            $bankname = 'OVO';
+        }
+        if($data['bankname'] == 'Dana'){
+            $bankname = 'DANA';
+        }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = 'SHOPEEPAY';
         }
         if(empty($bankname)){
-            return ['code'=>100,'msg'=>'找不到银行'];
+            return ['code '=>'fail','message'=>'不支持的银行'];
         }
         $param = array(
-            'mchId' => $channel['merchantid'],
-            'orderNo' => $data['order_id'],
-            'orderAmount' => $data['trueprice'],
-            'passageId' => $channel['busi_code'],
-            'userName' => $data['username'], //收款姓名
-            'account' => $data['bankcard'], //收款账号
+            'referenceId' => $data['order_id'],
+            'bankCode' => $bankname,
+            'customerName' => $data['username'], //收款姓名
+            'cardNo' => $data['bankcard'], //收款账号
+            'amount' => $data['trueprice'],
             'notifyUrl' => $this->notify_dai,
-            'remark' => $bankname,
         );
-        $sign = $this->sendSign($param, $this->key);
-        $param['sign'] = $sign;
-        Log::mylog('提现提交参数', $param, 'Gtrpaydf');
-        $header[] = "Content-Type: application/json;charset=utf-8";
-        $return_json = $this->http_Post($this->dai_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
-        Log::mylog($return_json, 'Gtrpaydf', 'Gtrpaydf');
+        $header[] = "X-SECRET: {$this->key}";
+        $header[] = "X-SN: {$channel['merchantid']}";
+        $header[] = "Content-Type: application/json";
+        $return_json = $this->http_Post($this->pay_url, $header,json_encode($param,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+        Log::mylog($return_json, 'wowpaytwodf', 'wowpaytwodf');
         return $return_json;
     }
 
     /**
      * 提现回调
      */
-    public function paydainotify($params)
+    public function paydainotify($params,$params2,$sign)
     {
-        $sign = $params['sign'];
-        unset($params['sign']);
-        $check = $this->sendSign($params, $this->key);
+        $check = base64_encode(hash_hmac('sha256', $params2, $this->key ,true));
         if ($sign != $check) {
-            Log::mylog('验签失败', $params, 'Gtrpayhd');
+            Log::mylog('验签失败', $params, 'wowpaytwodfhd');
             return false;
         }
         $usercash = new Usercash();
-        if ($params['payStatus'] != 1) {
+        if ($params['status'] != 'SUCCEED') {
             try {
-                $r = $usercash->where('order_id', $params['orderNo'])->find()->toArray();
+                $r = $usercash->where('order_id', $params['referenceId'])->find()->toArray();
                 if ($r['status'] == 5) {
                     return false;
                 }
@@ -146,15 +229,15 @@ class Wowpaytwo extends Model
                 if (!$res) {
                     return false;
                 }
-                Log::mylog('代付失败,订单号:' . $params['orderNo'], 'Gtrpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['referenceId'], 'wowpaytwodfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderNo'], $e, 'Gtrpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['referenceId'], $e, 'wowpaytwodfhd');
             }
         } else {
             try {
-                $r = $usercash->where('order_id', $params['orderNo'])->find()->toArray();
+                $r = $usercash->where('order_id', $params['referenceId'])->find()->toArray();
                 $upd = [
-                    'order_no'  => $params['tradeNo'],
+                    'order_no'  => $params['id'],
                     'updatetime'  => time(),
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
@@ -169,9 +252,9 @@ class Wowpaytwo extends Model
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
                 (new Paycommon())->withdrawa($r['user_id'],$r['id']);
-                Log::mylog('提现成功', $params, 'Gtrpaydfhd');
+                Log::mylog('提现成功', $params, 'wowpaytwodfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['orderNo'], $e, 'Gtrpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['referenceId'], $e, 'wowpaytwodfhd');
             }
         }
     }

@@ -33,6 +33,7 @@ use app\pay\model\Uzpay;
 use app\pay\model\Wepay;
 use app\pay\model\Wowpay;
 use app\pay\model\Wowpays;
+use app\pay\model\Wowpaytwo;
 use app\pay\model\Xdpay;
 use Exception;
 use think\Db;
@@ -465,6 +466,17 @@ class UserCash extends Backend
             }
             $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'wowpaytwo'){
+            $order = (new Wowpaytwo())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['status'] != "SUCCESS") {
+                $this->error($order['message']);
+            }
+            $params['order_no'] = $order['id'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -821,6 +833,17 @@ class UserCash extends Backend
                 $this->error($order['statusMsg']);
             }
             $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'wowpaytwo'){
+            $order = (new Wowpaytwo())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['status'] != "SUCCESS") {
+                $this->error($order['message']);
+            }
+            $params['order_no'] = $order['id'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
         }
 
