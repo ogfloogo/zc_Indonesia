@@ -45,7 +45,7 @@ class Wowpaytwo extends Model
         if ($return_array['code'] == 'SUCCESS') {
             $return_array = [
                 'code' => 1,
-                'payurl' => !empty(($return_array['data']['url'])) ? ($return_array['data']['url']) : '', 'code' => 1,
+                'payurl' => !empty(($return_array['data']['url'])) ? ($return_array['data']['url']) : '',
                 'type' => 1,
             ];
         } else {
