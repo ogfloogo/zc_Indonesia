@@ -209,7 +209,7 @@ class Jayapay extends Model
             'bankCode' => $bankname,
             'number' => $data['bankcard'], //收款账号
             'name' => $data['username'],
-            'phone' => ($data['phone']),
+            'mobile' => ($data['phone']),
             'email' => 'Test@gmail.com',
             'notifyUrl' => $this->notify_dai,
             'dateTime' => date("YmdHis", time()),
