@@ -205,7 +205,7 @@ class Jayapay extends Model
             'method' => 'Transfer',
             'orderNum' => $data['order_id'], //交易请求流水号
             'money' => intval($data['trueprice']),
-            'feeType' => 0,
+            'feeType' => 1,
             'bankCode' => $bankname,
             'number' => $data['bankcard'], //收款账号
             'name' => $data['username'],
