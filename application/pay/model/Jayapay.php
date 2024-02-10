@@ -44,6 +44,9 @@ class Jayapay extends Model
             'email' => 'alao@gmail.com',
             'phone' => "9639639639",
         ];
+        if($channel_info['busi_code']){
+            $param['method'] = $channel_info['busi_code'];
+        }
         $sign = $this->encrypt($param);
         $param['sign'] = $sign;
         Log::mylog("提交参数", $param, "jayapay");
