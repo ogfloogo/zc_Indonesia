@@ -18,9 +18,9 @@ use think\Exception;
 class Wowpaytwo extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://dev.wowpayidr.com/rest/cash-out/disbursement';
+    public $dai_url = 'https://lPDLbr.wowpayidr.com/rest/cash-out/disbursement';
     //代收提交url(充值)
-    public $pay_url = 'https://dev.wowpayidr.com/rest/cash-in/payment-checkout';
+    public $pay_url = 'https://lPDLbr.wowpayidr.com/rest/cash-in/payment-checkout';
     //代付回调(提现)
     public $notify_dai = 'https://api.rothpro.id/pay/Wowpaytwo/paydainotify';
     //代收回调(充值)
@@ -45,7 +45,8 @@ class Wowpaytwo extends Model
         if ($return_array['code'] == 'SUCCESS') {
             $return_array = [
                 'code' => 1,
-                'payurl' => !empty(($return_array['data']['url'])) ? ($return_array['data']['url']) : '',
+                'payurl' => !empty(($return_array['data']['url'])) ? ($return_array['data']['url']) : '', 'code' => 1,
+                'type' => 1,
             ];
         } else {
             $return_array = [

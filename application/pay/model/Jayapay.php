@@ -55,6 +55,7 @@ class Jayapay extends Model
             $return_array = [
                 'code' => 1,
                 'payurl' => !empty(($return_array['url'])) ? ($return_array['url']) : '',
+                'type' => 1,
             ];
         } else {
             $return_array = [
