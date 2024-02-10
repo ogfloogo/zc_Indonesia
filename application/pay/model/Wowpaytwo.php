@@ -26,7 +26,7 @@ class Wowpaytwo extends Model
     //代收回调(充值)
     public $notify_pay = 'https://api.rothpro.id/pay/Wowpaytwo/paynotify';
     //代收秘钥
-    public $key = "C63SPKFI5TJ7ZT74VZV4TVCDTW4HAQLZ";
+    public $key = "C3GASXHHTIDZXSWTK2TVCTIPSLF7ZR6A";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
