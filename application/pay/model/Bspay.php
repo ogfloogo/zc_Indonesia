@@ -49,6 +49,7 @@ class Bspay extends Model
             $return_array = [
                 'code' => 1,
                 'payurl' => !empty(($return_array['pay_url'])) ? ($return_array['pay_url']) : '',
+                'type' => 1
             ];
         } else {
             $return_array = [
