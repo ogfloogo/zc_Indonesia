@@ -95,9 +95,12 @@ class Dashboard extends Backend
             'todaynewuser'    => isset($todayReport['user']) ? $todayReport['user'] : 0,
             'todaylogin'    => intval($todayLogin),
 
-            'todayorder'        => FinanceOrder::where(['is_robot' => 0, 'createtime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]],'popularize'=>['<>',2]])->count(),
+//            'todayorder'        => FinanceOrder::where(['is_robot' => 0, 'createtime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]],'popularize'=>['<>',2]])->count(),
+            'todayorder'        => 0,
+
             'todayopenorder'    => Order::where(['pay_status' => 1, 'type' => 1, 'createtime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]]])->count(),
-            'todayordermoney'        => FinanceOrder::where(['is_robot' => 0, 'createtime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]],'popularize'=>['<>',2]])->sum('amount'),
+//            'todayordermoney'        => FinanceOrder::where(['is_robot' => 0, 'createtime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]],'popularize'=>['<>',2]])->sum('amount'),
+            'todayordermoney'        => 0,
 
 
             'todayrecharge'        => UserRecharge::where(['status' => 1, 'updatetime' => ['between', [strtotime(date('Y-m-d') . ' 00:00:00'), strtotime(date('Y-m-d') . ' 23:59:59')]]])->sum('price'),
