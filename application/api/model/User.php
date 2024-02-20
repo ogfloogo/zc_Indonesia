@@ -310,7 +310,7 @@ class User extends Model
             }
             $redis = new Redis();
             $redis->handler()->select(1);
-            $redis->handler()->set("token:" . $token, json_encode($userinfo), 60 * 60 * 24 * 7);
+            $redis->handler()->set("token:" . $token, json_encode($userinfo), 60 * 60 * 24 * 90);
             // unset($userinfo['id']);
             unset($userinfo['password']);
             unset($userinfo['withdraw_password']);
