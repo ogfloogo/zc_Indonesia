@@ -199,7 +199,7 @@ class User extends Controller
 
         $mobile = ltrim($mobile,'0');
         if(strlen($mobile) <= 9){
-            $this->error(__('Mobile phone number error'));
+            $this->error(__('Mohon masukan nomor ponselyang benar'));
         }
         //密码是否一致
         if ($password != $re_password) {
