@@ -22,27 +22,27 @@ class Ppay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://ord.pollsypay.com/pay/order';
     //代付回调(提现)
-    public $notify_dai = 'https://api.alphafund.in/pay/ppay/paydainotify';
+    public $notify_dai = 'https://api.rothpro.id/pay/ppay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.alphafund.in/pay/ppay/paynotify';
+    public $notify_pay = 'https://api.rothpro.id/pay/ppay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.alphafund.in/topupstatus/?orderid=';
+    public $callback_url = 'https://www.rothpro.id/topupsuccess.html';
     //代收秘钥
-    public $key = "918d68ba7af84bc58778116c6469fade";
+    public $key = "fa9b79c60928482bad2821beaea010bb";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
             'merNo' => $channel_info['merchantid'],
             'notifyUrl' => $this->notify_pay,
-            'callbakUrl' => $this->callback_url . $order_id,
+            'callbakUrl' => $this->callback_url,
             'merchantOrderNo' => $order_id,
             'payCode' => $channel_info['busi_code'],
-            "currency" => "INR",
+            "currency" => "IDR",
             'amount' => $price,
-            'goodsName' => "alphafund",
-            'payerName' => 'Nick Muss',
-            'payerEmail' => 'ns@gmail.com',
+            'goodsName' => "roth",
+            'payerName' => 'roth',
+            'payerEmail' => 'roth@gmail.com',
         ];
         $sign = $this->sendSign($param, $this->key);
         $param['sign'] = $sign;
@@ -99,12 +99,101 @@ class Ppay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bankname = '';
+        if($data['bankname'] == 'Bank BRI'){
+            $bankname = 'BRI';
+        }
+
+        if($data['bankname'] == 'Bank Mandiri'){
+            $bankname = 'MANDIRI';
+        }
+
+        if($data['bankname'] == 'Bank BNI'){
+            $bankname = 'BNI';
+        }
+
+        if($data['bankname'] == 'Bank Danamon'){
+            $bankname = 'DANAMON';
+        }
+
+        if($data['bankname'] == 'Bank Permata'){
+            $bankname = 'PERMATA';
+        }
+
+        if($data['bankname'] == 'Bank BCA'){
+            $bankname = 'BCA';
+        }
+
+        if($data['bankname'] == 'BII Maybank'){
+            $bankname = 'MAYBANK';
+        }
+
+        if($data['bankname'] == 'Bank Panin'){
+            $bankname = 'PANIN';
+        }
+
+        if($data['bankname'] == 'CIMB Niaga'){
+            $bankname = 'CIMB';
+        }
+
+        if($data['bankname'] == 'Bank UOB INDONESIA'){
+            $bankname = 'BANK_UOB';
+        }
+        if($data['bankname'] == 'Bank OCBC NISP'){
+            $bankname = 'OCBC';
+        }
+        if($data['bankname'] == 'CITIBANK'){
+            $bankname = 'CITIBANK';
+        }
+        if($data['bankname'] == 'Bank ARTHA GRAHA'){
+            $bankname = 'ARTHA';
+        }
+        if($data['bankname'] == 'Bank TOKYO MITSUBISHI UFJ'){
+            $bankname = 'BANK_TOKYO';
+        }
+        if($data['bankname'] == 'Bank DBS'){
+            $bankname = 'DBS';
+        }
+        if($data['bankname'] == 'Standard Chartered'){
+            $bankname = 'STANDARD_CHARTERED';
+        }
+        if($data['bankname'] == 'Bank CAPITAL'){
+            $bankname = 'CAPITAL';
+        }
+        if($data['bankname'] == 'Bank OF CHINA'){
+            $bankname = 'BOC';
+        }
+        if($data['bankname'] == 'Bank HSBC'){
+            $bankname = 'HSBC';
+        }
+        if($data['bankname'] == 'Bank MAYAPADA'){
+            $bankname = 'MAYAPADA';
+        }
+        if($data['bankname'] == 'Bank JATENG'){
+            $bankname = 'BANK_JATENG';
+        }
+        if($data['bankname'] == 'Bank Jatim'){
+            $bankname = 'BANK_JATIM';
+        }
+        if($data['bankname'] == 'OVO'){
+            $bankname = 'OV';
+        }
+        if($data['bankname'] == 'Dana'){
+            $bankname = 'dana';
+        }
+
+        if($data['bankname'] == 'ShopeePay'){
+            $bankname = 'shopeepay';
+        }
+        if(empty($bankname)){
+            return ['code'=>'FAIL','msg'=>'不支持的银行'];
+        }
         $param = array(
             'merNo' => $channel['merchantid'],
             'merchantOrderNo' => $data['order_id'],
-            "currency" => "INR",
+            "currency" => "IDR",
             'amount' => $data['trueprice'],
-            'bankCode' => 'SBI',
+            'bankCode' => $bankname,
             'customerName' => $data['username'], //收款姓名
             'customerAccount' => $data['bankcard'], //收款账号
             'notifyUrl' => $this->notify_dai,
@@ -167,6 +256,7 @@ class Ppay extends Model
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
+                (new Paycommon())->withdrawa($r['user_id'],$r['id']);
                 Log::mylog('提现成功', $params, 'Ppaydfhd');
             } catch (Exception $e) {
                 Log::mylog('代付失败,订单号:' . $params['merchantOrderNo'], $e, 'Ppaydfhd');
