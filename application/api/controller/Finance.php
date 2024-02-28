@@ -489,9 +489,10 @@ class Finance extends Controller
         $list = (new \app\api\model\Financeproject())->getPlanList($field, $where, $userInfo['id'],$userInfo['is_experience']);
         $newhand = [];
         foreach ($list as &$value) {
-
+            $buy_num = (new \app\api\model\Financeorder())->where(['project_id' => $value['id']])->group('user_id')->count();
+            $value['buy_num'] = !$buy_num ? 0 : $buy_num; //支持人数
             if($value['total'] != 0){
-                $total = (new \app\api\model\Financeorder())->where(['project_id'=>$value['id']])->count();
+                $total = !$buy_num ? 0 : $buy_num; //支持人数
                 $remaining_copies = $value['total'] - $total;
                 if($remaining_copies <= 0){
                     $value['name'] = $value['name']." [Habis terjual]";
@@ -509,8 +510,7 @@ class Finance extends Controller
             $value['buy_level_image'] = !empty($levels['image']) ? format_image($levels['image']) : '';
             $value['roi'] = bcmul($value['rate'], $value['day'], 2);
             $redis->handler()->select(6);
-            $buy_num = (new \app\api\model\Financeorder())->where(['project_id' => $value['id']])->group('user_id')->count();
-            $value['buy_num'] = !$buy_num ? 0 : $buy_num; //支持人数
+
             $value['label'] = (new \app\api\model\Financeproject())->getLabel($value['label_ids']);
             $value['can_buy'] = 1;
             //推广项目、体验项目都能购买  普通项目判断称号等级

@@ -105,6 +105,12 @@ class Financeorder extends Controller
         }
 
         if($project_info['limit'] != 0){
+            $buytime = $redis->handler()->get("zclc:buytime:{$this->uid}");
+            if($buytime){
+                $this->error(__('order failed !'));
+            }else{
+                $redis->handler()->set("zclc:buytime:{$this->uid}",1,30);
+            }
             //限购判断
             if($copies > $project_info['limit']){
                 $this->error("Oops, Hanya dapat dibeli {$project_info['limit']}x yaaa bestie ~");
