@@ -114,7 +114,7 @@ class User extends Backend
             if($exist){
                 $this->error('手机号已存在');
             }
-            if (!$params['status']) {
+            if ($params['status'] == 0||$params['status'] == 2) {
                 $token = $row['token'];
                 if ($token) {
                     (new ModelUser())->logout($token);
