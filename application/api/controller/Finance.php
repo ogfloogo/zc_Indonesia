@@ -489,7 +489,7 @@ class Finance extends Controller
         $list = (new \app\api\model\Financeproject())->getPlanList($field, $where, $userInfo['id'],$userInfo['is_experience']);
         $newhand = [];
         foreach ($list as &$value) {
-            $buy_num = 100;
+            $buy_num = (new \app\api\model\Financeorder())->where(['project_id' => $value['id']])->group('user_id')->count();
             $value['buy_num'] = !$buy_num ? 0 : $buy_num; //支持人数
             if($value['total'] != 0){
                 $total = !$buy_num ? 0 : $buy_num; //支持人数
