@@ -136,7 +136,7 @@ class Financeorder extends Model
                 $redis->handler()->zAdd("zclc:financelistty", $insert['collection_time'], $order_id);
             }
             //统计
-            $this->statistics($project_info['f_id'], $price, $userinfo['id']);
+            $this->statistics($project_info['f_id'], $price, $userinfo['id'],$project_info['id']);
             //插入上次下单时间
             $redis = new Redis();
             $redis->handler()->select(2);
@@ -275,7 +275,7 @@ class Financeorder extends Model
     /**
      * 统计下单人数，下单金额
      */
-    public function statistics($finance_id, $amount, $user_id)
+    public function statistics($finance_id, $amount, $user_id,$project_id)
     {
         $redis = new Redis();
         $redis->handler()->select(6);
@@ -286,9 +286,11 @@ class Financeorder extends Model
             if (!empty($is_buy)) {
                 //更新分数
                 $redis->handler()->zIncrBy("zclc:financeordernum", 1, $finance_id);
+                $redis->handler()->zIncrBy("zclc:projectordernum", 1, $project_id);
             }
         } else {
             $redis->handler()->zAdd("zclc:financeordernum", 1, $finance_id);
+            $redis->handler()->zAdd("zclc:projectordernum", 1, $project_id);
         }
         //下单金额
         $is_exist_amount = $redis->handler()->zScore("zclc:financeordermoney", $finance_id);
@@ -430,7 +432,7 @@ class Financeorder extends Model
         //更新机器人最后下单时间
         db('user_robot')->where('id', $data['robot_user_id'])->update(['buytime' => time()]);
         //统计
-        $this->robotstatistics($finance_info['f_id'], $price, $data['robot_user_id']);
+        $this->robotstatistics($finance_info['f_id'], $price, $data['robot_user_id'],$data['project_id']);
         $rand_time = time() + rand($finance_info['robot_addorder_time_start'], $finance_info['robot_addorder_time_end']);
         if ($finance_info['fixed_amount'] == 0) {
             $rand_price = rand($finance_info['user_min_buy'], $finance_info['user_max_buy']);
@@ -486,7 +488,7 @@ class Financeorder extends Model
     /**
      * 统计下单人数，下单金额
      */
-    public function robotstatistics($f_id, $amount, $user_id)
+    public function robotstatistics($f_id, $amount, $user_id,$project_id)
     {
         $redis = new Redis();
         $redis->handler()->select(6);
@@ -497,9 +499,11 @@ class Financeorder extends Model
             if (!empty($is_buy)) {
                 //更新分数
                 $redis->handler()->zIncrBy("zclc:financeordernum", 1, $f_id);
+                $redis->handler()->zIncrBy("zclc:projectordernum", 1, $project_id);
             }
         } else {
             $redis->handler()->zAdd("zclc:financeordernum", 1, $f_id);
+            $redis->handler()->zAdd("zclc:projectordernum", 1, $project_id);
         }
         //下单金额
         $is_exist_amount = $redis->handler()->zScore("zclc:financeordermoney", $f_id);
