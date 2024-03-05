@@ -267,15 +267,15 @@ class Finance extends Controller
             }
         }
         $info['project_info'] = $online_project_info;
-//        $max_info = (new \app\api\model\Financeorder())->field('user_id,sum(amount) amount,is_robot')
-//            ->where(['f_id' => $id])
-//            ->order('amount desc,is_robot asc')
-//            ->group('user_id,is_robot')
-//            ->find();
-        $max_info = (new \app\api\model\Financeorder())->field('user_id,amount')
+        $max_info = (new \app\api\model\Financeorder())->field('user_id,sum(amount) amount,is_robot')
             ->where(['f_id' => $id])
-            ->order('amount desc')
+            ->order('amount desc,is_robot asc')
+            ->group('user_id,is_robot')
             ->find();
+//        $max_info = (new \app\api\model\Financeorder())->field('user_id,amount')
+//            ->where(['f_id' => $id])
+//            ->order('amount desc')
+//            ->find();
         if ($max_info) {
             $max_info['amount'] = bcadd($max_info['amount'], 0, 0);
             if ($max_info['is_robot'] == 1) {
