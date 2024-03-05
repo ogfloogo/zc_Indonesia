@@ -304,12 +304,18 @@ class Finance extends Controller
         $page = $this->request->param('page', 1);
         $pageSize = $this->request->param('pagesize', 20);
         $total = (new \app\api\model\Financeorder())->where(['f_id' => $id])->count();
+//        $list = (new \app\api\model\Financeorder())
+//            ->field('user_id,sum(amount) amount,is_robot')
+//            ->where(['f_id' => $id])
+//            ->page($page, $pageSize)
+//            ->order('amount desc,is_robot asc')
+//            ->group('user_id,is_robot')
+//            ->select();
         $list = (new \app\api\model\Financeorder())
-            ->field('user_id,sum(amount) amount,is_robot')
+            ->field('user_id,amount,is_robot')
             ->where(['f_id' => $id])
             ->page($page, $pageSize)
-            ->order('amount desc,is_robot asc')
-            ->group('user_id,is_robot')
+            ->order('amount desc')
             ->select();
         foreach ($list as &$value) {
             $value['amount'] = bcadd($value['amount'],0,0);
