@@ -504,8 +504,9 @@ class Finance extends Controller
         foreach ($list as &$value) {
 //            $buy_num = (new \app\api\model\Financeorder())->where(['project_id' => $value['id']])->group('user_id')->count();
 //            $value['buy_num'] = !$buy_num ? 0 : $buy_num; //支持人数
+            $buy_num = $redis->handler()->zScore("zclc:projectordernum", $value['id']);
             if($value['total'] != 0){
-                $buy_num = $redis->handler()->zScore("zclc:projectordernum", $value['id']);
+
                 $total = !$buy_num ? 0 : $buy_num; //支持人数
                 $remaining_copies = $value['total'] - $total;
                 if($remaining_copies <= 0){
@@ -513,9 +514,10 @@ class Finance extends Controller
                 }else{
                     $value['name'] = $value['name']." [Plan tersedia : {$remaining_copies}]";
                 }
-            }else{
-                $buy_num = $redis->handler()->zScore("zclc:financeordernum", $value['f_id']);
             }
+//            else{
+//                $buy_num = $redis->handler()->zScore("zclc:financeordernum", $value['f_id']);
+//            }
             $value['buy_num'] = !$buy_num ? 0 : $buy_num; //支持人数
 
             $finance = (new \app\api\model\Finance())->detail($value['f_id'], ['name']);
