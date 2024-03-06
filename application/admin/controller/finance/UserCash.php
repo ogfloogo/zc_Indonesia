@@ -92,10 +92,10 @@ class UserCash extends Backend
             ->order($sort, $order)
             ->paginate($limit);
         foreach ($list as $value){
-            $exist = (new Userbank())->where(['user_id'=>['<>',$value['user_id']],'bankcard'=>$value['bankcard']])->find();
-            if($exist){
-                $value['id'] = $value['id'].'(重复卡号)';
-            }
+//            $exist = (new Userbank())->where(['user_id'=>['<>',$value['user_id']],'bankcard'=>$value['bankcard']])->find();
+//            if($exist){
+//                $value['id'] = $value['id'].'(重复卡号)';
+//            }
         }
         $result = ['total' => $list->total(), 'rows' => $list->items()];
         return json($result);

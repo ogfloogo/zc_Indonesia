@@ -39,7 +39,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         { field: 'sid_name', title: __('上级'), operate: false },
                         { field: 'user_recharge', title: __('充值总额'), operate: false },
                         { field: 'total_withdrawals', title: __('提现总额'), operate: false },
-                        { field: 'price', title: __('Price'), operate: false },
+                        // { field: 'price', title: __('Price'), operate: false },
 
                         {field: 'price', title: __('Price'),formatter: function(value,row,index) {
                             var a = "";
