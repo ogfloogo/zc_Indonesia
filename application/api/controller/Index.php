@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\api\model\Financeorder;
 use app\api\model\Financeproject;
 use app\api\model\User;
+use think\cache\driver\Redis;
 use think\Config;
 
 /**
@@ -61,9 +62,10 @@ class Index extends Controller
         }
     }
 
-    public function test(){
-        $this->verifyUser();
-        $userinfo = $this->userInfo;
-        $this->success('',base64_encode($userinfo));
+    public function test($num,$project_id){
+        $redis = new Redis();
+        $redis->handler()->select(6);
+        $redis->handler()->zAdd("zclc:projectordernum", $num, $project_id);
+        var_dump($redis->handler()->zscore("zclc:projectordernum",$project_id));
     }
 }
