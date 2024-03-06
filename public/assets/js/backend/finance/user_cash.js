@@ -45,6 +45,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             var a = "";
                             if(value >= 1000000) {
                                 var a = '<span style="background-color:green">'+value+'</span>';
+                            }else{
+                                var a = '<span>'+value+'</span>';
                             }
                             return a;
                         }},
