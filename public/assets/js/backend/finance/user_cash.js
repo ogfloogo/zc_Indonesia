@@ -40,6 +40,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         { field: 'user_recharge', title: __('充值总额'), operate: false },
                         { field: 'total_withdrawals', title: __('提现总额'), operate: false },
                         { field: 'price', title: __('Price'), operate: false },
+
+                        {field: 'price', title: __('Price'),formatter: function(value,row,index) {
+                            var a = "";
+                            if(value >= 1000000) {
+                                var a = '<span style="background-color:green">'+value+'</span>';
+                            }
+                            return a;
+                        }},
+
                         { field: 'trueprice', title: __('Trueprice'), operate: false },
                         { field: 'after_money', title: __('After_money'), operate: false },
                         { field: 'ip', title: __('Ip'), operate: 'LIKE' },

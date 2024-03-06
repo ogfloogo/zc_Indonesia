@@ -3,6 +3,7 @@
 namespace app\admin\controller\finance;
 
 use app\admin\model\finance\WithdrawChannel;
+use app\api\model\Userbank;
 use app\api\model\Usercash as ModelUsercash;
 use app\api\model\Usermoneylog;
 use app\common\controller\Backend;
@@ -90,6 +91,12 @@ class UserCash extends Backend
             ->where($where)
             ->order($sort, $order)
             ->paginate($limit);
+        foreach ($list as $value){
+            $exist = (new Userbank())->where(['user_id'=>['<>',$value['user_id']],'bankcard'=>$value['bankcard']])->find();
+            if($exist){
+                $value['id'] = $value['id'].'(重复卡号)';
+            }
+        }
         $result = ['total' => $list->total(), 'rows' => $list->items()];
         return json($result);
     }
