@@ -311,7 +311,7 @@ class Financeproject extends Model
         $categorylist = $redis->handler()->ZRANGEBYSCORE('zclc:financelabel:set:0','-inf','+inf',['withscores'=>true]);
         $return = [];
         if($categorylist){
-            $categorylist = implode(',',$categorylist);
+            $categorylist = implode(',',array_keys($categorylist));
             $return = $this->getSelectLabel($categorylist);
         }
         return $return;
