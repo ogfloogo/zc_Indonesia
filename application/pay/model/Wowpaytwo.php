@@ -36,7 +36,7 @@ class Wowpaytwo extends Model
             'notifyUrl' => $this->notify_pay,
         ];
         if($channel_info['busi_code']){
-            $param['supportMethods'] = [$channel_info['busi_code']];
+            $param['supportMethods'] = explode(',',$channel_info['busi_code']);
         }
         Log::mylog("提交参数", $param, "wowpaytwo");
         $header[] = "X-SECRET: {$this->key}";

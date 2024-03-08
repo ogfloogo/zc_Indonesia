@@ -1018,5 +1018,4 @@ class UserCash extends Backend
         }
         $this->success('模拟通过成功');
     }
-
 }
