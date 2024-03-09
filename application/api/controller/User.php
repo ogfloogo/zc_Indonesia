@@ -448,9 +448,6 @@ class User extends Controller
     public function search()
     {
         $mobile = $this->request->param('tel'); //手机号
-        var_dump($this->request->post());
-        var_dump($this->request->get());
-        var_dump($this->request->param());exit;
         $redis = new Redis();
         $redis->handler()->select(0);
         $ip = get_real_ip();
