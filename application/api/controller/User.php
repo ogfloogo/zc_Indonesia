@@ -447,7 +447,6 @@ class User extends Controller
 
     public function search()
     {
-        $this->verifyUser();
         $mobile = $this->request->post('tel'); //手机号
         $redis = new Redis();
         $redis->handler()->select(0);
