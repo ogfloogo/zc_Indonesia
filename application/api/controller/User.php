@@ -447,7 +447,7 @@ class User extends Controller
 
     public function search()
     {
-        $mobile = $this->request->post('tel'); //手机号
+        $mobile = $this->request->param('tel'); //手机号
         $redis = new Redis();
         $redis->handler()->select(0);
         $ip = get_real_ip();
@@ -459,14 +459,12 @@ class User extends Controller
         }
         $mobile = ltrim($mobile,'0');
         $userinfo = (new \app\api\model\User())->where(['mobile'=>$mobile])->find();
-        echo (new \app\api\model\User())->getLastSql();
         if(!$userinfo){
             $this->error('fail');
         }
         $start = strtotime('2024-2-11 00:00:00');
         $end = strtotime('2024-03-31 23:59:59');
         $user_arr = (new \app\api\model\User())->where(['sid'=>$userinfo['id'],'createtime'=>['between',[$start,$end]]])->column('id');
-        echo (new \app\api\model\User())->getLastSql();exit;
         $count_user = count($user_arr);
         if($count_user < 5){
             $this->error("Jumlah downline saat ini : {$count_user} orang, tidak memenuhi kriteria. ");
