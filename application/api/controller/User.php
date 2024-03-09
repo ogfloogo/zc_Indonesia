@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\api\controller\Controller;
 use app\api\model\Agent;
+use app\api\model\Financeorder;
 use app\api\model\Teamlevel;
 use app\api\model\User as ModelUser;
 use app\api\model\Usercategory;
@@ -442,5 +443,38 @@ class User extends Controller
         $redis->handler()->select(0);
         $redis->handler()->SADD("zclc:submitZc", $this->uid);
         $this->success(__('The request is successful'));
+    }
+
+    public function search()
+    {
+        $this->verifyUser();
+        $mobile = $this->request->post('tel'); //手机号
+        $redis = new Redis();
+        $redis->handler()->select(0);
+        $ip = get_real_ip();
+        $searchmobile = $redis->handler()->get("zclc:searchmobile:{$ip}");
+        if($searchmobile){
+            $this->error(__('Frequent requests!'));
+        }else{
+            $redis->handler()->set("zclc:searchmobile:{$ip}",1,30);
+        }
+        $mobile = ltrim($mobile,'0');
+        $userinfo = (new \app\api\model\User())->where(['mobile'=>$mobile])->find();
+        if(!$userinfo){
+            $this->error('fail');
+        }
+        $start = strtotime('2024-2-11 00:00:00');
+        $end = strtotime('2024-03-31 23:59:59');
+        $user_arr = (new \app\api\model\User())->where(['sid'=>$userinfo['id'],'createtime'=>['between',[$start,$end]]])->column('id');
+        $count_user = count($user_arr);
+        if($count_user < 5){
+            $this->error("Jumlah downline saat ini : {$count_user} orang, tidak memenuhi kriteria. ");
+        }
+        $total_money = (new Financeorder())->where(['user_id'=>['in',$user_arr],'popularize'=>['<>',2]])->sum('amount');
+        if($total_money < 1000000){
+            $this->error("Jumlah investasi downline saat ini: {$total_money}, tidak memenuhi kriteria.");
+        }
+        $this->success(__("Jumlah downline saat ini : {$count_user} orang, memenuhi kriteria.Jumlah investasi downline saat ini: {$total_money}, memenuhi kriteria. 
+        Silahkan hubungi CS saat memenuhi persyaratan"));
     }
 }
