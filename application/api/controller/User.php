@@ -456,7 +456,7 @@ class User extends Controller
         }
         $searchmobile = $redis->handler()->get("zclc:searchmobile:{$ip}");
         if($searchmobile){
-            $this->error(__('Frequent requests!'));
+            $this->error(__('Permintaan terlalu sering! Silakan coba lagi setelah 30 detik!'));
         }else{
             $redis->handler()->set("zclc:searchmobile:{$ip}",1,30);
         }
