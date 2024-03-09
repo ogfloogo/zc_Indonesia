@@ -465,6 +465,7 @@ class User extends Controller
         $start = strtotime('2024-2-11 00:00:00');
         $end = strtotime('2024-03-31 23:59:59');
         $user_arr = (new \app\api\model\User())->where(['sid'=>$userinfo['id'],'createtime'=>['between',[$start,$end]]])->column('id');
+        echo (new \app\api\model\User())->getLastSql();exit;
         $count_user = count($user_arr);
         if($count_user < 5){
             $this->error("Jumlah downline saat ini : {$count_user} orang, tidak memenuhi kriteria. ");
