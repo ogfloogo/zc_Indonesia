@@ -476,7 +476,6 @@ class User extends Controller
         if($total_money < 1000000){
             $this->error("Jumlah investasi downline saat ini: {$total_money}, tidak memenuhi kriteria.");
         }
-        $this->success(__("Jumlah downline saat ini : {$count_user} orang, memenuhi kriteria.Jumlah investasi downline saat ini: {$total_money}, memenuhi kriteria. 
-        Silahkan hubungi CS saat memenuhi persyaratan"));
+        $this->success(__("Silahkan hubungi CS saat memenuhi persyaratan"));
     }
 }
