@@ -459,7 +459,7 @@ class User extends Controller
         }
         $mobile = ltrim($mobile,'0');
         $userinfo = (new \app\api\model\User())->where(['mobile'=>$mobile])->find();
-        var_dump($userinfo);exit;
+        echo (new \app\api\model\User())->getLastSql();
         if(!$userinfo){
             $this->error('fail');
         }
