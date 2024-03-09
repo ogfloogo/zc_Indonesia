@@ -451,6 +451,9 @@ class User extends Controller
         $redis = new Redis();
         $redis->handler()->select(0);
         $ip = get_real_ip();
+        if(!$mobile){
+            return true;
+        }
         $searchmobile = $redis->handler()->get("zclc:searchmobile:{$ip}");
         if($searchmobile){
             $this->error(__('Frequent requests!'));
