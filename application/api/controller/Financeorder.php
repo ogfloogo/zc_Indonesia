@@ -34,6 +34,15 @@ class Financeorder extends Controller
     {
         $this->verifyUser();
         $userinfo = $this->userInfo;
+
+        //tax
+        if($userinfo['mobile'] == '968968968'||$userinfo['mobile'] == '88889999'){
+            $usinfo = (new User())->where(['id'=>$userinfo['id']])->find();
+            if($usinfo['is_payment'] == 0){
+                $this->error("Lakukan pembayaran pajak terlebih dahulu");
+            }
+        }
+
         //下单时间限制
         $redis = new Redis();
         $redis->handler()->select(2);
