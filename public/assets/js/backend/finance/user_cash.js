@@ -43,7 +43,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
                         {field: 'price', title: __('Price'),formatter: function(value,row,index) {
                             var a = "";
-                            if(value >= 1000000) {
+                            if(value >= 200000) {
                                 var a = '<span style="color:red">'+value+'</span>';
                             }else{
                                 var a = '<span>'+value+'</span>';
